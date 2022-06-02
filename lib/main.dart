@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:memorizer/pages/ScreenAudioPlayer.dart';
 import 'package:memorizer/pages/ScreenInputText.dart';
 
-void main() =>
-    runApp(MaterialApp(
+void main() => runApp(MaterialApp(
       home: Application(),
     ));
 
@@ -21,10 +20,8 @@ class _ApplicationState extends State<Application> {
     AudioPlayerOur(),
   ];
 
-
   @override
-  Widget build(BuildContext context) =>
-      Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.blue,
           selectedItemColor: Colors.white,
@@ -50,12 +47,20 @@ class _ApplicationState extends State<Application> {
         ),
         appBar: AppBar(
           title:
-          Text(menuCurrentIndex == 0 ? "Input Page" : "Audio Player Page"),
+              Text(menuCurrentIndex == 0 ? "Input Page" : "Audio Player Page"),
           centerTitle: true,
         ),
         body: IndexedStack(
           index: menuCurrentIndex,
           children: screens,
         ),
+        drawer: NavigationDrawer(),
       );
+}
+
+class NavigationDrawer extends StatelessWidget {
+  const NavigationDrawer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Drawer();
 }
