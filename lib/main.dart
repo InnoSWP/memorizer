@@ -46,6 +46,7 @@ class _ApplicationState extends State<Application> {
           ],
         ),
         appBar: AppBar(
+          backgroundColor: menuCurrentIndex == 0 ? Colors.blue : Colors.green,
           title:
               Text(menuCurrentIndex == 0 ? "Input Page" : "Audio Player Page"),
           centerTitle: true,
@@ -62,5 +63,74 @@ class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Drawer();
+  Widget build(BuildContext context) => Drawer(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              buildHeader(context),
+              buildMenuItems(context),
+            ],
+          ),
+        ),
+      );
+
+  buildHeader(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+    );
+  }
+
+  buildMenuItems(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      child: Column(
+        children: [
+          ListTile(
+            leading: const Icon(Icons.table_chart_sharp),
+            title: const Text('Tasks'),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(Icons.star_rate),
+            title: const Text('Achievements'),
+            onTap: () {},
+          ),
+          const Divider(
+            thickness: 1,
+            color: Colors.black54,
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('Settings'),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(Icons.notifications),
+            title: const Text('Notifications'),
+            onTap: () {},
+          ),
+          const Divider(
+            thickness: 1,
+            color: Colors.black54,
+          ),
+          ListTile(
+            leading: const Icon(Icons.question_answer_rounded),
+            title: const Text('Questions'),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(Icons.contact_phone),
+            title: const Text('Contacts'),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(Icons.support),
+            title: const Text('Support'),
+            onTap: () {},
+          ),
+        ],
+      ),
+    );
+  }
 }
