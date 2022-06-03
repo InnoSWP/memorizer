@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:memorizer/pages/ScreenAudioPlayer.dart';
 import 'package:memorizer/pages/ScreenInputText.dart';
+import 'package:memorizer/settings/appColors.dart' as clr;
 
-void main() => runApp(MaterialApp(
+void main() => runApp(const MaterialApp(
       home: Application(),
     ));
 
@@ -16,46 +17,48 @@ class Application extends StatefulWidget {
 class _ApplicationState extends State<Application> {
   int menuCurrentIndex = 0;
   final screens = [
-    InputText(),
-    AudioPlayerOur(),
+    const InputText(),
+    const AudioPlayerOur(),
   ];
 
   @override
   Widget build(BuildContext context) => Scaffold(
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.blue,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white70,
+          backgroundColor: clr.bnbBackClr,
+          selectedItemColor: clr.bnbSelectedItemClr,
+          unselectedItemColor: clr.bnbUnselectedItemClr,
           selectedFontSize: 12,
           unselectedFontSize: 9,
           showUnselectedLabels: false,
-          type: BottomNavigationBarType.shifting,
+          type: BottomNavigationBarType.fixed,
           currentIndex: menuCurrentIndex,
           onTap: (index) => setState(() => menuCurrentIndex = index),
-          items: const [
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: const Icon(Icons.home),
               label: "Home",
-              backgroundColor: Colors.blue,
+              backgroundColor: clr.backClrBnbItem_1,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.audiotrack_outlined),
+              icon: const Icon(Icons.audiotrack_outlined),
               label: "Audio",
-              backgroundColor: Colors.green,
+              backgroundColor: clr.backClrBnbItem_2,
             ),
           ],
         ),
         appBar: AppBar(
-          backgroundColor: menuCurrentIndex == 0 ? Colors.blue : Colors.green,
-          title:
-              Text(menuCurrentIndex == 0 ? "Input Page" : "Audio Player Page"),
+          backgroundColor: clr.appBarBackClr,
+          title: Text(
+            menuCurrentIndex == 0 ? "Input Page" : "Audio Player Page",
+            style: const TextStyle(color: Colors.white),
+          ),
           centerTitle: true,
         ),
         body: IndexedStack(
           index: menuCurrentIndex,
           children: screens,
         ),
-        drawer: NavigationDrawer(),
+        drawer: const NavigationDrawer(),
       );
 }
 
@@ -64,6 +67,7 @@ class NavigationDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Drawer(
+        backgroundColor: clr.leftMenuClr,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -87,13 +91,25 @@ class NavigationDrawer extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            leading: const Icon(Icons.table_chart_sharp),
-            title: const Text('Tasks'),
+            leading: Icon(
+              Icons.table_chart_sharp,
+              color: clr.leftMenuItemsClr,
+            ),
+            title: Text(
+              'Tasks',
+              style: TextStyle(color: clr.leftMenuItemsClr),
+            ),
             onTap: () {},
           ),
           ListTile(
-            leading: const Icon(Icons.star_rate),
-            title: const Text('Achievements'),
+            leading: Icon(
+              Icons.star_rate,
+              color: clr.leftMenuItemsClr,
+            ),
+            title: Text(
+              'Achievements',
+              style: TextStyle(color: clr.leftMenuItemsClr),
+            ),
             onTap: () {},
           ),
           const Divider(
@@ -101,13 +117,25 @@ class NavigationDrawer extends StatelessWidget {
             color: Colors.black54,
           ),
           ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
+            leading: Icon(
+              Icons.settings,
+              color: clr.leftMenuItemsClr,
+            ),
+            title: Text(
+              'Settings',
+              style: TextStyle(color: clr.leftMenuItemsClr),
+            ),
             onTap: () {},
           ),
           ListTile(
-            leading: const Icon(Icons.notifications),
-            title: const Text('Notifications'),
+            leading: Icon(
+              Icons.notifications,
+              color: clr.leftMenuItemsClr,
+            ),
+            title: Text(
+              'Notifications',
+              style: TextStyle(color: clr.leftMenuItemsClr),
+            ),
             onTap: () {},
           ),
           const Divider(
@@ -115,18 +143,36 @@ class NavigationDrawer extends StatelessWidget {
             color: Colors.black54,
           ),
           ListTile(
-            leading: const Icon(Icons.question_answer_rounded),
-            title: const Text('Questions'),
+            leading: Icon(
+              Icons.question_answer_rounded,
+              color: clr.leftMenuItemsClr,
+            ),
+            title: Text(
+              'Questions',
+              style: TextStyle(color: clr.leftMenuItemsClr),
+            ),
             onTap: () {},
           ),
           ListTile(
-            leading: const Icon(Icons.contact_phone),
-            title: const Text('Contacts'),
+            leading: Icon(
+              Icons.contact_phone,
+              color: clr.leftMenuItemsClr,
+            ),
+            title: Text(
+              'Contacts',
+              style: TextStyle(color: clr.leftMenuItemsClr),
+            ),
             onTap: () {},
           ),
           ListTile(
-            leading: const Icon(Icons.support),
-            title: const Text('Support'),
+            leading: Icon(
+              Icons.support,
+              color: clr.leftMenuItemsClr,
+            ),
+            title: Text(
+              'Support',
+              style: TextStyle(color: clr.leftMenuItemsClr),
+            ),
             onTap: () {},
           ),
         ],

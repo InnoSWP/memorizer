@@ -13,7 +13,7 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      child: Text("Audio Player page."),
+      child: const Text("Audio Player page."),
     );
   }
 }

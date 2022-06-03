@@ -13,7 +13,7 @@ class _InputTextState extends State<InputText> {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      child: Text("Input page."),
+      child: const Text("Input page."),
     );
   }
 }
