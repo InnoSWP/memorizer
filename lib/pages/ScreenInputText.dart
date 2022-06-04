@@ -11,9 +11,13 @@ class InputText extends StatefulWidget {
 class _InputTextState extends State<InputText> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: const Text("Input page."),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      textDirection: TextDirection.ltr,
+      verticalDirection: VerticalDirection.down,
+      children: [Text("AAA"), Text("data")],
     );
   }
 }
