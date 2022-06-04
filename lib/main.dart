@@ -7,6 +7,8 @@ void main() => runApp(const MaterialApp(
       home: Application(),
     ));
 
+////TEXTerwrew
+
 class Application extends StatefulWidget {
   const Application({Key? key}) : super(key: key);
 
@@ -50,7 +52,7 @@ class _ApplicationState extends State<Application> {
           backgroundColor: clr.appBarBackClr,
           title: Text(
             menuCurrentIndex == 0 ? "Input Page" : "Audio Player Page",
-            style: const TextStyle(color: Colors.white, fontSize: 20),
+            style: TextStyle(color: clr.appBarTextClr),
           ),
           centerTitle: true,
         ),
@@ -89,94 +91,47 @@ class NavigationDrawer extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       child: Column(
-        children: [
-          ListTile(
-            leading: Icon(
-              Icons.table_chart_sharp,
-              color: clr.leftMenuItemsClr,
-            ),
-            title: Text(
-              'Tasks',
-              style: TextStyle(color: clr.leftMenuItemsClr),
-            ),
-            onTap: () {},
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.star_rate,
-              color: clr.leftMenuItemsClr,
-            ),
-            title: Text(
-              'Achievements',
-              style: TextStyle(color: clr.leftMenuItemsClr),
-            ),
-            onTap: () {},
-          ),
-          const Divider(
+        children: const [
+          _leftMenuItem(icon: Icons.table_chart_sharp, text: 'Tasks'),
+          _leftMenuItem(icon: Icons.star_rate, text: 'Achievements'),
+          Divider(
+            color: Colors.white,
             thickness: 1,
-            color: Colors.black54,
           ),
-          ListTile(
-            leading: Icon(
-              Icons.settings,
-              color: clr.leftMenuItemsClr,
-            ),
-            title: Text(
-              'Settings',
-              style: TextStyle(color: clr.leftMenuItemsClr),
-            ),
-            onTap: () {},
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.notifications,
-              color: clr.leftMenuItemsClr,
-            ),
-            title: Text(
-              'Notifications',
-              style: TextStyle(color: clr.leftMenuItemsClr),
-            ),
-            onTap: () {},
-          ),
-          const Divider(
+          _leftMenuItem(icon: Icons.settings, text: 'Settings'),
+          _leftMenuItem(icon: Icons.notifications, text: 'Notifications'),
+          Divider(
+            color: Colors.white,
             thickness: 1,
-            color: Colors.black54,
           ),
-          ListTile(
-            leading: Icon(
-              Icons.question_answer_rounded,
-              color: clr.leftMenuItemsClr,
-            ),
-            title: Text(
-              'Questions',
-              style: TextStyle(color: clr.leftMenuItemsClr),
-            ),
-            onTap: () {},
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.contact_phone,
-              color: clr.leftMenuItemsClr,
-            ),
-            title: Text(
-              'Contacts',
-              style: TextStyle(color: clr.leftMenuItemsClr),
-            ),
-            onTap: () {},
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.support,
-              color: clr.leftMenuItemsClr,
-            ),
-            title: Text(
-              'Support',
-              style: TextStyle(color: clr.leftMenuItemsClr),
-            ),
-            onTap: () {},
-          ),
+          _leftMenuItem(icon: Icons.question_answer_rounded, text: 'Questions'),
+          _leftMenuItem(icon: Icons.contact_phone, text: 'Contacts'),
+          _leftMenuItem(icon: Icons.support, text: 'Support'),
         ],
       ),
+    );
+  }
+}
+
+class _leftMenuItem extends StatelessWidget {
+  final String text;
+  final IconData icon;
+
+  const _leftMenuItem({required this.icon, required this.text, Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: clr.leftMenuItemsClr,
+      ),
+      title: Text(
+        text,
+        style: TextStyle(color: clr.leftMenuItemsClr),
+      ),
+      onTap: () {},
     );
   }
 }
