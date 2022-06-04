@@ -52,7 +52,7 @@ class _ApplicationState extends State<Application> {
           backgroundColor: clr.appBarBackClr,
           title: Text(
             menuCurrentIndex == 0 ? "Input Page" : "Audio Player Page",
-            style: const TextStyle(color: Colors.white, fontSize: 20),
+            style: const TextStyle(color: Colors.white),
           ),
           centerTitle: true,
         ),

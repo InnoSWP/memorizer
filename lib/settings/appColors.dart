@@ -10,5 +10,5 @@ Color backClrBnbItem_2 = const Color.fromRGBO(24, 24, 24, 1);
 // AppBar
 Color appBarBackClr = const Color.fromRGBO(24, 24, 24, 1);
 // Left Menu Colors
-Color leftMenuClr = const Color.fromRGBO(24, 24, 24, 0.85);
+Color leftMenuClr = const Color.fromRGBO(24, 24, 24, 0.95);
 Color leftMenuItemsClr = Colors.white;
