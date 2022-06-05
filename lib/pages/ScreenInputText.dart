@@ -1,6 +1,8 @@
 import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:memorizer/settings/appColors.dart' as clr;
 import 'package:pdf_text/pdf_text.dart';
@@ -15,9 +17,10 @@ class InputText extends StatefulWidget {
 }
 
 class _InputTextState extends State<InputText> {
-  File? file = null;
-  PDFDoc? pdf = null;
+  File? file;
+  PDFDoc? pdf;
   String pdf_input = "";
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,9 +51,11 @@ class _InputTextState extends State<InputText> {
                 fillColor: clr.grey,
               ),
               onChanged: (input) {
-                print("Changed");
+                if (kDebugMode) {
+                  print("Changed");
+                }
               },
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,
               ),
@@ -60,49 +65,60 @@ class _InputTextState extends State<InputText> {
               style: TextStyle(fontSize: 50, color: clr.bnbSelectedItemClr),
             ),
             MyButton(
-                title: "Upload a File",
-                size: Size(180, 100),
-                onPressed: () async {
+              title: "Upload a File",
+              size: Size(180, 100),
+              onPressed: () async {
+                if (kDebugMode) {
                   print("Upload a File");
-                  FilePickerResult? result = await FilePicker.platform.pickFiles(
-                    allowMultiple: false,
-                    type: FileType.custom,
-                    allowedExtensions: ['pdf'],
-                  );
+                }
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                  allowMultiple: false,
+                  type: FileType.custom,
+                  allowedExtensions: ['pdf'],
+                );
 
-                  setState((){
-                    if (result != null) {
-                      file = File(result.files.single.path!);
+                setState(() {
+                  if (result != null) {
+                    file = File(result.files.single.path!);
+                    if (kDebugMode) {
                       print('file uploaded successfully');
                     }
-                    else {
+                  } else {
+                    if (kDebugMode) {
                       print("result is NULL!!!");
                     }
-                  });
+                  }
+                });
 
-                  setState(() async {
-                    if (file != null) {
-                      pdf = await PDFDoc.fromFile(file!);
-                      pdf_input = (await pdf?.text)!;
+                setState(() async {
+                  if (file != null) {
+                    pdf = await PDFDoc.fromFile(file!);
+                    pdf_input = (await pdf?.text)!;
+                    if (kDebugMode) {
                       print(pdf_input);
                     }
-                  });
-                },
+                  }
+                });
+              },
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  "${file != null ? "Picked File Name: ${file?.path.split('/'). last}" : "No Picked File"}",
-                  style: TextStyle(
+                  file != null
+                      ? "Picked File Name: ${file?.path.split('/').last}"
+                      : "No Picked File",
+                  style: const TextStyle(
                     color: Colors.white,
                   ),
                 ),
                 MyButton(
                     title: "Clear",
-                    size: Size(90, 50),
-                    onPressed: (){
-                      print("clear file");
+                    size: const Size(90, 50),
+                    onPressed: () {
+                      if (kDebugMode) {
+                        print("clear file");
+                      }
                       setState(() {
                         file = null;
                       });
@@ -113,7 +129,9 @@ class _InputTextState extends State<InputText> {
               title: "Memorize Now!",
               size: Size(180, 80),
               onPressed: () {
-                print("Memorize Now!");
+                if (kDebugMode) {
+                  print("Memorize Now!");
+                }
               },
             ),
           ],
@@ -122,5 +140,3 @@ class _InputTextState extends State<InputText> {
     );
   }
 }
-
-

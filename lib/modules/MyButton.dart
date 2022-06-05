@@ -5,6 +5,7 @@ class MyButton extends StatelessWidget {
   final String title;
   final Size size;
   final VoidCallback onPressed;
+
   const MyButton({
     required this.title,
     required this.size,
@@ -18,6 +19,7 @@ class MyButton extends StatelessWidget {
         fixedSize: MaterialStateProperty.all<Size>(size),
         backgroundColor: MaterialStateProperty.all<Color?>(clr.grey),
       ),
+      onPressed: onPressed,
       child: Text(
         title,
         style: TextStyle(
@@ -25,7 +27,6 @@ class MyButton extends StatelessWidget {
           color: clr.bnbSelectedItemClr,
         ),
       ),
-      onPressed: onPressed,
     );
   }
 }
