@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const Color grey = Color.fromARGB(255, 68, 68, 68);
+
 // Bottom Navigation Bar
 Color bnbBackClr = const Color.fromRGBO(24, 24, 24, 1);
 Color bnbSelectedItemClr = Colors.yellow.shade700;
