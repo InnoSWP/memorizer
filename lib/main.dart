@@ -7,8 +7,6 @@ void main() => runApp(const MaterialApp(
       home: Application(),
     ));
 
-////TEXTerwrew
-
 class Application extends StatefulWidget {
   const Application({Key? key}) : super(key: key);
 
@@ -25,6 +23,7 @@ class _ApplicationState extends State<Application> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        resizeToAvoidBottomInset: false,
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: clr.bnbBackClr,
           selectedItemColor: clr.bnbSelectedItemClr,
@@ -50,10 +49,8 @@ class _ApplicationState extends State<Application> {
         ),
         appBar: AppBar(
           backgroundColor: clr.appBarBackClr,
-          title: Text(
-            menuCurrentIndex == 0 ? "Input Page" : "Audio Player Page",
-            style: TextStyle(color: clr.appBarTextClr),
-          ),
+          title: Text(["Input Page", "Audio Player Page"][menuCurrentIndex],
+              style: TextStyle(color: clr.appBarTextClr)),
           centerTitle: true,
         ),
         body: IndexedStack(
