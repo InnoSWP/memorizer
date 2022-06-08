@@ -26,12 +26,11 @@ class _InputTextState extends State<InputText> {
     return Container(
       color: Colors.black,
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(15.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TextField(
-              minLines: 6,
+              minLines: 12,
               maxLines: 12,
               decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
@@ -43,12 +42,12 @@ class _InputTextState extends State<InputText> {
                 hintText: "Type the text that you want to memorize here...",
                 hintStyle: TextStyle(
                   color: clr.bnbSelectedItemClr,
-                  fontSize: 30,
+                  fontSize: 25,
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                fillColor: clr.grey,
+                fillColor: clr.textFieldBackClr,
               ),
               onChanged: (input) {
                 if (kDebugMode) {
@@ -60,79 +59,98 @@ class _InputTextState extends State<InputText> {
                 fontSize: 20,
               ),
             ),
-            Text(
-              "OR",
-              style: TextStyle(fontSize: 50, color: clr.bnbSelectedItemClr),
-            ),
-            MyButton(
-              title: "Upload a File",
-              size: Size(180, 100),
-              onPressed: () async {
-                if (kDebugMode) {
-                  print("Upload a File");
-                }
-                FilePickerResult? result = await FilePicker.platform.pickFiles(
-                  allowMultiple: false,
-                  type: FileType.custom,
-                  allowedExtensions: ['pdf'],
-                );
-
-                setState(() {
-                  if (result != null) {
-                    file = File(result.files.single.path!);
-                    if (kDebugMode) {
-                      print('file uploaded successfully');
-                    }
-                  } else {
-                    if (kDebugMode) {
-                      print("result is NULL!!!");
-                    }
-                  }
-                });
-
-                setState(() async {
-                  if (file != null) {
-                    pdf = await PDFDoc.fromFile(file!);
-                    pdf_input = (await pdf?.text)!;
-                    if (kDebugMode) {
-                      print(pdf_input);
-                    }
-                  }
-                });
-              },
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  file != null
-                      ? "Picked File Name: ${file?.path.split('/').last}"
-                      : "No Picked File",
-                  style: const TextStyle(
-                    color: Colors.white,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    MyButton(
+                        title: "Clear",
+                        size: const Size(90, 50),
+                        onPressed: () {
+                          if (kDebugMode) {
+                            print("clear file");
+                          }
+                          setState(() {
+                            file = null;
+                          });
+                        }),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: Text(
+                            "Also try:",
+                            style: TextStyle(
+                                fontSize: 20, color: clr.bnbSelectedItemClr),
+                          ),
+                        ),
+                        MyButton(
+                          title: "Upload a File",
+                          size: const Size(150, 50),
+                          onPressed: () async {
+                            if (kDebugMode) {
+                              print("Upload a File");
+                            }
+                            FilePickerResult? result =
+                                await FilePicker.platform.pickFiles(
+                              allowMultiple: false,
+                              type: FileType.custom,
+                              allowedExtensions: ['pdf'],
+                            );
+
+                            setState(() {
+                              if (result != null) {
+                                file = File(result.files.single.path!);
+                                if (kDebugMode) {
+                                  print('file uploaded successfully');
+                                }
+                              } else {
+                                if (kDebugMode) {
+                                  print("result is NULL!!!");
+                                }
+                              }
+                            });
+
+                            setState(() async {
+                              if (file != null) {
+                                pdf = await PDFDoc.fromFile(file!);
+                                pdf_input = (await pdf?.text)!;
+                                if (kDebugMode) {
+                                  print(pdf_input);
+                                }
+                              }
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      file != null
+                          ? "Picked File Name: ${file?.path.split('/').last}"
+                          : "No Picked File",
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
                 MyButton(
-                    title: "Clear",
-                    size: const Size(90, 50),
-                    onPressed: () {
-                      if (kDebugMode) {
-                        print("clear file");
-                      }
-                      setState(() {
-                        file = null;
-                      });
-                    })
+                  title: "Memorize Now!",
+                  size: const Size(180, 80),
+                  onPressed: () {
+                    if (kDebugMode) {
+                      print("Memorize Now!");
+                    }
+                  },
+                ),
               ],
-            ),
-            MyButton(
-              title: "Memorize Now!",
-              size: Size(180, 80),
-              onPressed: () {
-                if (kDebugMode) {
-                  print("Memorize Now!");
-                }
-              },
             ),
           ],
         ),

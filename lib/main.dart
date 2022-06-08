@@ -3,6 +3,8 @@ import 'package:memorizer/pages/ScreenAudioPlayer.dart';
 import 'package:memorizer/pages/ScreenInputText.dart';
 import 'package:memorizer/settings/appColors.dart' as clr;
 
+////TEXTETXTEXTTETXTETXTEXTETXTETXTETXTETXTEhfsjdhfjsdf
+
 void main() => runApp(const MaterialApp(
       home: Application(),
     ));
@@ -22,42 +24,44 @@ class _ApplicationState extends State<Application> {
   ];
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        resizeToAvoidBottomInset: false,
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: clr.bnbBackClr,
-          selectedItemColor: clr.bnbSelectedItemClr,
-          unselectedItemColor: clr.bnbUnselectedItemClr,
-          selectedFontSize: 12,
-          unselectedFontSize: 9,
-          showUnselectedLabels: false,
-          type: BottomNavigationBarType.fixed,
-          currentIndex: menuCurrentIndex,
-          onTap: (index) => setState(() => menuCurrentIndex = index),
-          items: [
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.home),
-              label: "Home",
-              backgroundColor: clr.backClrBnbItem_1,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.audiotrack_outlined),
-              label: "Audio",
-              backgroundColor: clr.backClrBnbItem_2,
-            ),
-          ],
+  Widget build(BuildContext context) => SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: clr.bnbBackClr,
+            selectedItemColor: clr.bnbSelectedItemClr,
+            unselectedItemColor: clr.bnbUnselectedItemClr,
+            selectedFontSize: 12,
+            unselectedFontSize: 9,
+            showUnselectedLabels: false,
+            type: BottomNavigationBarType.fixed,
+            currentIndex: menuCurrentIndex,
+            onTap: (index) => setState(() => menuCurrentIndex = index),
+            items: [
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.home),
+                label: "Home",
+                backgroundColor: clr.backClrBnbItem_1,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.audiotrack_outlined),
+                label: "Audio",
+                backgroundColor: clr.backClrBnbItem_2,
+              ),
+            ],
+          ),
+          appBar: AppBar(
+            backgroundColor: clr.appBarBackClr,
+            title: Text(["Input Page", "Audio Player Page"][menuCurrentIndex],
+                style: TextStyle(color: clr.appBarTextClr)),
+            centerTitle: true,
+          ),
+          body: IndexedStack(
+            index: menuCurrentIndex,
+            children: screens,
+          ),
+          drawer: const NavigationDrawer(),
         ),
-        appBar: AppBar(
-          backgroundColor: clr.appBarBackClr,
-          title: Text(["Input Page", "Audio Player Page"][menuCurrentIndex],
-              style: TextStyle(color: clr.appBarTextClr)),
-          centerTitle: true,
-        ),
-        body: IndexedStack(
-          index: menuCurrentIndex,
-          children: screens,
-        ),
-        drawer: const NavigationDrawer(),
       );
 }
 
