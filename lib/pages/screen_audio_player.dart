@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:memorizer/settings/constants.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -12,7 +12,7 @@ class AudioPlayerOur extends StatefulWidget {
 
 class _AudioPlayerOurState extends State<AudioPlayerOur> {
   // TODO - This list should contain the sentences that are received from IExtractAPI
-  List<String> _sentences = [
+  final List<String> _sentences = [
     'The door to the parlor opened and Mildred stood there looking in at them, looking at Beatty and then at Montag.',
     '''Behind her the walls of
 the room were flooded with green and yellow and orange fireworks
@@ -53,7 +53,7 @@ in this country, above all?''',
   void playCurrentSentence() {
     _itemScrollController.scrollTo(
       index: _currentSentenceIndex,
-      duration: Duration(milliseconds: 500,),
+      duration: const Duration(milliseconds: 500,),
       curve: Curves.easeInOutCubic,
     );
   }
@@ -66,7 +66,7 @@ in this country, above all?''',
           Expanded(
             flex: 10,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: kDarkGradientBackground,
               ),
               child: ScrollablePositionedList.builder(
@@ -89,18 +89,18 @@ in this country, above all?''',
               children: [
                 TextButton(
                   onPressed: () {},
-                  child: Icon(Icons.mic),
+                  child: const Icon(Icons.mic),
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: Icon(Icons.info_outlined),
+                  child: const Icon(Icons.info_outlined),
                 ),
               ],
             ),
           ),
           Expanded(
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: kDarkGradientBackground,
               ),
               child: Row(
@@ -108,34 +108,40 @@ in this country, above all?''',
                 children: [
                   TextButton(
                     onPressed: () {},
-                    child: Icon(Icons.repeat),
+                    child: const Icon(Icons.repeat),
                   ),
                   TextButton(
                     onPressed: () {
                       setState(() {
                         previousSentence();
-                        print(_currentSentenceIndex);
+                        if (kDebugMode) {
+                          print(_currentSentenceIndex);
+                        }
                       });
                     },
-                    child: Icon(Icons.skip_previous),
+                    child: const Icon(Icons.skip_previous),
                   ),
                   TextButton(
                     onPressed: () {
                       setState(() {
                         playCurrentSentence();
-                        print(_currentSentenceIndex);
+                        if (kDebugMode) {
+                          print(_currentSentenceIndex);
+                        }
                       });
                     },
-                    child: Icon(Icons.play_arrow_outlined),
+                    child: const Icon(Icons.play_arrow_outlined),
                   ),
                   TextButton(
                     onPressed: () {
                       setState(() {
                         nextSentence();
-                        print(_currentSentenceIndex);
+                        if (kDebugMode) {
+                          print(_currentSentenceIndex);
+                        }
                       });
                     },
-                    child: Icon(Icons.skip_next),
+                    child: const Icon(Icons.skip_next),
                   ),
                 ],
               ),
