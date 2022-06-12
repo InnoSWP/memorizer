@@ -3,7 +3,8 @@ import 'package:memorizer/pages/ScreenAudioPlayer.dart';
 import 'package:memorizer/pages/ScreenInputText.dart';
 import 'package:memorizer/settings/appColors.dart' as clr;
 
-void main() => runApp(const MaterialApp(
+void main() => runApp(MaterialApp(
+      theme: ThemeData.dark(),
       home: Application(),
     ));
 

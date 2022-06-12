@@ -16,3 +16,17 @@ Color appBarTextClr = Colors.white;
 // Left Menu Colors
 Color leftMenuClr = const Color.fromRGBO(24, 24, 24, 0.95);
 Color leftMenuItemsClr = Colors.white;
+
+// Audio Player Page colors
+const kBackgroundColor = Color(0xFF242424);
+const kDarkGradientBackground = LinearGradient(
+  begin: Alignment.topLeft, end: Alignment.bottomRight,
+  colors: [
+    Color(0xFF9400D3),
+    Color(0xFF4B0082),
+  ],
+);
+const kTextStyleMain = TextStyle(
+  color: Color(0xFFFFFFFF),
+  fontSize: 24,
+);
