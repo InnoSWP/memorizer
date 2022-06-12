@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:memorizer/settings/constants.dart' as clr;
 import 'package:pdf_text/pdf_text.dart';
 
-import '../modules/MyButton.dart';
+import '../modules/my_button.dart';
 
 class InputText extends StatefulWidget {
   const InputText({Key? key}) : super(key: key);

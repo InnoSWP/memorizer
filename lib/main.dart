@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:memorizer/pages/ScreenAudioPlayer.dart';
-import 'package:memorizer/pages/ScreenInputText.dart';
+import 'package:memorizer/pages/screen_audio_player.dart';
+import 'package:memorizer/pages/screen_input_text.dart';
 import 'package:memorizer/settings/constants.dart' as clr;
 
 void main() => runApp(MaterialApp(
