@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:memorizer/pages/ScreenAudioPlayer.dart';
-import 'package:memorizer/pages/ScreenInputText.dart';
-import 'package:memorizer/settings/appColors.dart' as clr;
+import 'package:memorizer/pages/screen_audio_player.dart';
+import 'package:memorizer/pages/screen_input_text.dart';
+import 'package:memorizer/settings/constants.dart' as clr;
 
-////TEXTETXTEXTTETXTETXTEXTETXTETXTETXTETXTEhfsjdhfjsdf
-
-void main() => runApp(const MaterialApp(
+void main() => runApp(MaterialApp(
+      theme: ThemeData.dark(),
       home: Application(),
     ));
 
@@ -24,44 +23,42 @@ class _ApplicationState extends State<Application> {
   ];
 
   @override
-  Widget build(BuildContext context) => SafeArea(
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: clr.bnbBackClr,
-            selectedItemColor: clr.bnbSelectedItemClr,
-            unselectedItemColor: clr.bnbUnselectedItemClr,
-            selectedFontSize: 12,
-            unselectedFontSize: 9,
-            showUnselectedLabels: false,
-            type: BottomNavigationBarType.fixed,
-            currentIndex: menuCurrentIndex,
-            onTap: (index) => setState(() => menuCurrentIndex = index),
-            items: [
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.home),
-                label: "Home",
-                backgroundColor: clr.backClrBnbItem_1,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.audiotrack_outlined),
-                label: "Audio",
-                backgroundColor: clr.backClrBnbItem_2,
-              ),
-            ],
-          ),
-          appBar: AppBar(
-            backgroundColor: clr.appBarBackClr,
-            title: Text(["Input Page", "Audio Player Page"][menuCurrentIndex],
-                style: TextStyle(color: clr.appBarTextClr)),
-            centerTitle: true,
-          ),
-          body: IndexedStack(
-            index: menuCurrentIndex,
-            children: screens,
-          ),
-          drawer: const NavigationDrawer(),
+  Widget build(BuildContext context) => Scaffold(
+        resizeToAvoidBottomInset: false,
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: clr.kBnbBackClr,
+          selectedItemColor: clr.kBnbSelectedItemClr,
+          unselectedItemColor: clr.kBnbUnselectedItemClr,
+          selectedFontSize: 12,
+          unselectedFontSize: 9,
+          showUnselectedLabels: false,
+          type: BottomNavigationBarType.fixed,
+          currentIndex: menuCurrentIndex,
+          onTap: (index) => setState(() => menuCurrentIndex = index),
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.home),
+              label: "Home",
+              backgroundColor: clr.kBackClrBnbItem_1,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.audiotrack_outlined),
+              label: "Audio",
+              backgroundColor: clr.kBackClrBnbItem_2,
+            ),
+          ],
         ),
+        appBar: AppBar(
+          backgroundColor: clr.kAppBarBackClr,
+          title: Text(["Input Page", "Audio Player Page"][menuCurrentIndex],
+              style: TextStyle(color: clr.kAppBarTextClr)),
+          centerTitle: true,
+        ),
+        body: IndexedStack(
+          index: menuCurrentIndex,
+          children: screens,
+        ),
+        drawer: const NavigationDrawer(),
       );
 }
 
@@ -70,7 +67,7 @@ class NavigationDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Drawer(
-        backgroundColor: clr.leftMenuClr,
+        backgroundColor: clr.kLeftMenuClr,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -126,11 +123,11 @@ class _leftMenuItem extends StatelessWidget {
     return ListTile(
       leading: Icon(
         icon,
-        color: clr.leftMenuItemsClr,
+        color: clr.kLeftMenuItemsClr,
       ),
       title: Text(
         text,
-        style: TextStyle(color: clr.leftMenuItemsClr),
+        style: TextStyle(color: clr.kLeftMenuItemsClr),
       ),
       onTap: () {},
     );
