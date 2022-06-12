@@ -12,7 +12,7 @@ class AudioPlayerOur extends StatefulWidget {
 
 class _AudioPlayerOurState extends State<AudioPlayerOur> {
   // TODO - This list should contain the sentences that are received from IExtractAPI
-  List<String> sentences = [
+  List<String> _sentences = [
     'The door to the parlor opened and Mildred stood there looking in at them, looking at Beatty and then at Montag.',
     '''Behind her the walls of
 the room were flooded with green and yellow and orange fireworks
@@ -29,21 +29,21 @@ have our minorities upset and stirred.''',
 in this country, above all?''',
   ];
 
-  final ItemScrollController itemScrollController = ItemScrollController();
-  final ItemPositionsListener itemPositionsListener =
+  final ItemScrollController _itemScrollController = ItemScrollController();
+  final ItemPositionsListener _itemPositionsListener =
       ItemPositionsListener.create();
-  int currentSentenceIndex = 0;
+  int _currentSentenceIndex = 0;
 
   void nextSentence() {
-    if (currentSentenceIndex != sentences.length - 1) {
-      currentSentenceIndex++;
+    if (_currentSentenceIndex != _sentences.length - 1) {
+      _currentSentenceIndex++;
     }
     playCurrentSentence();
   }
 
   void previousSentence() {
-    if (currentSentenceIndex != 0) {
-      currentSentenceIndex--;
+    if (_currentSentenceIndex != 0) {
+      _currentSentenceIndex--;
     }
     playCurrentSentence();
   }
@@ -51,8 +51,8 @@ in this country, above all?''',
   // TODO - This method should play current sentence using TTS package
   // TODO - might be a good idea to make the animation duration a constant
   void playCurrentSentence() {
-    itemScrollController.scrollTo(
-      index: currentSentenceIndex,
+    _itemScrollController.scrollTo(
+      index: _currentSentenceIndex,
       duration: Duration(milliseconds: 500,),
       curve: Curves.easeInOutCubic,
     );
@@ -70,15 +70,15 @@ in this country, above all?''',
                 gradient: kDarkGradientBackground,
               ),
               child: ScrollablePositionedList.builder(
-                itemCount: sentences.length,
+                itemCount: _sentences.length,
                 itemBuilder: (context, index) => Text(
-                  sentences[index],
-                  style: index == currentSentenceIndex
+                  _sentences[index],
+                  style: index == _currentSentenceIndex
                       ? kTextStyleSelected
                       : kTextStyleMain,
                 ),
-                itemScrollController: itemScrollController,
-                itemPositionsListener: itemPositionsListener,
+                itemScrollController: _itemScrollController,
+                itemPositionsListener: _itemPositionsListener,
               ),
             ),
           ),
@@ -114,7 +114,7 @@ in this country, above all?''',
                     onPressed: () {
                       setState(() {
                         previousSentence();
-                        print(currentSentenceIndex);
+                        print(_currentSentenceIndex);
                       });
                     },
                     child: Icon(Icons.skip_previous),
@@ -123,7 +123,7 @@ in this country, above all?''',
                     onPressed: () {
                       setState(() {
                         playCurrentSentence();
-                        print(currentSentenceIndex);
+                        print(_currentSentenceIndex);
                       });
                     },
                     child: Icon(Icons.play_arrow_outlined),
@@ -132,7 +132,7 @@ in this country, above all?''',
                     onPressed: () {
                       setState(() {
                         nextSentence();
-                        print(currentSentenceIndex);
+                        print(_currentSentenceIndex);
                       });
                     },
                     child: Icon(Icons.skip_next),
