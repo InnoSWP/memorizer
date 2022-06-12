@@ -27,6 +27,11 @@ const kDarkGradientBackground = LinearGradient(
   ],
 );
 const kTextStyleMain = TextStyle(
+  color: Color(0x96FFFFFF),
+  fontSize: 24,
+);
+
+const kTextStyleSelected = TextStyle(
   color: Color(0xFFFFFFFF),
   fontSize: 24,
 );
