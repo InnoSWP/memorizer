@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:memorizer/pages/screen_audio_player.dart';
 import 'package:memorizer/pages/screen_input_text.dart';
 import 'package:memorizer/settings/constants.dart' as clr;
 
-void main() => runApp(MaterialApp(
-      theme: ThemeData.dark(),
-      home: Application(),
-    ));
+void main() {
+  debugPaintSizeEnabled = false;
+  runApp(MaterialApp(
+    theme: ThemeData.dark(),
+    home: Application(),
+  ));
+}
 
 class Application extends StatefulWidget {
   const Application({Key? key}) : super(key: key);

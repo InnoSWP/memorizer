@@ -53,7 +53,9 @@ in this country, above all?''',
   void playCurrentSentence() {
     _itemScrollController.scrollTo(
       index: _currentSentenceIndex,
-      duration: const Duration(milliseconds: 500,),
+      duration: const Duration(
+        milliseconds: 500,
+      ),
       curve: Curves.easeInOutCubic,
     );
   }
