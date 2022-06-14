@@ -120,31 +120,47 @@ class _MyTextFieldState extends State<MyTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      autocorrect: true,
+      enableInteractiveSelection: true,
+      textCapitalization: TextCapitalization.sentences,
+      enableSuggestions: true,
+      cursorColor: clr.kBnbSelectedItemClr,
+      keyboardAppearance: Brightness.dark,
+      textInputAction: TextInputAction.done,
+      readOnly: false,
+      enabled: true,
       minLines: 17,
       maxLines: 17,
       decoration: InputDecoration(
+        counterText: "Number of words : 169",
+        counterStyle: TextStyle(
+          fontSize: 14,
+          color: Colors.grey.shade500,
+        ),
+        contentPadding: EdgeInsets.all(20),
+        helperText: 'Input your text and press Memorize Now!',
+        helperStyle: const TextStyle(fontSize: 14),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(
+              color: Colors.grey.shade700,
+              width: 5,
+            )),
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(
               color: clr.kBnbSelectedItemClr,
+              width: 1,
             )),
-        filled: true,
-        hintText:
-            "Type the text that you want to memorize here or Upload PDF file...",
+        hintText: "Type the text or upload PDF file...",
         hintStyle: TextStyle(
           color: clr.kBnbSelectedItemClr,
-          fontSize: 30,
+          fontSize: 28,
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        filled: true,
         fillColor: clr.kGrey,
       ),
-      onChanged: (input) {
-        if (kDebugMode) {
-          print("Changed");
-        }
-      },
+      onChanged: (input) {},
       style: const TextStyle(
         color: Colors.white,
         fontSize: 20,
