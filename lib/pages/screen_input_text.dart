@@ -97,7 +97,7 @@ class _InputTextState extends State<InputText> {
               ],
             ),
             MyButton(
-              title: "Memorize Now!",
+              title: "Memorize",
               //size: const Size(180, 80),
               onPressed: () {},
             ),
@@ -138,7 +138,7 @@ class _MyTextFieldState extends State<MyTextField> {
           color: Colors.grey.shade500,
         ),
         contentPadding: EdgeInsets.all(20),
-        helperText: 'Input your text and press Memorize Now!',
+        helperText: 'Input your text and press Memorize!',
         helperStyle: const TextStyle(fontSize: 14),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),

@@ -42,19 +42,19 @@ class _ApplicationState extends State<Application> {
           items: [
             BottomNavigationBarItem(
               icon: const Icon(Icons.home),
-              label: "Home",
+              label: "HOME",
               backgroundColor: clr.kBackClrBnbItem_1,
             ),
             BottomNavigationBarItem(
               icon: const Icon(Icons.audiotrack_outlined),
-              label: "Audio",
+              label: "AUDIO",
               backgroundColor: clr.kBackClrBnbItem_2,
             ),
           ],
         ),
         appBar: AppBar(
           backgroundColor: clr.kAppBarBackClr,
-          title: Text(["Input Page", "Audio Player Page"][menuCurrentIndex],
+          title: Text(["INPUT PAGE", "AUDIO PLAYER PAGE"][menuCurrentIndex],
               style: TextStyle(color: clr.kAppBarTextClr)),
           centerTitle: true,
         ),
