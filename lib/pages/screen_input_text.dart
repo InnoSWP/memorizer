@@ -27,15 +27,29 @@ class _InputTextState extends State<InputText> {
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            MyTextField(),
+            const MyTextField(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                MyButton(
+                    title: "Clear",
+                    //size: const Size(90, 50),
+                    onPressed: () {
+                      if (kDebugMode) print("clear file");
+                      setState(() {
+                        file = null;
+                      });
+                    }),
+              ],
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 MyButton(
                   title: "Upload a File",
-                  size: Size(180, 100),
+                  //size: Size(180, 100),
                   onPressed: () async {
                     if (kDebugMode) {
                       print("Upload a File");
@@ -71,32 +85,6 @@ class _InputTextState extends State<InputText> {
                     });
                   },
                 ),
-                const Text(
-                  "Import PDF file",
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                MyButton(
-                    title: "Clear",
-                    size: const Size(90, 50),
-                    onPressed: () {
-                      if (kDebugMode) print("clear file");
-                      setState(() {
-                        file = null;
-                      });
-                    }),
-                const Text(
-                  "Press to delete the text",
-                  style: TextStyle(
-                    fontSize: 12,
-                  ),
-                ),
                 Text(
                   file != null
                       ? "Picked File Name: ${file?.path.split('/').last}"
@@ -110,9 +98,10 @@ class _InputTextState extends State<InputText> {
             ),
             MyButton(
               title: "Memorize Now!",
-              size: const Size(180, 80),
+              //size: const Size(180, 80),
               onPressed: () {},
-            )
+            ),
+            DailyChallenges(),
           ],
         ),
       ),
@@ -140,7 +129,8 @@ class _MyTextFieldState extends State<MyTextField> {
               color: clr.kBnbSelectedItemClr,
             )),
         filled: true,
-        hintText: "Type the text that you want to memorize here...",
+        hintText:
+            "Type the text that you want to memorize here or Upload PDF file...",
         hintStyle: TextStyle(
           color: clr.kBnbSelectedItemClr,
           fontSize: 30,
@@ -160,5 +150,19 @@ class _MyTextFieldState extends State<MyTextField> {
         fontSize: 20,
       ),
     );
+  }
+}
+
+class DailyChallenges extends StatefulWidget {
+  const DailyChallenges({Key? key}) : super(key: key);
+
+  @override
+  State<DailyChallenges> createState() => _DailyChallengesState();
+}
+
+class _DailyChallengesState extends State<DailyChallenges> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
