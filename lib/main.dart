@@ -7,6 +7,7 @@ import 'package:memorizer/settings/constants.dart' as clr;
 void main() {
   debugPaintSizeEnabled = false;
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     theme: ThemeData.dark(),
     home: Application(),
   ));
