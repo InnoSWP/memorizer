@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:memorizer/settings/appColors.dart' as clr;
+import 'package:memorizer/settings/constants.dart' as clr;
 
 class MyButton extends StatelessWidget {
   final String title;
@@ -17,14 +17,14 @@ class MyButton extends StatelessWidget {
     return ElevatedButton(
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all<Size>(size),
-        backgroundColor: MaterialStateProperty.all<Color?>(clr.grey),
+        backgroundColor: MaterialStateProperty.all<Color?>(clr.kGrey),
       ),
       onPressed: onPressed,
       child: Text(
         title,
         style: TextStyle(
           fontSize: 20,
-          color: clr.bnbSelectedItemClr,
+          color: clr.kBnbSelectedItemClr,
         ),
       ),
     );

@@ -4,10 +4,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:memorizer/settings/appColors.dart' as clr;
+import 'package:memorizer/settings/constants.dart' as clr;
 import 'package:pdf_text/pdf_text.dart';
 
-import '../modules/MyButton.dart';
+import '../modules/my_button.dart';
 
 class InputText extends StatefulWidget {
   const InputText({Key? key}) : super(key: key);
@@ -37,18 +37,18 @@ class _InputTextState extends State<InputText> {
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                     borderSide: BorderSide(
-                      color: clr.bnbSelectedItemClr,
+                      color: clr.kBnbSelectedItemClr,
                     )),
                 filled: true,
                 hintText: "Type the text that you want to memorize here...",
                 hintStyle: TextStyle(
-                  color: clr.bnbSelectedItemClr,
+                  color: clr.kBnbSelectedItemClr,
                   fontSize: 30,
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                fillColor: clr.grey,
+                fillColor: clr.kGrey,
               ),
               onChanged: (input) {
                 if (kDebugMode) {
@@ -62,7 +62,7 @@ class _InputTextState extends State<InputText> {
             ),
             Text(
               "OR",
-              style: TextStyle(fontSize: 50, color: clr.bnbSelectedItemClr),
+              style: TextStyle(fontSize: 50, color: clr.kBnbSelectedItemClr),
             ),
             MyButton(
               title: "Upload a File",
