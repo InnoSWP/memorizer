@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:memorizer/settings/constants.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class AudioPlayerOur extends StatefulWidget {
   const AudioPlayerOur({Key? key}) : super(key: key);
@@ -34,6 +35,10 @@ in this country, above all?''',
       ItemPositionsListener.create();
   int _currentSentenceIndex = 0;
 
+  late stt.SpeechToText _speechToText;
+  bool _isListening = false;
+  String _command = 'Say a command';
+
   void nextSentence() {
     if (_currentSentenceIndex != _sentences.length - 1) {
       _currentSentenceIndex++;
@@ -53,9 +58,17 @@ in this country, above all?''',
   void playCurrentSentence() {
     _itemScrollController.scrollTo(
       index: _currentSentenceIndex,
-      duration: const Duration(milliseconds: 500,),
+      duration: const Duration(
+        milliseconds: 500,
+      ),
       curve: Curves.easeInOutCubic,
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _speechToText = stt.SpeechToText();
   }
 
   @override
@@ -87,9 +100,9 @@ in this country, above all?''',
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextButton(
-                  onPressed: () {},
-                  child: const Icon(Icons.mic),
+                FloatingActionButton(
+                  onPressed: _listen,
+                  child: Icon(_isListening ? Icons.mic : Icons.mic_none),
                 ),
                 TextButton(
                   onPressed: () {},
@@ -150,5 +163,46 @@ in this country, above all?''',
         ],
       ),
     );
+  }
+
+  void _listen() async {
+    if (!_isListening) {
+      bool available = await _speechToText.initialize(
+        onStatus: (val) {
+          print('onStatus: $val');
+          if (val == 'done') {
+            _stopListening();
+          }
+        },
+        onError: (val) => print('onError: $val'),
+      );
+      if (available) {
+        setState(() => _isListening = true);
+        _speechToText.listen(
+            onResult: (val) => setState(() {
+                  _command = val.recognizedWords;
+                }));
+      }
+    } else {
+      _stopListening();
+    }
+  }
+
+  void _stopListening() {
+    setState(() {
+      _isListening = false;
+      if (_command.isNotEmpty) {
+        if (_command == 'next') {
+          nextSentence();
+        }
+        else if (_command == 'previous') {
+          previousSentence();
+        }
+        else if (_command == 'play') {
+          playCurrentSentence();
+        }
+      }
+    });
+    _speechToText.stop();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const Color kGrey = Color.fromARGB(255, 68, 68, 68);
 
@@ -31,7 +32,14 @@ const kTextStyleMain = TextStyle(
   fontSize: 24,
 );
 
-const kTextStyleSelected = TextStyle(
-  color: Color(0xFFFFFFFF),
-  fontSize: 24,
+var kTextStyleSelected = GoogleFonts.roboto(
+  textStyle: TextStyle(
+    color: Color(0xFFFFFFFF),
+    fontSize: 24,
+  ),
 );
+
+// Info Page Colors
+const kInfoBackgroundColor = Color(0xff929292);
+
+const kContainerColor = Color(0xFF363636);
