@@ -22,19 +22,16 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
 
   //Audio player vars
   bool isPlayingAudio = false;
+  bool isLoop = false;
   IconData playBtnIcon = Icons.play_arrow;
-  late AudioPlayer _audioPlayer;
+  AudioPlayer? audioPlayer;
+  final String path = "assets/Welcome_Imlerith.mp3";
 
-  //dsfdsfsderkjtherhterjkhtkehtrekrjtherjkt
   @override
   void initState() {
     super.initState();
-    initAudio();
-  }
-
-  initAudio() {
-    _audioPlayer = AudioPlayer();
-//    _audioPlayer.load();
+    audioPlayer = AudioPlayer();
+    audioPlayer?.setAsset(path);
   }
 
   void nextSentence() {
@@ -52,9 +49,11 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
   // TODO - This method should play current sentence using TTS package
   // TODO - might be a good idea to make the animation duration a constant
   void playCurrentSentence() {
-    const url = 'assets/Welcome_Imlerith.mp3';
-    _audioPlayer.setAsset(url);
-    _audioPlayer.play();
+    if (isPlayingAudio) {
+      audioPlayer?.play();
+    } else {
+      audioPlayer?.pause();
+    }
 
     _itemScrollController.scrollTo(
       index: _currentSentenceIndex,
@@ -114,7 +113,15 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        if (isLoop == false) {
+                          audioPlayer?.setLoopMode(LoopMode.one);
+                        } else {
+                          audioPlayer?.setLoopMode(LoopMode.off);
+                        }
+                      });
+                    },
                     child: const Icon(Icons.repeat),
                   ),
                   TextButton(
@@ -135,7 +142,6 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
                           isPlayingAudio = true;
                           playBtnIcon = Icons.pause;
                         }
-
                         playCurrentSentence();
                       });
                     },
