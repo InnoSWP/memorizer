@@ -205,13 +205,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.4"
-  json_annotation:
-    dependency: transitive
-    description:
-      name: json_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.5.0"
   just_audio:
     dependency: "direct dev"
     description:
@@ -233,6 +226,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.7"
+  json_annotation:
+    dependency: transitive
+    description:
+      name: json_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.5.0"
   lints:
     dependency: transitive
     description:
