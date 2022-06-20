@@ -33,6 +33,7 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
     super.initState();
     audioPlayer = AudioPlayer();
     audioPlayer?.setAsset(path);
+    _speechToText = stt.SpeechToText();
   }
 
   late stt.SpeechToText _speechToText;
@@ -67,12 +68,6 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
       ),
       curve: Curves.easeInOutCubic,
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _speechToText = stt.SpeechToText();
   }
 
   @override
