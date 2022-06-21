@@ -211,6 +211,7 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
         }
       }
     });
+    _command = '';
     _speechToText.stop();
   }
 }
