@@ -258,9 +258,11 @@ class _AudioPageState extends State<AudioPage> {
           // TODO - stop spelling sentences.
           // If user calls 'play' command again,
           // it should continue from the current sentence
+          stopPlaying();
         }
         else if (_command.contains('stop')) {
           // TODO - stop spelling sentences and set currentSentence to 0.
+          stopPlaying();
         }
         else if (_command.contains('repeat')) {
           // TODO - add repeat functionality
