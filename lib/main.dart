@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:memorizer/pages/screen_audio_player.dart';
 import 'package:memorizer/pages/screen_input_text.dart';
 import 'package:memorizer/settings/constants.dart' as clr;
 
-void main() => runApp(MaterialApp(
-      theme: ThemeData.dark(),
-      home: Application(),
-    ));
+void main() {
+  debugPaintSizeEnabled = false;
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    theme: ThemeData.dark(),
+    home: Application(),
+  ));
+}
 
 class Application extends StatefulWidget {
   const Application({Key? key}) : super(key: key);
@@ -38,19 +43,19 @@ class _ApplicationState extends State<Application> {
           items: [
             BottomNavigationBarItem(
               icon: const Icon(Icons.home),
-              label: "Home",
+              label: "HOME",
               backgroundColor: clr.kBackClrBnbItem_1,
             ),
             BottomNavigationBarItem(
               icon: const Icon(Icons.audiotrack_outlined),
-              label: "Audio",
+              label: "AUDIO",
               backgroundColor: clr.kBackClrBnbItem_2,
             ),
           ],
         ),
         appBar: AppBar(
           backgroundColor: clr.kAppBarBackClr,
-          title: Text(["Input Page", "Audio Player Page"][menuCurrentIndex],
+          title: Text(["INPUT PAGE", "AUDIO PLAYER PAGE"][menuCurrentIndex],
               style: TextStyle(color: clr.kAppBarTextClr)),
           centerTitle: true,
         ),
@@ -106,7 +111,7 @@ class NavigationDrawer extends StatelessWidget {
           _leftMenuItem(icon: Icons.contact_phone, text: 'Contacts'),
           _leftMenuItem(icon: Icons.support, text: 'Support'),
         ],
-      ),
+      ), //dfjv;owekr;lwbkr;wk;lerwkl;erk;wler
     );
   }
 }
