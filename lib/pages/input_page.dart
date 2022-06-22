@@ -8,14 +8,14 @@ import 'package:pdf_text/pdf_text.dart';
 
 import '../modules/my_button.dart';
 
-class InputText extends StatefulWidget {
-  const InputText({Key? key}) : super(key: key);
+class InputPage extends StatefulWidget {
+  const InputPage({Key? key}) : super(key: key);
 
   @override
-  State<InputText> createState() => _InputTextState();
+  State<InputPage> createState() => _InputPageState();
 }
 
-class _InputTextState extends State<InputText> {
+class _InputPageState extends State<InputPage> {
   File? file;
   PDFDoc? pdf;
   String pdf_input = "";

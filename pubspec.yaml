@@ -41,6 +41,7 @@ dependencies:
   audioplayers: ^1.0.0
   google_fonts: ^3.0.1
   speech_to_text: ^5.5.0
+  flutter_tts: ^3.4.0
 
 dev_dependencies:
   just_audio: ^0.9.24

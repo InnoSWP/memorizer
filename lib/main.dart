@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:memorizer/pages/screen_audio_player.dart';
-import 'package:memorizer/pages/screen_input_text.dart';
+import 'package:memorizer/pages/audio_page.dart';
+import 'package:memorizer/pages/input_page.dart';
 import 'package:memorizer/settings/constants.dart' as clr;
 
 void main() {
@@ -23,8 +23,8 @@ class Application extends StatefulWidget {
 class _ApplicationState extends State<Application> {
   int menuCurrentIndex = 0;
   final screens = [
-    const InputText(),
-    const AudioPlayerOur(),
+    const InputPage(),
+    const AudioPage(),
   ];
 
   @override

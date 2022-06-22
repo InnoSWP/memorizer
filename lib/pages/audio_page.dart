@@ -1,18 +1,21 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart' as tts;
 import 'package:just_audio/just_audio.dart';
 import 'package:memorizer/settings/constants.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
-class AudioPlayerOur extends StatefulWidget {
-  const AudioPlayerOur({Key? key}) : super(key: key);
+enum TtsState { playing, stopped }
+
+class AudioPage extends StatefulWidget {
+  const AudioPage({Key? key}) : super(key: key);
 
   @override
-  State<AudioPlayerOur> createState() => _AudioPlayerOurState();
+  State<AudioPage> createState() => _AudioPageState();
 }
 
-class _AudioPlayerOurState extends State<AudioPlayerOur> {
+class _AudioPageState extends State<AudioPage> {
   // TODO - This list should contain the sentences that are received from IExtractAPI
   final List<String> _sentences = sentencesConst;
 
@@ -21,55 +24,97 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
       ItemPositionsListener.create();
   int _currentSentenceIndex = 0;
 
-  //Audio player vars
-  bool isPlayingAudio = false;
+  // Audio player vars
   bool isLoop = false;
   IconData playBtnIcon = Icons.play_arrow;
-  AudioPlayer? audioPlayer;
-  final String path = "assets/Welcome_Imlerith.mp3";
+  late tts.FlutterTts _flutterTts;
+  late bool _finishedText;
+  TtsState ttsState = TtsState.stopped;
 
   @override
   void initState() {
     super.initState();
-    audioPlayer = AudioPlayer();
-    audioPlayer?.setAsset(path);
+    _finishedText = false;
     _speechToText = stt.SpeechToText();
+    _flutterTts = tts.FlutterTts();
+    _setflutterTts();
+  }
+
+  Future _setflutterTts() async {
+    await _flutterTts.awaitSpeakCompletion(true);
   }
 
   late stt.SpeechToText _speechToText;
   bool _isListening = false;
   String _command = 'Say a command';
 
-  void nextSentence() {
-    if (_currentSentenceIndex != _sentences.length - 1) _currentSentenceIndex++;
-
-    playCurrentSentence();
-  }
-
-  void previousSentence() {
-    if (_currentSentenceIndex != 0) _currentSentenceIndex--;
-
-    playCurrentSentence();
-  }
-
-  // TODO - This method should play current sentence using TTS package
-  // TODO - might be a good idea to make the animation duration a constant
-  void playCurrentSentence() {
-    if (isPlayingAudio) {
-      audioPlayer?.play();
+  Future continueToNextSentence() async {
+    if (_currentSentenceIndex < _sentences.length - 1) {
+      _currentSentenceIndex++;
+      scrollToCurrentSentence();
+      if (ttsState == TtsState.playing) {
+        await playCurrentSentence();
+      }
     } else {
-      audioPlayer?.pause();
+      _finishedText = true;
     }
-
-    _itemScrollController.scrollTo(
-      index: _currentSentenceIndex,
-      duration: const Duration(
-        milliseconds: 500,
-      ),
-      curve: Curves.easeInOutCubic,
-    );
   }
 
+  Future jumpToNextSentence() async {
+    bool wasPlaying = ttsState == TtsState.playing;
+    if (wasPlaying) {
+      stopPlaying();
+    }
+    if (_currentSentenceIndex < _sentences.length - 1) {
+      _currentSentenceIndex++;
+      scrollToCurrentSentence();
+    } else {
+      _finishedText = true;
+    }
+    if (wasPlaying) {
+      await playCurrentSentence();
+    }
+  }
+
+  Future jumpToPreviousSentence() async {
+    bool wasPlaying = ttsState == TtsState.playing;
+    if (wasPlaying) {
+      stopPlaying();
+    }
+    if (_currentSentenceIndex > 0) {
+      _currentSentenceIndex--;
+      scrollToCurrentSentence();
+    }
+    if (wasPlaying) {
+      await playCurrentSentence();
+    }
+  }
+
+  Future playCurrentSentence() async {
+    // print('palying ${_currentSentenceIndex}');
+    scrollToCurrentSentence();
+    setState(() => ttsState = TtsState.playing);
+    await _flutterTts.speak(_sentences[_currentSentenceIndex]);
+    continueToNextSentence();
+  }
+
+  Future stopPlaying() async {
+    setState(() => ttsState = TtsState.stopped);
+    await _flutterTts.stop();
+  }
+
+  void scrollToCurrentSentence() {
+    setState(() {
+      _itemScrollController.scrollTo(
+        index: _currentSentenceIndex,
+        duration: const Duration(
+          // TODO - might be a good idea to make the animation duration a constant
+          milliseconds: 500,
+        ),
+        curve: Curves.easeInOutCubic,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,50 +166,41 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      setState(() {
-                        if (isLoop == false) {
-                          audioPlayer?.setLoopMode(LoopMode.one);
-                        } else {
-                          audioPlayer?.setLoopMode(LoopMode.off);
-                        }
-                      });
+                      // TODO: set functionality for loop
                     },
                     child: const Icon(Icons.repeat),
                   ),
                   TextButton(
-                    onPressed: () {
-                      setState(() {
-                        previousSentence();
-                      });
-                    },
                     child: const Icon(Icons.skip_previous),
-                  ),
-                  TextButton(
                     onPressed: () {
                       setState(() {
-                        if (isPlayingAudio) {
-                          isPlayingAudio = false;
-                          playBtnIcon = Icons.play_arrow;
+                        jumpToPreviousSentence();
+                      });
+                    },
+                  ),
+                  TextButton(
+                    child: Icon(ttsState == TtsState.stopped
+                        ? Icons.play_arrow
+                        : Icons.pause),
+                    onPressed: () {
+                      setState(() {
+                        if (ttsState == TtsState.stopped) {
+                          playCurrentSentence();
                         } else {
-                          isPlayingAudio = true;
-                          playBtnIcon = Icons.pause;
+                          stopPlaying();
                         }
-                        playCurrentSentence();
                       });
                     },
-                    child: Icon(playBtnIcon),
                   ),
                   TextButton(
+                    child: const Icon(Icons.skip_next),
                     onPressed: () {
                       setState(() {
-                        nextSentence();
+                        jumpToNextSentence();
                       });
                     },
-                    child: const Icon(Icons.skip_next),
                   ),
                 ],
-
-                /////dsfsdfsdf
               ),
             ),
           ),
@@ -201,17 +237,21 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
       _isListening = false;
       if (_command.isNotEmpty) {
         if (_command == 'next') {
-          nextSentence();
-        }
-        else if (_command == 'previous') {
-          previousSentence();
-        }
-        else if (_command == 'play') {
+          jumpToNextSentence();
+        } else if (_command == 'previous') {
+          jumpToPreviousSentence();
+        } else if (_command == 'play') {
           playCurrentSentence();
         }
       }
     });
     _command = '';
     _speechToText.stop();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _flutterTts.stop();
   }
 }
