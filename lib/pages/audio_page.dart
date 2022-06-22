@@ -4,17 +4,17 @@ import 'package:memorizer/settings/constants.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
-class AudioPlayerOur extends StatefulWidget {
+class AudioPage extends StatefulWidget {
 
   final List<String> sentences;
 
-  AudioPlayerOur({required this.sentences, Key? key}) : super(key: key);
+  AudioPage({required this.sentences, Key? key}) : super(key: key);
 
   @override
-  State<AudioPlayerOur> createState() => _AudioPlayerOurState();
+  State<AudioPage> createState() => _AudioPageState();
 }
 
-class _AudioPlayerOurState extends State<AudioPlayerOur> {
+class _AudioPageState extends State<AudioPage> {
 
   final ItemScrollController _itemScrollController = ItemScrollController();
   final ItemPositionsListener _itemPositionsListener =

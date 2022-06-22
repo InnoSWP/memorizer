@@ -11,14 +11,14 @@ import '../modules/my_button.dart';
 import 'audio_page.dart';
 
 
-class InputText extends StatefulWidget {
-  const InputText({Key? key}) : super(key: key);
+class InputPage extends StatefulWidget {
+  const InputPage({Key? key}) : super(key: key);
 
   @override
-  State<InputText> createState() => _InputTextState();
+  State<InputPage> createState() => _InputPageState();
 }
 
-class _InputTextState extends State<InputText> {
+class _InputPageState extends State<InputPage> {
 
   final _inputTextFieldController = TextEditingController();
   File? file;
@@ -190,7 +190,7 @@ class _InputTextState extends State<InputText> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                AudioPlayerOur(sentences: listOfSentences)));
+                                AudioPage(sentences: listOfSentences)));
                   }
                 },
               ),

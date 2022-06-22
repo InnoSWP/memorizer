@@ -12,6 +12,6 @@ void main() {
       .then((value) => runApp(MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeData.dark(),
-            home: InputText(),
+            home: InputPage(),
           )));
 }
