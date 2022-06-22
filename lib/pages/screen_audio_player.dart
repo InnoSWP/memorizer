@@ -38,7 +38,7 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
 
   late stt.SpeechToText _speechToText;
   bool _isListening = false;
-  String _command = 'Say a command';
+  List<String> _command = ['Say', 'a', 'command'];
 
   void nextSentence() {
     if (_currentSentenceIndex != _sentences.length - 1) _currentSentenceIndex++;
@@ -188,7 +188,7 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
         setState(() => _isListening = true);
         _speechToText.listen(
             onResult: (val) => setState(() {
-                  _command = val.recognizedWords;
+                  _command = val.recognizedWords.split(' ');
                 }));
       }
     } else {
@@ -200,18 +200,33 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
     setState(() {
       _isListening = false;
       if (_command.isNotEmpty) {
-        if (_command == 'next') {
+        if (_command.contains('next')) {
           nextSentence();
         }
-        else if (_command == 'previous') {
+        else if (_command.contains('previous')) {
           previousSentence();
         }
-        else if (_command == 'play') {
+        else if (_command.contains('play')) {
           playCurrentSentence();
+        }
+        else if (_command.contains('pause')) {
+          // TODO - stop spelling sentences.
+          // If user calls 'play' command again,
+          // it should continue from the current sentence
+        }
+        else if (_command.contains('stop')) {
+          // TODO - stop spelling sentences and set currentSentence to 0.
+        }
+        else if (_command.contains('repeat')) {
+          // TODO - add repeat functionality
+        }
+        else {
+          // TODO - correctly handle a wrong voice command
+          print('$_command is not supported, please, try again...');
         }
       }
     });
-    _command = '';
+    _command = [];
     _speechToText.stop();
   }
 }
