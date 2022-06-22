@@ -1,48 +1,49 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:memorizer/settings/constants.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class AudioPlayerOur extends StatefulWidget {
-  const AudioPlayerOur({Key? key}) : super(key: key);
+
+  final List<String> sentences;
+
+  AudioPlayerOur({required this.sentences, Key? key}) : super(key: key);
 
   @override
   State<AudioPlayerOur> createState() => _AudioPlayerOurState();
 }
 
 class _AudioPlayerOurState extends State<AudioPlayerOur> {
-  // TODO - This list should contain the sentences that are received from IExtractAPI
-  final List<String> _sentences = sentencesConst;
 
   final ItemScrollController _itemScrollController = ItemScrollController();
   final ItemPositionsListener _itemPositionsListener =
       ItemPositionsListener.create();
   int _currentSentenceIndex = 0;
 
-  //Audio player vars
-  bool isPlayingAudio = false;
-  bool isLoop = false;
-  IconData playBtnIcon = Icons.play_arrow;
-  AudioPlayer? audioPlayer;
-  final String path = "assets/Welcome_Imlerith.mp3";
-
   @override
   void initState() {
     super.initState();
-    audioPlayer = AudioPlayer();
-    audioPlayer?.setAsset(path);
     _speechToText = stt.SpeechToText();
+}
+  bool _isPlayingAudio = false;
+  bool _isLoop = false;
+  IconData playBtnIcon = Icons.play_arrow;
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   late stt.SpeechToText _speechToText;
   bool _isListening = false;
+
   List<String> _command = ['Say', 'a', 'command'];
 
   void nextSentence() {
-    if (_currentSentenceIndex != _sentences.length - 1) _currentSentenceIndex++;
-
+    if (_currentSentenceIndex != widget.sentences.length - 1) {
+      _currentSentenceIndex++;
+    }
     playCurrentSentence();
   }
 
@@ -52,15 +53,8 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
     playCurrentSentence();
   }
 
-  // TODO - This method should play current sentence using TTS package
-  // TODO - might be a good idea to make the animation duration a constant
-  void playCurrentSentence() {
-    if (isPlayingAudio) {
-      audioPlayer?.play();
-    } else {
-      audioPlayer?.pause();
-    }
 
+  void playCurrentSentence() {
     _itemScrollController.scrollTo(
       index: _currentSentenceIndex,
       duration: const Duration(
@@ -71,104 +65,119 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
   }
 
 
+  void loopButtonPressed() {
+    setState(() {
+      if (_isLoop == false) {
+        _isLoop = true;
+      } else {
+        _isLoop = false;
+      }
+    });
+  }
+
+  void prevButtonPressed() {
+    setState(() {
+      previousSentence();
+    });
+  }
+
+  void playButtonPressed() {
+    setState(() {
+      if (_isPlayingAudio) {
+        _isPlayingAudio = false;
+        playBtnIcon = Icons.play_arrow;
+      } else {
+        _isPlayingAudio = true;
+        playBtnIcon = Icons.pause;
+      }
+      playCurrentSentence();
+    });
+  }
+
+  void nextButtonPressed() {
+    setState(() {
+      nextSentence();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          Expanded(
-            flex: 10,
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: kDarkGradientBackground,
-              ),
-              child: ScrollablePositionedList.builder(
-                itemCount: _sentences.length,
-                itemBuilder: (context, index) => Text(
-                  _sentences[index],
-                  style: index == _currentSentenceIndex
-                      ? kTextStyleSelected
-                      : kTextStyleMain,
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        backgroundColor: kAppBarBackClr,
+        title:
+            Text("AUDIO PLAYER PAGE", style: TextStyle(color: kAppBarTextClr)),
+        centerTitle: true,
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              flex: 10,
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: kDarkGradientBackground,
                 ),
-                itemScrollController: _itemScrollController,
-                itemPositionsListener: _itemPositionsListener,
+                child: ScrollablePositionedList.builder(
+                  itemCount: widget.sentences.length,
+                  itemBuilder: (context, index) => Text(
+                    widget.sentences[index],
+                    style: index == _currentSentenceIndex
+                        ? kTextStyleSelected
+                        : kTextStyleMain,
+                  ),
+                  itemScrollController: _itemScrollController,
+                  itemPositionsListener: _itemPositionsListener,
+                ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FloatingActionButton(
-                  onPressed: _listen,
-                  child: Icon(_isListening ? Icons.mic : Icons.mic_none),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Icon(Icons.info_outlined),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: kDarkGradientBackground,
-              ),
+            Expanded(
+              flex: 2,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        if (isLoop == false) {
-                          audioPlayer?.setLoopMode(LoopMode.one);
-                        } else {
-                          audioPlayer?.setLoopMode(LoopMode.off);
-                        }
-                      });
-                    },
-                    child: const Icon(Icons.repeat),
+                  FloatingActionButton(
+                    onPressed: _listen,
+                    child: Icon(_isListening ? Icons.mic : Icons.mic_none),
                   ),
                   TextButton(
-                    onPressed: () {
-                      setState(() {
-                        previousSentence();
-                      });
-                    },
-                    child: const Icon(Icons.skip_previous),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        if (isPlayingAudio) {
-                          isPlayingAudio = false;
-                          playBtnIcon = Icons.play_arrow;
-                        } else {
-                          isPlayingAudio = true;
-                          playBtnIcon = Icons.pause;
-                        }
-                        playCurrentSentence();
-                      });
-                    },
-                    child: Icon(playBtnIcon),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        nextSentence();
-                      });
-                    },
-                    child: const Icon(Icons.skip_next),
+                    onPressed: () {},
+                    child: const Icon(Icons.info_outlined),
                   ),
                 ],
-
-                /////dsfsdfsdf
               ),
             ),
-          ),
-        ],
+            Expanded(
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: kDarkGradientBackground,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      onPressed: loopButtonPressed,
+                      child: const Icon(Icons.repeat),
+                    ),
+                    TextButton(
+                      onPressed: prevButtonPressed,
+                      child: const Icon(Icons.skip_previous),
+                    ),
+                    TextButton(
+                      onPressed: playButtonPressed,
+                      child: Icon(playBtnIcon),
+                    ),
+                    TextButton(
+                      onPressed: nextButtonPressed,
+                      child: const Icon(Icons.skip_next),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -177,7 +186,9 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
     if (!_isListening) {
       bool available = await _speechToText.initialize(
         onStatus: (val) {
-          print('onStatus: $val');
+          if (kDebugMode) {
+            print('onStatus: $val');
+          }
           if (val == 'done') {
             _stopListening();
           }
