@@ -43,6 +43,7 @@ class _AudioPageState extends State<AudioPage> {
   Future _setflutterTts() async {
     await _flutterTts.awaitSpeakCompletion(true);
     await _flutterTts.setLanguage('en-US');
+
   }
 
   late stt.SpeechToText _speechToText;
@@ -114,6 +115,7 @@ class _AudioPageState extends State<AudioPage> {
         ),
         curve: Curves.easeInOutCubic,
       );
+
     });
   }
 
@@ -124,6 +126,7 @@ class _AudioPageState extends State<AudioPage> {
       appBar: AppBar(
         backgroundColor: kAppBarBackClr,
         title: Text('AUDIO PLAYER PAGE', style: TextStyle(color: kAppBarTextClr),),
+
         centerTitle: true,
       ),
       body: SafeArea(
