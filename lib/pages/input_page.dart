@@ -7,7 +7,9 @@ import 'package:memorizer/settings/constants.dart' as clr;
 import 'package:pdf_text/pdf_text.dart';
 
 import '../modules/my_button.dart';
+
 import 'audio_page.dart';
+
 
 class InputText extends StatefulWidget {
   const InputText({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class InputText extends StatefulWidget {
 }
 
 class _InputTextState extends State<InputText> {
+
   final _inputTextFieldController = TextEditingController();
   File? file;
   PDFDoc? pdf;

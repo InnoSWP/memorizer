@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
+import 'package:memorizer/pages/audio_page.dart';
 import 'package:memorizer/pages/input_page.dart';
+import 'package:memorizer/settings/constants.dart' as clr;
+import 'package:flutter/services.dart';
 
 void main() {
   debugPaintSizeEnabled = false;
