@@ -8,7 +8,6 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 enum TtsState { playing, stopped }
 
 class AudioPage extends StatefulWidget {
-
   final List<String> sentences;
 
   AudioPage({required this.sentences, Key? key}) : super(key: key);
@@ -18,7 +17,6 @@ class AudioPage extends StatefulWidget {
 }
 
 class _AudioPageState extends State<AudioPage> {
-
   final ItemScrollController _itemScrollController = ItemScrollController();
   final ItemPositionsListener _itemPositionsListener =
       ItemPositionsListener.create();
@@ -43,7 +41,6 @@ class _AudioPageState extends State<AudioPage> {
   Future _setflutterTts() async {
     await _flutterTts.awaitSpeakCompletion(true);
     await _flutterTts.setLanguage('en-US');
-
   }
 
   late stt.SpeechToText _speechToText;
@@ -59,6 +56,8 @@ class _AudioPageState extends State<AudioPage> {
       }
     } else {
       _finishedText = true;
+      stopPlaying();
+      _currentSentenceIndex = 0;
     }
   }
 
@@ -72,6 +71,8 @@ class _AudioPageState extends State<AudioPage> {
       scrollToCurrentSentence();
     } else {
       _finishedText = true;
+      stopPlaying();
+      _currentSentenceIndex = 0;
     }
     if (wasPlaying) {
       await playCurrentSentence();
@@ -115,7 +116,6 @@ class _AudioPageState extends State<AudioPage> {
         ),
         curve: Curves.easeInOutCubic,
       );
-
     });
   }
 
@@ -125,8 +125,10 @@ class _AudioPageState extends State<AudioPage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: kAppBarBackClr,
-        title: Text('AUDIO PLAYER PAGE', style: TextStyle(color: kAppBarTextClr),),
-
+        title: Text(
+          'AUDIO PLAYER PAGE',
+          style: TextStyle(color: kAppBarTextClr),
+        ),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -256,21 +258,17 @@ class _AudioPageState extends State<AudioPage> {
           jumpToPreviousSentence();
         } else if (_command.contains('play')) {
           playCurrentSentence();
-        }
-        else if (_command.contains('pause')) {
+        } else if (_command.contains('pause')) {
           // TODO - stop spelling sentences.
           // If user calls 'play' command again,
           // it should continue from the current sentence
           stopPlaying();
-        }
-        else if (_command.contains('stop')) {
+        } else if (_command.contains('stop')) {
           // TODO - stop spelling sentences and set currentSentence to 0.
           stopPlaying();
-        }
-        else if (_command.contains('repeat')) {
+        } else if (_command.contains('repeat')) {
           // TODO - add repeat functionality
-        }
-        else {
+        } else {
           // TODO - correctly handle a wrong voice command
           print('$_command is not supported, please, try again...');
         }
