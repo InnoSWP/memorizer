@@ -41,7 +41,6 @@ class _AudioPageState extends State<AudioPage> {
   Future _setflutterTts() async {
     await _flutterTts.awaitSpeakCompletion(true);
     await _flutterTts.setLanguage('en-US');
-    await _flutterTts.setSpeechRate(0.36);
   }
 
   late stt.SpeechToText _speechToText;
