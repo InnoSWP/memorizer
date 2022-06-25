@@ -1,11 +1,8 @@
-import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:memorizer/settings/constants.dart' as clr;
-import 'package:pdf_text/pdf_text.dart';
 
+import '../modules/PDF_service.dart';
 import '../modules/my_button.dart';
 import 'audio_page.dart';
 
@@ -23,10 +20,8 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
 
   final _inputTextFieldController = TextEditingController();
-  File? file;
-  PDFDoc? pdf;
-  String pdfInput = "";
   String justInput = "";
+  final PdfService pdfService = PdfService();
 
   @override
   Widget build(BuildContext context) {
@@ -106,9 +101,7 @@ class _InputPageState extends State<InputPage> {
                         _inputTextFieldController.text = "";
                         if (kDebugMode) print("clear file");
                         setState(() {
-                          file = null;
-                          pdf = null;
-                          pdfInput = "";
+                          pdfService.clear();
                           justInput = "";
                         });
                       }),
@@ -121,43 +114,16 @@ class _InputPageState extends State<InputPage> {
                     title: "Upload a File",
                     //size: Size(180, 100),
                     onPressed: () async {
+                      await pdfService.uploadFile();
+                      setState((){});
                       if (kDebugMode) {
-                        print("Upload a File");
+                        print(pdfService.text);
                       }
-                      FilePickerResult? result =
-                          await FilePicker.platform.pickFiles(
-                        allowMultiple: false,
-                        type: FileType.custom,
-                        allowedExtensions: ['pdf'],
-                      );
-
-                      setState(() {
-                        if (result != null) {
-                          file = File(result.files.single.path!);
-                          if (kDebugMode) {
-                            print('file uploaded successfully');
-                          }
-                        } else {
-                          if (kDebugMode) {
-                            print("result is NULL!!!");
-                          }
-                        }
-                      });
-
-                      setState(() async {
-                        if (file != null) {
-                          pdf = await PDFDoc.fromFile(file!);
-                          pdfInput = (await pdf?.text)!;
-                          if (kDebugMode) {
-                            print(pdfInput);
-                          }
-                        }
-                      });
                     },
                   ),
                   Text(
-                    file != null
-                        ? "Picked File Name: ${file?.path.split('/').last}"
+                    pdfService.receivedFile()
+                        ? "Picked File Name: ${pdfService.fileName}"
                         : "No Picked File",
                     style: const TextStyle(
                       color: Colors.white,
@@ -170,12 +136,12 @@ class _InputPageState extends State<InputPage> {
                 title: "Memorize",
                 //size: const Size(180, 80),
                 onPressed: () {
-                  if (justInput != "" || pdfInput != "") {
+                  if (justInput != "" || pdfService.text != "") {
                     List<String> listOfSentences = <String>[];
 
                     //'[^\.\!\?]*[\.\!\?]'
-                    if (pdfInput != "") {
-                      listOfSentences = pdfInput.replaceAll('\n', '').split(
+                    if (pdfService.text != "") {
+                      listOfSentences = pdfService.text!.replaceAll('\n', '').split(
                           RegExp(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"));
                     } else if (justInput != '') {
                       listOfSentences = justInput.replaceAll('\n', '').split(
