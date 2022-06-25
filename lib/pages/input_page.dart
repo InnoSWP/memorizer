@@ -13,14 +13,15 @@ List<String> splitTest(String input) {
   return input.split(RegExp(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"));
 }
 
-class InputText extends StatefulWidget {
-  const InputText({Key? key}) : super(key: key);
+class InputPage extends StatefulWidget {
+  const InputPage({Key? key}) : super(key: key);
 
   @override
-  State<InputText> createState() => _InputTextState();
+  State<InputPage> createState() => _InputPageState();
 }
 
-class _InputTextState extends State<InputText> {
+class _InputPageState extends State<InputPage> {
+
   final _inputTextFieldController = TextEditingController();
   File? file;
   PDFDoc? pdf;
@@ -33,7 +34,7 @@ class _InputTextState extends State<InputText> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: clr.kAppBarBackClr,
-        title: Text("INPUT PAGE", style: TextStyle(color: clr.kAppBarTextClr)),
+        title: Text('INPUT PAGE', style: TextStyle(color: clr.kAppBarTextClr)),
         centerTitle: true,
       ),
       body: Container(
@@ -189,7 +190,7 @@ class _InputTextState extends State<InputText> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                AudioPlayerOur(sentences: listOfSentences)));
+                                AudioPage(sentences: listOfSentences)));
                   }
                 },
               ),

@@ -41,7 +41,7 @@ dependencies:
   scrollable_positioned_list: ^0.3.2
   google_fonts: ^3.0.1
   speech_to_text: ^5.5.0
-  rake: ^1.0.1
+  flutter_tts: ^3.4.0
 
 dev_dependencies:
   test: ^1.21.3
