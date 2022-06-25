@@ -7,9 +7,11 @@ import 'package:memorizer/settings/constants.dart' as clr;
 import 'package:pdf_text/pdf_text.dart';
 
 import '../modules/my_button.dart';
-
 import 'audio_page.dart';
 
+List<String> splitTest(String input) {
+  return input.split(RegExp(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"));
+}
 
 class InputText extends StatefulWidget {
   const InputText({Key? key}) : super(key: key);
@@ -19,7 +21,6 @@ class InputText extends StatefulWidget {
 }
 
 class _InputTextState extends State<InputText> {
-
   final _inputTextFieldController = TextEditingController();
   File? file;
   PDFDoc? pdf;
@@ -173,13 +174,11 @@ class _InputTextState extends State<InputText> {
 
                     //'[^\.\!\?]*[\.\!\?]'
                     if (pdfInput != "") {
-                      listOfSentences = pdfInput
-                          .replaceAll('\n', '')
-                          .split("\\.|\\!|\\?|\\...|\\?!|\\!?|\\!!!|\\???");
+                      listOfSentences = pdfInput.replaceAll('\n', '').split(
+                          RegExp(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"));
                     } else if (justInput != '') {
-                      listOfSentences = justInput
-                          .replaceAll('\n', '')
-                          .split("\\.|\\!|\\?|\\...|\\?!|\\!?|\\!!!|\\???");
+                      listOfSentences = justInput.replaceAll('\n', '').split(
+                          RegExp(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"));
                     }
 
                     if (listOfSentences.isEmpty) {

@@ -41,11 +41,11 @@ dependencies:
   scrollable_positioned_list: ^0.3.2
   google_fonts: ^3.0.1
   speech_to_text: ^5.5.0
+  rake: ^1.0.1
 
 dev_dependencies:
-  just_audio: ^0.9.24
-  flutter_test:
-    sdk: flutter
+  test: ^1.21.3
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
