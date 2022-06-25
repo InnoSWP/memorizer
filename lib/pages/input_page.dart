@@ -7,9 +7,11 @@ import 'package:memorizer/settings/constants.dart' as clr;
 import 'package:pdf_text/pdf_text.dart';
 
 import '../modules/my_button.dart';
-
 import 'audio_page.dart';
 
+List<String> splitTest(String input) {
+  return input.split(RegExp(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"));
+}
 
 class InputPage extends StatefulWidget {
   const InputPage({Key? key}) : super(key: key);
@@ -23,8 +25,8 @@ class _InputPageState extends State<InputPage> {
   final _inputTextFieldController = TextEditingController();
   File? file;
   PDFDoc? pdf;
-  String pdfInput = '';
-  String justInput = '';
+  String pdfInput = "";
+  String justInput = "";
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,7 @@ class _InputPageState extends State<InputPage> {
                 minLines: 17,
                 maxLines: 17,
                 decoration: InputDecoration(
-                  counterText: 'Number of words : 169',
+                  counterText: "Number of words : 169",
                   counterStyle: TextStyle(
                     fontSize: 14,
                     color: Colors.grey.shade500,
@@ -76,7 +78,7 @@ class _InputPageState extends State<InputPage> {
                         color: clr.kBnbSelectedItemClr,
                         width: 1,
                       )),
-                  hintText: 'Type the text or upload PDF file...',
+                  hintText: "Type the text or upload PDF file...",
                   hintStyle: TextStyle(
                     color: clr.kBnbSelectedItemClr,
                     fontSize: 28,
@@ -98,16 +100,16 @@ class _InputPageState extends State<InputPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   MyButton(
-                      title: 'Clear',
+                      title: "Clear",
                       //size: const Size(90, 50),
                       onPressed: () {
-                        _inputTextFieldController.text = '';
-                        if (kDebugMode) print('clear file');
+                        _inputTextFieldController.text = "";
+                        if (kDebugMode) print("clear file");
                         setState(() {
                           file = null;
                           pdf = null;
-                          pdfInput = '';
-                          justInput = '';
+                          pdfInput = "";
+                          justInput = "";
                         });
                       }),
                 ],
@@ -116,11 +118,11 @@ class _InputPageState extends State<InputPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   MyButton(
-                    title: 'Upload a File',
+                    title: "Upload a File",
                     //size: Size(180, 100),
                     onPressed: () async {
                       if (kDebugMode) {
-                        print('Upload a File');
+                        print("Upload a File");
                       }
                       FilePickerResult? result =
                           await FilePicker.platform.pickFiles(
@@ -137,7 +139,7 @@ class _InputPageState extends State<InputPage> {
                           }
                         } else {
                           if (kDebugMode) {
-                            print('result is NULL!!!');
+                            print("result is NULL!!!");
                           }
                         }
                       });
@@ -155,8 +157,8 @@ class _InputPageState extends State<InputPage> {
                   ),
                   Text(
                     file != null
-                        ? 'Picked File Name: ${file?.path.split('/').last}'
-                        : 'No Picked File',
+                        ? "Picked File Name: ${file?.path.split('/').last}"
+                        : "No Picked File",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
@@ -165,25 +167,23 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
               MyButton(
-                title: 'Memorize',
+                title: "Memorize",
                 //size: const Size(180, 80),
                 onPressed: () {
-                  if (justInput != '' || pdfInput != '') {
+                  if (justInput != "" || pdfInput != "") {
                     List<String> listOfSentences = <String>[];
 
                     //'[^\.\!\?]*[\.\!\?]'
-                    if (pdfInput != '') {
-                      listOfSentences = pdfInput
-                          .replaceAll('\n', '')
-                          .split('.');
+                    if (pdfInput != "") {
+                      listOfSentences = pdfInput.replaceAll('\n', '').split(
+                          RegExp(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"));
                     } else if (justInput != '') {
-                      listOfSentences = justInput
-                          .replaceAll('\n', '')
-                          .split('.');
+                      listOfSentences = justInput.replaceAll('\n', '').split(
+                          RegExp(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"));
                     }
 
                     if (listOfSentences.isEmpty) {
-                      listOfSentences.add('Empty');
+                      listOfSentences.add("Empty");
                     }
 
                     Navigator.push(
