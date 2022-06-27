@@ -5,6 +5,7 @@ import 'package:memorizer/settings/constants.dart' as clr;
 import '../modules/PDF_service.dart';
 import '../modules/my_button.dart';
 import 'audio_page.dart';
+import '../modules/text_splitter_service.dart';
 
 List<String> splitTest(String input) {
   return input.split(RegExp(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"));
@@ -22,6 +23,7 @@ class _InputPageState extends State<InputPage> {
   final _inputTextFieldController = TextEditingController();
   String justInput = "";
   final PdfService pdfService = PdfService();
+  final TextSplitter textSplitter = TextSplitter();
 
   @override
   Widget build(BuildContext context) {
@@ -140,14 +142,11 @@ class _InputPageState extends State<InputPage> {
                     List<String> listOfSentences = <String>[];
 
                     //'[^\.\!\?]*[\.\!\?]'
-                    if (pdfService.text != "") {
-                      listOfSentences = pdfService.text!.replaceAll('\n', '').split(
-                          RegExp(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"));
+                    if (pdfService.text != null) {
+                      listOfSentences = textSplitter.parseText(pdfService.text!);
                     } else if (justInput != '') {
-                      listOfSentences = justInput.replaceAll('\n', '').split(
-                          RegExp(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"));
+                      listOfSentences = textSplitter.parseText(justInput);
                     }
-
                     if (listOfSentences.isEmpty) {
                       listOfSentences.add("Empty");
                     }
