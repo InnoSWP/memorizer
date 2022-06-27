@@ -1,41 +1,40 @@
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
-import '../lib/test_files/split.dart';
+import 'package:memorizer/modules/text_splitter_service.dart';
 
 void main() {
   group('Split should work correctly1', () {
     test('value should start at 0', () {
       const input = "AAA. BBb!";
-      final Split splitter = Split(input: input);
+      final TextSplitter splitter = TextSplitter(RegExp(r"(\w|\s|,|')+[。.?!]*\s*"));
+      final expected = ["AAA.", "BBb!"];
+      final res = splitter.parseText(input);
 
-      splitter.splitTest();
-
-      expect(splitter.splitted, ["AAA.", "BBb!"]);
+      expect(res, expected);
     });
 
     test('Split should work correctly2', () {
       const input = "Trata-ta. God my god. It's may be working... AAA? BBb!";
-      final Split splitter = Split(input: input);
-
-      splitter.splitTest();
-
-      expect(splitter.splitted, [
+      final expected = [
         "Trata-ta.",
         "God my god.",
         "It's may be working...",
         "AAA?",
         "BBb!"
-      ]);
+      ];
+      final TextSplitter splitter = TextSplitter(RegExp(r"(\w|\s|,|')+[。.?!]*\s*"));
+      final res = splitter.parseText(input);
+
+
+      expect(res, expected);
     });
 
     test('Split should work correctly2', () {
       const input = "Cool sentence. Yeah? That's right. Ha-haha.";
-      final Split splitter = Split(input: input);
-
-      splitter.splitTest();
-
-      expect(splitter.splitted,
-          ["Cool sentence.", "Yeah?", "That's right.", "Ha-haha."]);
+      const expected = ["Cool sentence.", "Yeah?", "That's right.", "Ha-haha."];
+      final TextSplitter splitter = TextSplitter(RegExp(r"(\w|\s|,|')+[。.?!]*\s*"));
+      final res = splitter.parseText(input);
+      expect(res, expected);
     });
   });
 }
