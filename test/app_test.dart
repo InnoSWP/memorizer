@@ -4,31 +4,31 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:memorizer/main.dart' as MAIN;
 import 'package:memorizer/modules/my_button.dart';
-import 'package:memorizer/test_files/split.dart';
+import 'package:memorizer/modules/text_splitter_service.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
 
   // unit test-----
-  group('Split should work correctly0', () {
-    test('Split should work correctly1 ', () {
+  group('TextSplitter should work correctly0', () {
+    test('TextSplitter should work correctly1 ', () {
       const input = "AAA. BBb!";
-      final Split splitter = Split(input: input);
+      final TextSplitter splitter = TextSplitter();
 
-      splitter.splitTest();
+      final res = splitter.parseText(input);
 
-      expect(splitter.splitted, ["AAA.", "BBb!"]);
+      expect(res, ["AAA.", "BBb!"]);
 
     });
 
-    test('Split should work correctly2', () {
+    test('TextSplitter should work correctly2', () {
       const input = "Trata-ta. God my god. It's may be working... AAA? BBb!";
-      final Split splitter = Split(input: input);
+      final TextSplitter splitter = TextSplitter();
 
-      splitter.splitTest();
+      final res = splitter.parseText(input);
 
-      expect(splitter.splitted, [
+      expect(res, [
 
         "Trata-ta.",
         "God my god.",
@@ -37,13 +37,13 @@ void main() {
         "BBb!"
       ]);
     });
-    test('Split should work correctly3', () {
+    test('TextSplitter should work correctly3', () {
       const input = "Cool sentence. Yeah? That's right. Ha-haha.";
-      final Split splitter = Split(input: input);
+      final TextSplitter splitter = TextSplitter();
 
-      splitter.splitTest();
+      final res = splitter.parseText(input);
 
-      expect(splitter.splitted,
+      expect(res,
           ["Cool sentence.", "Yeah?", "That's right.", "Ha-haha."]);
     });
   });

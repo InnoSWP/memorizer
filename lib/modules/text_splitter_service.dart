@@ -1,7 +1,7 @@
 class TextSplitter {
-  RegExp _re;
+  RegExp _re = RegExp(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s");
 
-  TextSplitter(this._re);
+  //TextSplitter(this._re);
 
   List<String> parseText(String text) {
     List<String> matches = _re.allMatches(text).map((e) => e.group(0)!).toList();

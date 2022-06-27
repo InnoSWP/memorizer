@@ -20,7 +20,7 @@ class _InputPageState extends State<InputPage> {
   final _inputTextFieldController = TextEditingController();
   String justInput = "";
   final PdfService pdfService = PdfService();
-  final TextSplitter textSplitter = TextSplitter(RegExp(r"(\w|\s|,|')+[。.?!]*\s*"));
+  final TextSplitter textSplitter = TextSplitter();
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +128,7 @@ class _InputPageState extends State<InputPage> {
                     },
                       ),
                       Text(
-                        file != null
+                        pdfService.fileName != null
                             ? "Picked File Name: ${pdfService.fileName}"
                             : "No Picked File",
                         style: const TextStyle(
