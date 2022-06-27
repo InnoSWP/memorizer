@@ -5,7 +5,6 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class AudioPlayerOur extends StatefulWidget {
-
   final List<String> sentences;
 
   AudioPlayerOur({required this.sentences, Key? key}) : super(key: key);
@@ -15,7 +14,6 @@ class AudioPlayerOur extends StatefulWidget {
 }
 
 class _AudioPlayerOurState extends State<AudioPlayerOur> {
-
   final ItemScrollController _itemScrollController = ItemScrollController();
   final ItemPositionsListener _itemPositionsListener =
       ItemPositionsListener.create();
@@ -25,7 +23,8 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
   void initState() {
     super.initState();
     _speechToText = stt.SpeechToText();
-}
+  }
+
   bool _isPlayingAudio = false;
   bool _isLoop = false;
   IconData playBtnIcon = Icons.play_arrow;
@@ -35,6 +34,7 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
     super.dispose();
   }
 
+//test
   late stt.SpeechToText _speechToText;
   bool _isListening = false;
 
@@ -53,7 +53,6 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
     playCurrentSentence();
   }
 
-
   void playCurrentSentence() {
     _itemScrollController.scrollTo(
       index: _currentSentenceIndex,
@@ -63,7 +62,6 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
       curve: Curves.easeInOutCubic,
     );
   }
-
 
   void loopButtonPressed() {
     setState(() {
@@ -213,25 +211,19 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
       if (_command.isNotEmpty) {
         if (_command.contains('next')) {
           nextSentence();
-        }
-        else if (_command.contains('previous')) {
+        } else if (_command.contains('previous')) {
           previousSentence();
-        }
-        else if (_command.contains('play')) {
+        } else if (_command.contains('play')) {
           playCurrentSentence();
-        }
-        else if (_command.contains('pause')) {
+        } else if (_command.contains('pause')) {
           // TODO - stop spelling sentences.
           // If user calls 'play' command again,
           // it should continue from the current sentence
-        }
-        else if (_command.contains('stop')) {
+        } else if (_command.contains('stop')) {
           // TODO - stop spelling sentences and set currentSentence to 0.
-        }
-        else if (_command.contains('repeat')) {
+        } else if (_command.contains('repeat')) {
           // TODO - add repeat functionality
-        }
-        else {
+        } else {
           // TODO - correctly handle a wrong voice command
           print('$_command is not supported, please, try again...');
         }
