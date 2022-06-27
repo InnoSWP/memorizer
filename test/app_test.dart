@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -18,6 +19,7 @@ void main() {
       splitter.splitTest();
 
       expect(splitter.splitted, ["AAA.", "BBb!"]);
+
     });
 
     test('Split should work correctly2', () {
@@ -27,6 +29,7 @@ void main() {
       splitter.splitTest();
 
       expect(splitter.splitted, [
+
         "Trata-ta.",
         "God my god.",
         "It's may be working...",

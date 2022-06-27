@@ -1,100 +1,110 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:memorizer/modules/tts_service.dart';
 import 'package:memorizer/settings/constants.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:speech_to_text/speech_to_text.dart' as stt;
+import '../modules/stt_service.dart';
 
-class AudioPlayerOur extends StatefulWidget {
+
+
+class AudioPage extends StatefulWidget {
   final List<String> sentences;
 
-  AudioPlayerOur({required this.sentences, Key? key}) : super(key: key);
+  AudioPage({required this.sentences, Key? key}) : super(key: key);
 
   @override
-  State<AudioPlayerOur> createState() => _AudioPlayerOurState();
+  State<AudioPage> createState() => _AudioPageState();
 }
 
-class _AudioPlayerOurState extends State<AudioPlayerOur> {
+
+class _AudioPageState extends State<AudioPage> {
   final ItemScrollController _itemScrollController = ItemScrollController();
   final ItemPositionsListener _itemPositionsListener =
       ItemPositionsListener.create();
   int _currentSentenceIndex = 0;
+  // Audio player vars
+  bool isLoop = false;
+  IconData playBtnIcon = Icons.play_arrow;
+  late SttService sst;
+  late TtsService tts;
 
   @override
   void initState() {
     super.initState();
-    _speechToText = stt.SpeechToText();
+    tts = TtsService();
+    tts.init();
+    sst = SttService(next: jumpToNextSentence,
+        previous: jumpToPreviousSentence,
+        play: playCurrentSentence, stop: stopPlaying);
   }
 
-  bool _isPlayingAudio = false;
-  bool _isLoop = false;
-  IconData playBtnIcon = Icons.play_arrow;
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-//test
-  late stt.SpeechToText _speechToText;
-  bool _isListening = false;
-
-  List<String> _command = ['Say', 'a', 'command'];
-
-  void nextSentence() {
-    if (_currentSentenceIndex != widget.sentences.length - 1) {
+  Future continueToNextSentence() async {
+    if (_currentSentenceIndex < widget.sentences.length - 1) {
       _currentSentenceIndex++;
+      scrollToCurrentSentence();
+      if (tts.isPlaying) {
+        await playCurrentSentence();
+      }
+    } else {
+      stopPlaying();
+      _currentSentenceIndex = 0;
     }
-    playCurrentSentence();
   }
 
-  void previousSentence() {
-    if (_currentSentenceIndex != 0) _currentSentenceIndex--;
 
-    playCurrentSentence();
+  Future jumpToNextSentence() async {
+    bool wasPlaying = tts.isPlaying;
+    if (wasPlaying) {
+      sst.stop();
+    }
+    if (_currentSentenceIndex < widget.sentences.length - 1) {
+      _currentSentenceIndex++;
+      scrollToCurrentSentence();
+    } else {
+      stopPlaying();
+      _currentSentenceIndex = 0;
+    }
+    if (wasPlaying) {
+      await playCurrentSentence();
+    }
   }
 
-  void playCurrentSentence() {
-    _itemScrollController.scrollTo(
-      index: _currentSentenceIndex,
-      duration: const Duration(
-        milliseconds: 500,
-      ),
-      curve: Curves.easeInOutCubic,
-    );
+  Future jumpToPreviousSentence() async {
+    bool wasPlaying = tts.isPlaying;
+    if (wasPlaying) {
+      stopPlaying();
+    }
+    if (_currentSentenceIndex > 0) {
+      _currentSentenceIndex--;
+      scrollToCurrentSentence();
+    }
+    if (wasPlaying) {
+      await playCurrentSentence();
+    }
   }
 
-  void loopButtonPressed() {
+  Future playCurrentSentence() async {
+    scrollToCurrentSentence();
+    await tts.play(widget.sentences[_currentSentenceIndex]);
+    setState((){});
+    continueToNextSentence();
+  }
+
+  Future stopPlaying() async {
+    setState(() => tts.stop());
+  }
+
+  void scrollToCurrentSentence() {
     setState(() {
-      if (_isLoop == false) {
-        _isLoop = true;
-      } else {
-        _isLoop = false;
-      }
-    });
-  }
-
-  void prevButtonPressed() {
-    setState(() {
-      previousSentence();
-    });
-  }
-
-  void playButtonPressed() {
-    setState(() {
-      if (_isPlayingAudio) {
-        _isPlayingAudio = false;
-        playBtnIcon = Icons.play_arrow;
-      } else {
-        _isPlayingAudio = true;
-        playBtnIcon = Icons.pause;
-      }
-      playCurrentSentence();
-    });
-  }
-
-  void nextButtonPressed() {
-    setState(() {
-      nextSentence();
+      _itemScrollController.scrollTo(
+        index: _currentSentenceIndex,
+        duration: const Duration(
+          // TODO - might be a good idea to make the animation duration a constant
+          milliseconds: 500,
+        ),
+        curve: Curves.easeInOutCubic,
+      );
     });
   }
 
@@ -104,8 +114,10 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: kAppBarBackClr,
-        title:
-            Text("AUDIO PLAYER PAGE", style: TextStyle(color: kAppBarTextClr)),
+        title: Text(
+          'AUDIO PLAYER PAGE',
+          style: TextStyle(color: kAppBarTextClr),
+        ),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -136,8 +148,8 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   FloatingActionButton(
-                    onPressed: _listen,
-                    child: Icon(_isListening ? Icons.mic : Icons.mic_none),
+                    onPressed: () => setState((){sst.listen();}),
+                    child: Icon(sst.isListening ? Icons.mic : Icons.mic_none),
                   ),
                   TextButton(
                     onPressed: () {},
@@ -155,20 +167,40 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     TextButton(
-                      onPressed: loopButtonPressed,
+                      onPressed: () {
+                        // TODO: set functionality for loop
+                      },
                       child: const Icon(Icons.repeat),
                     ),
                     TextButton(
-                      onPressed: prevButtonPressed,
                       child: const Icon(Icons.skip_previous),
+                      onPressed: () {
+                        setState(() {
+                          jumpToPreviousSentence();
+                        });
+                      },
                     ),
                     TextButton(
-                      onPressed: playButtonPressed,
-                      child: Icon(playBtnIcon),
+                      child: Icon(tts.isStopped
+                          ? Icons.play_arrow
+                          : Icons.pause),
+                      onPressed: () {
+                        setState(() {
+                          if (tts.isStopped) {
+                            playCurrentSentence();
+                          } else {
+                            stopPlaying();
+                          }
+                        });
+                      },
                     ),
                     TextButton(
-                      onPressed: nextButtonPressed,
                       child: const Icon(Icons.skip_next),
+                      onPressed: () {
+                        setState(() {
+                          jumpToNextSentence();
+                        });
+                      },
                     ),
                   ],
                 ),
@@ -180,56 +212,9 @@ class _AudioPlayerOurState extends State<AudioPlayerOur> {
     );
   }
 
-  void _listen() async {
-    if (!_isListening) {
-      bool available = await _speechToText.initialize(
-        onStatus: (val) {
-          if (kDebugMode) {
-            print('onStatus: $val');
-          }
-          if (val == 'done') {
-            _stopListening();
-          }
-        },
-        onError: (val) => print('onError: $val'),
-      );
-      if (available) {
-        setState(() => _isListening = true);
-        _speechToText.listen(
-            onResult: (val) => setState(() {
-                  _command = val.recognizedWords.split(' ');
-                }));
-      }
-    } else {
-      _stopListening();
-    }
-  }
-
-  void _stopListening() {
-    setState(() {
-      _isListening = false;
-      if (_command.isNotEmpty) {
-        if (_command.contains('next')) {
-          nextSentence();
-        } else if (_command.contains('previous')) {
-          previousSentence();
-        } else if (_command.contains('play')) {
-          playCurrentSentence();
-        } else if (_command.contains('pause')) {
-          // TODO - stop spelling sentences.
-          // If user calls 'play' command again,
-          // it should continue from the current sentence
-        } else if (_command.contains('stop')) {
-          // TODO - stop spelling sentences and set currentSentence to 0.
-        } else if (_command.contains('repeat')) {
-          // TODO - add repeat functionality
-        } else {
-          // TODO - correctly handle a wrong voice command
-          print('$_command is not supported, please, try again...');
-        }
-      }
-    });
-    _command = [];
-    _speechToText.stop();
+  @override
+  void dispose() {
+    super.dispose();
+    tts.destroy();
   }
 }

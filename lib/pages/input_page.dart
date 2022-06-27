@@ -1,27 +1,26 @@
-import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:memorizer/settings/constants.dart' as clr;
-import 'package:pdf_text/pdf_text.dart';
 
+import '../modules/PDF_service.dart';
 import '../modules/my_button.dart';
 import 'audio_page.dart';
+import '../modules/text_splitter_service.dart';
 
-class InputText extends StatefulWidget {
-  const InputText({Key? key}) : super(key: key);
+class InputPage extends StatefulWidget {
+  const InputPage({Key? key}) : super(key: key);
 
   @override
-  State<InputText> createState() => _InputTextState();
+  State<InputPage> createState() => _InputPageState();
 }
 
-class _InputTextState extends State<InputText> {
+
+class _InputPageState extends State<InputPage> {
+
   final _inputTextFieldController = TextEditingController();
-  File? file;
-  PDFDoc? pdf;
-  String pdfInput = "";
   String justInput = "";
+  final PdfService pdfService = PdfService();
+  final TextSplitter textSplitter = TextSplitter(RegExp(r"(\w|\s|,|')+[。.?!]*\s*"));
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,7 @@ class _InputTextState extends State<InputText> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: clr.kAppBarBackClr,
-        title: Text("INPUT PAGE", style: TextStyle(color: clr.kAppBarTextClr)),
+        title: Text('INPUT PAGE', style: TextStyle(color: clr.kAppBarTextClr)),
         centerTitle: true,
       ),
       body: Container(
@@ -103,15 +102,13 @@ class _InputTextState extends State<InputText> {
                           title: "Clear",
                           //size: const Size(90, 50),
                           onPressed: () {
-                            _inputTextFieldController.text = "";
-                            if (kDebugMode) print("clear file");
-                            setState(() {
-                              file = null;
-                              pdf = null;
-                              pdfInput = "";
-                              justInput = "";
-                            });
-                          }),
+                        _inputTextFieldController.text = "";
+                        if (kDebugMode) print("clear file");
+                        setState(() {
+                          pdfService.clear();
+                          justInput = "";
+                        });
+                      }),
                     ],
                   ),
                 ),
@@ -123,43 +120,16 @@ class _InputTextState extends State<InputText> {
                         title: "Upload a File",
                         //size: Size(180, 100),
                         onPressed: () async {
-                          if (kDebugMode) {
-                            print("Upload a File");
-                          }
-                          FilePickerResult? result =
-                              await FilePicker.platform.pickFiles(
-                            allowMultiple: false,
-                            type: FileType.custom,
-                            allowedExtensions: ['pdf'],
-                          );
-
-                          setState(() {
-                            if (result != null) {
-                              file = File(result.files.single.path!);
-                              if (kDebugMode) {
-                                print('file uploaded successfully');
-                              }
-                            } else {
-                              if (kDebugMode) {
-                                print("result is NULL!!!");
-                              }
-                            }
-                          });
-
-                          setState(() async {
-                            if (file != null) {
-                              pdf = await PDFDoc.fromFile(file!);
-                              pdfInput = (await pdf?.text)!;
-                              if (kDebugMode) {
-                                print(pdfInput);
-                              }
-                            }
-                          });
-                        },
+                      await pdfService.uploadFile();
+                      setState((){});
+                      if (kDebugMode) {
+                        print(pdfService.text);
+                      }
+                    },
                       ),
                       Text(
                         file != null
-                            ? "Picked File Name: ${file?.path.split('/').last}"
+                            ? "Picked File Name: ${pdfService.fileName}"
                             : "No Picked File",
                         style: const TextStyle(
                           color: Colors.white,
@@ -177,33 +147,26 @@ class _InputTextState extends State<InputText> {
                           title: "Memorize",
                           //size: const Size(180, 80),
                           onPressed: () {
-                            if (justInput != "" || pdfInput != "") {
-                              List<String> listOfSentences = <String>[];
+                  if (justInput != "" || pdfService.text != "") {
+                    List<String> listOfSentences = <String>[];
 
-                              //'[^\.\!\?]*[\.\!\?]'
-                              if (pdfInput != "") {
-                                listOfSentences = pdfInput
-                                    .replaceAll('\n', '')
-                                    .split(RegExp(
-                                        r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"));
-                              } else if (justInput != '') {
-                                listOfSentences = justInput
-                                    .replaceAll('\n', '')
-                                    .split(RegExp(
-                                        r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s"));
-                              }
+                    //'[^\.\!\?]*[\.\!\?]'
+                    if (pdfService.text != null) {
+                      listOfSentences = textSplitter.parseText(pdfService.text!);
+                    } else if (justInput != '') {
+                      listOfSentences = textSplitter.parseText(justInput);
+                    }
+                    if (listOfSentences.isEmpty) {
+                      listOfSentences.add("Empty");
+                    }
 
-                              if (listOfSentences.isEmpty) {
-                                listOfSentences.add("Empty");
-                              }
-
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AudioPlayerOur(
-                                          sentences: listOfSentences)));
-                            }
-                          },
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                AudioPage(sentences: listOfSentences)));
+                  }
+                },
                         ),
                       ]),
                 ),
