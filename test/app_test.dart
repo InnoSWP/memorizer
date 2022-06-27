@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:memorizer/modules/text_splitter_service.dart';
@@ -7,7 +6,7 @@ void main() {
   group('Split should work correctly1', () {
     test('value should start at 0', () {
       const input = "AAA. BBb!";
-      final TextSplitter splitter = TextSplitter();
+      final TextSplitter splitter = TextSplitter(RegExp(r"(\w|\s|,|')+[。.?!]*\s*"));
       final expected = ["AAA.", "BBb!"];
       final res = splitter.parseText(input);
 
@@ -23,7 +22,7 @@ void main() {
         "AAA?",
         "BBb!"
       ];
-      final TextSplitter splitter = TextSplitter();
+      final TextSplitter splitter = TextSplitter(RegExp(r"(\w|\s|,|')+[。.?!]*\s*"));
       final res = splitter.parseText(input);
 
 
@@ -33,7 +32,7 @@ void main() {
     test('Split should work correctly2', () {
       const input = "Cool sentence. Yeah? That's right. Ha-haha.";
       const expected = ["Cool sentence.", "Yeah?", "That's right.", "Ha-haha."];
-      final TextSplitter splitter = TextSplitter();
+      final TextSplitter splitter = TextSplitter(RegExp(r"(\w|\s|,|')+[。.?!]*\s*"));
       final res = splitter.parseText(input);
       expect(res, expected);
     });

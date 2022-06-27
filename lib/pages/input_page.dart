@@ -23,7 +23,7 @@ class _InputPageState extends State<InputPage> {
   final _inputTextFieldController = TextEditingController();
   String justInput = "";
   final PdfService pdfService = PdfService();
-  final TextSplitter textSplitter = TextSplitter();
+  final TextSplitter textSplitter = TextSplitter(RegExp(r"(\w|\s|,|')+[。.?!]*\s*"));
 
   @override
   Widget build(BuildContext context) {
