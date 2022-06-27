@@ -34,14 +34,14 @@ const kTextStyleMain = TextStyle(
 );
 
 var kTextStyleSelected = GoogleFonts.roboto(
-  textStyle: TextStyle(
+  textStyle: const TextStyle(
     color: Color(0xFFFFFFFF),
     fontSize: 24,
   ),
 );
 
 final List<String> sentencesConst = [
-  'The door to the parlor opened and Mildred stood there looking in at them, looking at Beatty and then at Montag.',
+  'The door to the parlor opened and Mildred stood there looking in at them, looking at Beatty and then at Montagu.',
   '''Behind her the walls of
 the room were flooded with green and yellow and orange fireworks
 sizzling and bursting to some music composed almost completely of
@@ -56,7 +56,6 @@ have our minorities upset and stirred.''',
   '''Ask yourself, What do we want
 in this country, above all?''',
 ];
-
 
 // Info Page Colors
 const kInfoBackgroundColor = Color(0xff929292);
