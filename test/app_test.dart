@@ -65,6 +65,10 @@ void main() {
       await tester.pumpWidget(MAIN.APP());
       expect(find.byType(Text), findsWidgets);
     });
+    testWidgets("Find Text", (WidgetTester tester) async {
+      await tester.pumpWidget(MAIN.APP());
+      expect(find.byType(Text), findsWidgets);
+    });
   });
 
   // integration test TextField
@@ -106,6 +110,61 @@ void main() {
     testWidgets(
       'TextField_test_3 : tap on the textField, enter letters',
       (tester) async {
+        await tester.pumpWidget(MAIN.APP());
+
+        expect(
+            find.text('Type the text or upload PDF file...'), findsOneWidget);
+
+        // Input this text
+        const inputText =
+            'Hewvinwr GHw erv /.werlk /wvp.er fds/fs /r; WE[r GEVPtroer gerotbkert  remtkert/ /ert/be 90(0&*&%4 EWJIORGU,IOTBTE Tello there, this is an input.';
+
+        await tester.enterText(find.byType(TextField), inputText);
+
+        expect(find.text(inputText), findsOneWidget);
+      },
+    );
+  });
+
+  // integration test TextField
+
+  group('Integration TextField tapping test', () {
+    testWidgets(
+      'TextField_test_1 : tap on the textField, enter letters',
+          (tester) async {
+        await tester.pumpWidget(MAIN.APP());
+
+        expect(
+            find.text('Type the text or upload PDF file...'), findsOneWidget);
+
+        // Input this text
+        const inputText = 'Hello there, this is an input.';
+
+        await tester.enterText(find.byType(TextField), inputText);
+
+        expect(find.text(inputText), findsOneWidget);
+      },
+    );
+    testWidgets(
+      'TextField_test_2 : tap on the textField, enter letters',
+          (tester) async {
+        await tester.pumpWidget(MAIN.APP());
+
+        expect(
+            find.text('Type the text or upload PDF file...'), findsOneWidget);
+
+        // Input this text
+        const inputText =
+            'Hervwe ewtetyrnb rw llo th qcrewr qwervewrb euwrbere, this i terbtbtetqsewrwver an input.';
+
+        await tester.enterText(find.byType(TextField), inputText);
+
+        expect(find.text(inputText), findsOneWidget);
+      },
+    );
+    testWidgets(
+      'TextField_test_3 : tap on the textField, enter letters',
+          (tester) async {
         await tester.pumpWidget(MAIN.APP());
 
         expect(
