@@ -7,9 +7,19 @@ void main() {
   debugPaintSizeEnabled = false;
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((value) => runApp(MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData.dark(),
-            home: InputPage(),
-          )));
+      .then((value) => runApp(APP()));
+}
+
+class APP extends StatelessWidget {
+  const APP({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark(),
+      home: InputText(),
+    );
+  }
+
 }

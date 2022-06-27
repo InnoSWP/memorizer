@@ -6,6 +6,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../modules/stt_service.dart';
 
 
+
 class AudioPage extends StatefulWidget {
   final List<String> sentences;
 
@@ -15,12 +16,12 @@ class AudioPage extends StatefulWidget {
   State<AudioPage> createState() => _AudioPageState();
 }
 
+
 class _AudioPageState extends State<AudioPage> {
   final ItemScrollController _itemScrollController = ItemScrollController();
   final ItemPositionsListener _itemPositionsListener =
       ItemPositionsListener.create();
   int _currentSentenceIndex = 0;
-
   // Audio player vars
   bool isLoop = false;
   IconData playBtnIcon = Icons.play_arrow;
@@ -37,6 +38,7 @@ class _AudioPageState extends State<AudioPage> {
         play: playCurrentSentence, stop: stopPlaying);
   }
 
+
   Future continueToNextSentence() async {
     if (_currentSentenceIndex < widget.sentences.length - 1) {
       _currentSentenceIndex++;
@@ -49,6 +51,7 @@ class _AudioPageState extends State<AudioPage> {
       _currentSentenceIndex = 0;
     }
   }
+
 
   Future jumpToNextSentence() async {
     bool wasPlaying = tts.isPlaying;
@@ -208,8 +211,6 @@ class _AudioPageState extends State<AudioPage> {
       ),
     );
   }
-
-
 
   @override
   void dispose() {
