@@ -92,7 +92,8 @@ class _AudioPageState extends State<AudioPage> {
   }
 
   Future stopPlaying() async {
-    setState(() => tts.stop());
+    await tts.stop();
+    setState(() {});
   }
 
   void scrollToCurrentSentence() {

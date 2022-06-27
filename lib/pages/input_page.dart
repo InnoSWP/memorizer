@@ -147,14 +147,15 @@ class _InputPageState extends State<InputPage> {
                           title: "Memorize",
                           //size: const Size(180, 80),
                           onPressed: () {
-                  if (justInput != "" || pdfService.text != "") {
+                  if (justInput != "" || pdfService.text != null) {
                     List<String> listOfSentences = <String>[];
-
+                    print(justInput);
                     //'[^\.\!\?]*[\.\!\?]'
                     if (pdfService.text != null) {
                       listOfSentences = textSplitter.parseText(pdfService.text!);
                     } else if (justInput != '') {
                       listOfSentences = textSplitter.parseText(justInput);
+                      print(listOfSentences);
                     }
                     if (listOfSentences.isEmpty) {
                       listOfSentences.add("Empty");
