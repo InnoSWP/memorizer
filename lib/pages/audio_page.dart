@@ -1,10 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:memorizer/modules/tts_service.dart';
 import 'package:memorizer/settings/constants.dart' as clr;
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-import '../modules/audiPageButtons.dart';
+import '../modules/myButtons.dart';
 import '../modules/my_appBar.dart';
 import '../modules/stt_service.dart';
 
@@ -227,86 +226,20 @@ class _AudioPageState extends State<AudioPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        // OutlinedButton(
-                        //   style: getAudioPageButtonStyle(),
-                        //   onPressed: () {},
-                        //   child: const Icon(
-                        //     Icons.arrow_downward,
-                        //     color: Colors.white,
-                        //     size: 45,
-                        //   ),
-                        // ),
-                        AudioPlayerButton(
+                        MyButton(
                             iconData: Icons.arrow_downward,
                             onPressed: _speedDownOnPressed),
-
-                        // OutlinedButton(
-                        //   style: getAudioPageButtonStyle(),
-                        //   child: const Icon(
-                        //     Icons.skip_previous,
-                        //     color: Colors.white,
-                        //     size: 45,
-                        //   ),
-                        //   onPressed: () {
-                        //     setState(() {
-                        //       jumpToPreviousSentence();
-                        //     });
-                        //   },
-                        // ),
-                        AudioPlayerButton(
+                        MyButton(
                             iconData: Icons.skip_previous,
                             onPressed: _skipPreviousOnPressed),
-
-                        // OutlinedButton(
-                        //   style: getAudioPageButtonStyle(),
-                        //   child: Icon(
-                        //     tts.isStopped ? Icons.play_arrow : Icons.pause,
-                        //     color: Colors.white,
-                        //     size: 45,
-                        //   ),
-                        //   onPressed: () {
-                        //     setState(() {
-                        //       if (tts.isStopped) {
-                        //         playCurrentSentence();
-                        //       } else {
-                        //         stopPlaying();
-                        //       }
-                        //     });
-                        //   },
-                        // ),
-                        AudioPlayerButton(
+                        MyButton(
                             iconData:
                                 tts.isStopped ? Icons.play_arrow : Icons.pause,
                             onPressed: _playOnPressed),
-
-                        // OutlinedButton(
-                        //   style: getAudioPageButtonStyle(),
-                        //   child: const Icon(
-                        //     Icons.skip_next,
-                        //     color: Colors.white,
-                        //     size: 45,
-                        //   ),
-                        //   onPressed: () {
-                        //     setState(() {
-                        //       jumpToNextSentence();
-                        //     });
-                        //   },
-                        // ),
-
-                        AudioPlayerButton(
+                        MyButton(
                             iconData: Icons.skip_next,
                             onPressed: _skipNextOnPressed),
-
-                        // OutlinedButton(
-                        //     style: getAudioPageButtonStyle(),
-                        //     onPressed: () {},
-                        //     child: const Icon(
-                        //       Icons.arrow_upward,
-                        //       color: Colors.white,
-                        //       size: 45,
-                        //     )),
-
-                        AudioPlayerButton(
+                        MyButton(
                             iconData: Icons.arrow_upward,
                             onPressed: _speedUpOnPressed),
                       ],

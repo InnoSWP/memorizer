@@ -1,10 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:memorizer/settings/constants.dart' as clr;
 
 import '../modules/PDF_service.dart';
+import '../modules/myButtons.dart';
 import '../modules/my_appBar.dart';
-import '../modules/my_button.dart';
 import '../modules/text_splitter_service.dart';
 import 'audio_page.dart';
 
@@ -20,6 +19,39 @@ class _InputPageState extends State<InputPage> {
   String justInput = "";
   final PdfService pdfService = PdfService();
   final TextSplitter textSplitter = TextSplitter();
+
+  void _clearOnPressed() {
+    _inputTextFieldController.text = "";
+    setState(() {
+      pdfService.clear();
+      justInput = "";
+    });
+  }
+
+  void _uploadFileOnPressed() async {
+    await pdfService.uploadFile();
+    setState(() {});
+  }
+
+  void _memorizeOnPressed() {
+    if (justInput != "" || pdfService.text != null) {
+      List<String> listOfSentences = <String>[];
+
+      if (pdfService.text != null) {
+        listOfSentences = textSplitter.parseText(pdfService.text!);
+      } else if (justInput != '') {
+        listOfSentences = textSplitter.parseText(justInput);
+      }
+      if (listOfSentences.isEmpty) {
+        listOfSentences.add("Empty");
+      }
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AudioPage(sentences: listOfSentences)));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,16 +127,10 @@ class _InputPageState extends State<InputPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         MyButton(
-                            title: "Clear",
-                            //size: const Size(90, 50),
-                            onPressed: () {
-                              _inputTextFieldController.text = "";
-                              if (kDebugMode) print("clear file");
-                              setState(() {
-                                pdfService.clear();
-                                justInput = "";
-                              });
-                            }),
+                          text: "Clear",
+                          iconData: null,
+                          onPressed: _clearOnPressed,
+                        ),
                       ],
                     ),
                   ),
@@ -113,15 +139,9 @@ class _InputPageState extends State<InputPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         MyButton(
-                          title: "Upload a File",
-                          //size: Size(180, 100),
-                          onPressed: () async {
-                            await pdfService.uploadFile();
-                            setState(() {});
-                            if (kDebugMode) {
-                              print(pdfService.text);
-                            }
-                          },
+                          text: "Upload a File",
+                          iconData: null,
+                          onPressed: _uploadFileOnPressed,
                         ),
                         Text(
                           pdfService.fileName != null
@@ -140,32 +160,9 @@ class _InputPageState extends State<InputPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           MyButton(
-                            title: "Memorize",
-                            //size: const Size(180, 80),
-                            onPressed: () {
-                              if (justInput != "" || pdfService.text != null) {
-                                List<String> listOfSentences = <String>[];
-                                //print(justInput);
-                                //'[^\.\!\?]*[\.\!\?]'
-                                if (pdfService.text != null) {
-                                  listOfSentences =
-                                      textSplitter.parseText(pdfService.text!);
-                                } else if (justInput != '') {
-                                  listOfSentences =
-                                      textSplitter.parseText(justInput);
-                                  //print(listOfSentences);
-                                }
-                                if (listOfSentences.isEmpty) {
-                                  listOfSentences.add("Empty");
-                                }
-
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AudioPage(
-                                            sentences: listOfSentences)));
-                              }
-                            },
+                            text: "Memorize",
+                            iconData: null,
+                            onPressed: _memorizeOnPressed,
                           ),
                         ]),
                   ),
