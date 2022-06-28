@@ -4,12 +4,10 @@ import 'package:memorizer/settings/constants.dart' as clr;
 class MyButton extends StatelessWidget {
   final String title;
 
-  //final Size size;
   final VoidCallback onPressed;
 
   const MyButton({
     required this.title,
-    //required this.size,
     required this.onPressed,
     Key? key,
   }) : super(key: key);

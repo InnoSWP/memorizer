@@ -116,6 +116,32 @@ class _AudioPageState extends State<AudioPage> {
     });
   }
 
+  void _speedDownOnPressed() {}
+
+  void _skipPreviousOnPressed() {
+    setState(() {
+      jumpToPreviousSentence();
+    });
+  }
+
+  void _playOnPressed() {
+    setState(() {
+      if (tts.isStopped) {
+        playCurrentSentence();
+      } else {
+        stopPlaying();
+      }
+    });
+  }
+
+  void _skipNextOnPressed() {
+    setState(() {
+      jumpToNextSentence();
+    });
+  }
+
+  void _speedUpOnPressed() {}
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -201,66 +227,88 @@ class _AudioPageState extends State<AudioPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        OutlinedButton(
-                          style: getAudioPageButtonStyle(),
-                          onPressed: () {},
-                          child: const Icon(
-                            Icons.arrow_downward,
-                            color: Colors.white,
-                            size: 45,
-                          ),
-                        ),
-                        OutlinedButton(
-                          style: getAudioPageButtonStyle(),
-                          child: const Icon(
-                            Icons.skip_previous,
-                            color: Colors.white,
-                            size: 45,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              jumpToPreviousSentence();
-                            });
-                          },
-                        ),
-                        OutlinedButton(
-                          style: getAudioPageButtonStyle(),
-                          child: Icon(
-                            tts.isStopped ? Icons.play_arrow : Icons.pause,
-                            color: Colors.white,
-                            size: 45,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              if (tts.isStopped) {
-                                playCurrentSentence();
-                              } else {
-                                stopPlaying();
-                              }
-                            });
-                          },
-                        ),
-                        OutlinedButton(
-                          style: getAudioPageButtonStyle(),
-                          child: const Icon(
-                            Icons.skip_next,
-                            color: Colors.white,
-                            size: 45,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              jumpToNextSentence();
-                            });
-                          },
-                        ),
-                        OutlinedButton(
-                            style: getAudioPageButtonStyle(),
-                            onPressed: () {},
-                            child: const Icon(
-                              Icons.arrow_upward,
-                              color: Colors.white,
-                              size: 45,
-                            )),
+                        // OutlinedButton(
+                        //   style: getAudioPageButtonStyle(),
+                        //   onPressed: () {},
+                        //   child: const Icon(
+                        //     Icons.arrow_downward,
+                        //     color: Colors.white,
+                        //     size: 45,
+                        //   ),
+                        // ),
+                        AudioPlayerButton(
+                            iconData: Icons.arrow_downward,
+                            onPressed: _speedDownOnPressed),
+
+                        // OutlinedButton(
+                        //   style: getAudioPageButtonStyle(),
+                        //   child: const Icon(
+                        //     Icons.skip_previous,
+                        //     color: Colors.white,
+                        //     size: 45,
+                        //   ),
+                        //   onPressed: () {
+                        //     setState(() {
+                        //       jumpToPreviousSentence();
+                        //     });
+                        //   },
+                        // ),
+                        AudioPlayerButton(
+                            iconData: Icons.skip_previous,
+                            onPressed: _skipPreviousOnPressed),
+
+                        // OutlinedButton(
+                        //   style: getAudioPageButtonStyle(),
+                        //   child: Icon(
+                        //     tts.isStopped ? Icons.play_arrow : Icons.pause,
+                        //     color: Colors.white,
+                        //     size: 45,
+                        //   ),
+                        //   onPressed: () {
+                        //     setState(() {
+                        //       if (tts.isStopped) {
+                        //         playCurrentSentence();
+                        //       } else {
+                        //         stopPlaying();
+                        //       }
+                        //     });
+                        //   },
+                        // ),
+                        AudioPlayerButton(
+                            iconData:
+                                tts.isStopped ? Icons.play_arrow : Icons.pause,
+                            onPressed: _playOnPressed),
+
+                        // OutlinedButton(
+                        //   style: getAudioPageButtonStyle(),
+                        //   child: const Icon(
+                        //     Icons.skip_next,
+                        //     color: Colors.white,
+                        //     size: 45,
+                        //   ),
+                        //   onPressed: () {
+                        //     setState(() {
+                        //       jumpToNextSentence();
+                        //     });
+                        //   },
+                        // ),
+
+                        AudioPlayerButton(
+                            iconData: Icons.skip_next,
+                            onPressed: _skipNextOnPressed),
+
+                        // OutlinedButton(
+                        //     style: getAudioPageButtonStyle(),
+                        //     onPressed: () {},
+                        //     child: const Icon(
+                        //       Icons.arrow_upward,
+                        //       color: Colors.white,
+                        //       size: 45,
+                        //     )),
+
+                        AudioPlayerButton(
+                            iconData: Icons.arrow_upward,
+                            onPressed: _speedUpOnPressed),
                       ],
                     ),
                   ),
