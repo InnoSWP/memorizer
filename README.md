@@ -1,4 +1,10 @@
-# Memorizer App
+<div align="center">
+
+# Memorizer
+
+[![crates.io][crates.io-badge]][crates.io]
+[![Downloads][downloads-badge]][releases]
+[![License][license-badge]][license]
 
 ## **Project Description**
 
@@ -7,6 +13,12 @@ memorization of any text a lot easier by listening to it. To start memorizing th
 upload or type text in the application and then use the player. The user can use the screen or 
 voice commands to manage the amount of repetitions per sentence, stop/start the audio, go to the 
 next sentence, etc.
+
+[Getting started](#how-to-use) •
+[Installation](#installation) •
+[License](#license)
+
+</div>
 
 ![example workflow](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/<WORKFLOW_FILE>/badge.svg)
 
