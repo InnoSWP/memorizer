@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:memorizer/settings/constants.dart' as clr;
 
 import '../modules/PDF_service.dart';
+import '../modules/my_appBar.dart';
 import '../modules/my_button.dart';
 import '../modules/text_splitter_service.dart';
 import 'audio_page.dart';
@@ -25,19 +26,7 @@ class _InputPageState extends State<InputPage> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-            side: BorderSide(
-              width: 1,
-              color: Colors.grey.shade700,
-            ),
-          ),
-          backgroundColor: clr.kAppBarBackClr,
-          title:
-              Text('INPUT PAGE', style: TextStyle(color: clr.kAppBarTextClr)),
-          centerTitle: true,
-        ),
+        appBar: MyAppBar(input: "INPUT PAGE", actions: []).get(),
         body: Container(
           color: Colors.black,
           child: Padding(
@@ -88,7 +77,7 @@ class _InputPageState extends State<InputPage> {
                           fontSize: 28,
                         ),
                         filled: true,
-                        fillColor: clr.kGrey,
+                        fillColor: clr.backThemeClr,
                       ),
                       onChanged: (input) {
                         setState(() {

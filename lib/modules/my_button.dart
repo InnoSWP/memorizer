@@ -20,7 +20,7 @@ class MyButton extends StatelessWidget {
       style: ButtonStyle(
         //fixedSize: MaterialStateProperty.all<Size>(size),
         overlayColor: MaterialStateProperty.all<Color>(Colors.yellow.shade700),
-        backgroundColor: MaterialStateProperty.all<Color?>(clr.kGrey),
+        backgroundColor: MaterialStateProperty.all<Color?>(clr.backThemeClr),
       ),
       onPressed: onPressed,
       child: Text(

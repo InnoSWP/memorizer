@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const Color kGrey = Color.fromARGB(255, 68, 68, 68);
+const Color backThemeClr = Color.fromARGB(255, 68, 68, 68);
+
 
 // Bottom Navigation Bar
 Color kBnbBackClr = const Color.fromRGBO(24, 24, 24, 1);
@@ -32,34 +33,12 @@ const kTextStyleMain = TextStyle(
   color: Color(0x96FFFFFF),
   fontSize: 24,
 );
-
-// var kTextStyleSelected = TextStyle(
-//   color: Colors.yellow.shade700, //Colors.yellow.shade700, //Color(0xFFFFFFFF),
-//   fontSize: 24,
-// );
 var kTextStyleSelected = GoogleFonts.roboto(
   textStyle: TextStyle(
     color: Colors.yellow.shade700, //Color(0xFFFFFFFF),
     fontSize: 24,
   ),
 );
-
-final List<String> sentencesConst = [
-  'The door to the parlor opened and Mildred stood there looking in at them, looking at Beatty and then at Montagu.',
-  '''Behind her the walls of
-the room were flooded with green and yellow and orange fireworks
-sizzling and bursting to some music composed almost completely of
-trap drums, tom-toms, and cymbals.''',
-  '''Her mouth moved and she was
-saying something but the sound covered it.''',
-  '''Beatty knocked his pipe into the palm of his pink hand, studied
-the ashes as if they were a symbol to be diagnosed and searched for
-meaning.''',
-  '''You must understand that our civilization is so vast that we can't
-have our minorities upset and stirred.''',
-  '''Ask yourself, What do we want
-in this country, above all?''',
-];
 
 // Info Page Colors
 const kInfoBackgroundColor = Color(0xff929292);

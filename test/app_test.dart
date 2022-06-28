@@ -19,7 +19,6 @@ void main() {
 
       expect(res, ["AAA.", "BBb!"]);
     });
-
     test('TextSplitter should work correctly2', () {
       const input = "Trata-ta. God my god. It's may be working... AAA? BBb!";
       final TextSplitter splitter = TextSplitter();
@@ -46,23 +45,23 @@ void main() {
   //widget test----
   group("Widget test", () {
     testWidgets("Find TextField", (WidgetTester tester) async {
-      await tester.pumpWidget(MAIN.APP());
+      await tester.pumpWidget(MAIN.ApplicationMainClass());
       expect(find.byType(MaterialApp), findsOneWidget);
     });
     testWidgets("Find Buttons", (WidgetTester tester) async {
-      await tester.pumpWidget(MAIN.APP());
+      await tester.pumpWidget(MAIN.ApplicationMainClass());
       expect(find.byType(MyButton), findsNWidgets(3));
     });
     testWidgets("Find AppBar", (WidgetTester tester) async {
-      await tester.pumpWidget(MAIN.APP());
+      await tester.pumpWidget(MAIN.ApplicationMainClass());
       expect(find.byType(AppBar), findsOneWidget);
     });
     testWidgets("Find Text", (WidgetTester tester) async {
-      await tester.pumpWidget(MAIN.APP());
+      await tester.pumpWidget(MAIN.ApplicationMainClass());
       expect(find.byType(Text), findsWidgets);
     });
     testWidgets("Find Text", (WidgetTester tester) async {
-      await tester.pumpWidget(MAIN.APP());
+      await tester.pumpWidget(MAIN.ApplicationMainClass());
       expect(find.byType(Text), findsWidgets);
     });
   });
@@ -73,7 +72,7 @@ void main() {
     testWidgets(
       'TextField_test_1 : tap on the textField, enter letters',
       (tester) async {
-        await tester.pumpWidget(MAIN.APP());
+        await tester.pumpWidget(MAIN.ApplicationMainClass());
 
         expect(
             find.text('Type the text or upload PDF file...'), findsOneWidget);
@@ -89,7 +88,7 @@ void main() {
     testWidgets(
       'TextField_test_2 : tap on the textField, enter letters',
       (tester) async {
-        await tester.pumpWidget(MAIN.APP());
+        await tester.pumpWidget(MAIN.ApplicationMainClass());
 
         expect(
             find.text('Type the text or upload PDF file...'), findsOneWidget);
@@ -106,7 +105,7 @@ void main() {
     testWidgets(
       'TextField_test_3 : tap on the textField, enter letters',
       (tester) async {
-        await tester.pumpWidget(MAIN.APP());
+        await tester.pumpWidget(MAIN.ApplicationMainClass());
 
         expect(
             find.text('Type the text or upload PDF file...'), findsOneWidget);
@@ -128,7 +127,7 @@ void main() {
     testWidgets(
       'TextField_test_1 : tap on the textField, enter letters',
       (tester) async {
-        await tester.pumpWidget(MAIN.APP());
+        await tester.pumpWidget(MAIN.ApplicationMainClass());
 
         expect(
             find.text('Type the text or upload PDF file...'), findsOneWidget);
@@ -144,7 +143,7 @@ void main() {
     testWidgets(
       'TextField_test_2 : tap on the textField, enter letters',
       (tester) async {
-        await tester.pumpWidget(MAIN.APP());
+        await tester.pumpWidget(MAIN.ApplicationMainClass());
 
         expect(
             find.text('Type the text or upload PDF file...'), findsOneWidget);
@@ -161,7 +160,7 @@ void main() {
     testWidgets(
       'TextField_test_3 : tap on the textField, enter letters',
       (tester) async {
-        await tester.pumpWidget(MAIN.APP());
+        await tester.pumpWidget(MAIN.ApplicationMainClass());
 
         expect(
             find.text('Type the text or upload PDF file...'), findsOneWidget);

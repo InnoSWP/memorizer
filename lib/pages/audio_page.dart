@@ -1,15 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:memorizer/modules/tts_service.dart';
-import 'package:memorizer/settings/constants.dart';
+import 'package:memorizer/settings/constants.dart' as clr;
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+import '../modules/audiPageButtons.dart';
+import '../modules/my_appBar.dart';
 import '../modules/stt_service.dart';
 
 class AudioPage extends StatefulWidget {
   final List<String> sentences;
 
-  AudioPage({required this.sentences, Key? key}) : super(key: key);
+  const AudioPage({required this.sentences, Key? key}) : super(key: key);
 
   @override
   State<AudioPage> createState() => _AudioPageState();
@@ -119,32 +121,18 @@ class _AudioPageState extends State<AudioPage> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          actions: [
-            FloatingActionButton.small(
-              backgroundColor: kAppBarBackClr,
-              foregroundColor: Colors.white,
-              splashColor: Colors.yellow.shade700,
-              onPressed: () {},
-              child: const Icon(
-                Icons.info_outline,
-                size: 20,
-              ),
-            )
-          ],
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-            side: BorderSide(
-              color: Colors.grey.shade700,
+        appBar: MyAppBar(input: "AUDIO PLAYER PAGE", actions: [
+          FloatingActionButton.small(
+            backgroundColor: clr.kAppBarBackClr,
+            foregroundColor: Colors.white,
+            splashColor: Colors.yellow.shade700,
+            onPressed: () {},
+            child: const Icon(
+              Icons.info_outline,
+              size: 20,
             ),
-          ),
-          backgroundColor: kAppBarBackClr,
-          title: Text(
-            'AUDIO PLAYER PAGE',
-            style: TextStyle(color: kAppBarTextClr),
-          ),
-          centerTitle: true,
-        ),
+          )
+        ]).get(),
         body: Container(
           color: Colors.black,
           child: Padding(
@@ -157,7 +145,7 @@ class _AudioPageState extends State<AudioPage> {
                   child: Container(
                     //color: kGrey,
                     decoration: BoxDecoration(
-                      color: kGrey,
+                      color: clr.backThemeClr,
                       borderRadius: BorderRadius.circular(8),
                       border: Border.fromBorderSide(BorderSide(
                         color: Colors.grey.shade700,
@@ -172,8 +160,8 @@ class _AudioPageState extends State<AudioPage> {
                         itemBuilder: (context, index) => Text(
                           widget.sentences[index],
                           style: index == _currentSentenceIndex
-                              ? kTextStyleSelected
-                              : kTextStyleMain,
+                              ? clr.kTextStyleSelected
+                              : clr.kTextStyleMain,
                         ),
                         itemScrollController: _itemScrollController,
                         itemPositionsListener: _itemPositionsListener,
@@ -207,30 +195,14 @@ class _AudioPageState extends State<AudioPage> {
                     decoration: BoxDecoration(
                       color: Colors.black,
                       borderRadius: BorderRadius.circular(8),
-                      // border: Border.fromBorderSide(BorderSide(
-                      //   color: Colors.grey.shade700,
-                      //   width: 2,
-                      // )),
+
                       // gradient: kDarkGradientBackground,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         OutlinedButton(
-                          style: ButtonStyle(
-                            overlayColor: MaterialStateProperty.all<Color>(
-                              Colors.yellow.shade700,
-                            ),
-                            side: MaterialStateProperty.all<BorderSide>(
-                                BorderSide(
-                              width: 1.75,
-                              color: Colors.grey.shade700,
-                            )),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(9),
-                            )),
-                          ),
+                          style: getAudioPageButtonStyle(),
                           onPressed: () {},
                           child: const Icon(
                             Icons.arrow_downward,
@@ -239,20 +211,7 @@ class _AudioPageState extends State<AudioPage> {
                           ),
                         ),
                         OutlinedButton(
-                          style: ButtonStyle(
-                            overlayColor: MaterialStateProperty.all<Color>(
-                              Colors.yellow.shade700,
-                            ),
-                            side: MaterialStateProperty.all<BorderSide>(
-                                BorderSide(
-                              width: 1.75,
-                              color: Colors.grey.shade700,
-                            )),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(9),
-                            )),
-                          ),
+                          style: getAudioPageButtonStyle(),
                           child: const Icon(
                             Icons.skip_previous,
                             color: Colors.white,
@@ -265,20 +224,7 @@ class _AudioPageState extends State<AudioPage> {
                           },
                         ),
                         OutlinedButton(
-                          style: ButtonStyle(
-                            overlayColor: MaterialStateProperty.all<Color>(
-                              Colors.yellow.shade700,
-                            ),
-                            side: MaterialStateProperty.all<BorderSide>(
-                                BorderSide(
-                              width: 1.75,
-                              color: Colors.grey.shade700,
-                            )),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(9),
-                            )),
-                          ),
+                          style: getAudioPageButtonStyle(),
                           child: Icon(
                             tts.isStopped ? Icons.play_arrow : Icons.pause,
                             color: Colors.white,
@@ -295,20 +241,7 @@ class _AudioPageState extends State<AudioPage> {
                           },
                         ),
                         OutlinedButton(
-                          style: ButtonStyle(
-                            overlayColor: MaterialStateProperty.all<Color>(
-                              Colors.yellow.shade700,
-                            ),
-                            side: MaterialStateProperty.all<BorderSide>(
-                                BorderSide(
-                              width: 1.75,
-                              color: Colors.grey.shade700,
-                            )),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(9),
-                            )),
-                          ),
+                          style: getAudioPageButtonStyle(),
                           child: const Icon(
                             Icons.skip_next,
                             color: Colors.white,
@@ -321,21 +254,7 @@ class _AudioPageState extends State<AudioPage> {
                           },
                         ),
                         OutlinedButton(
-                            style: ButtonStyle(
-                              overlayColor: MaterialStateProperty.all<Color>(
-                                Colors.yellow.shade700,
-                              ),
-                              side: MaterialStateProperty.all<BorderSide>(
-                                  BorderSide(
-                                width: 1.75,
-                                color: Colors.grey.shade700,
-                              )),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(9),
-                              )),
-                            ),
+                            style: getAudioPageButtonStyle(),
                             onPressed: () {},
                             child: const Icon(
                               Icons.arrow_upward,
