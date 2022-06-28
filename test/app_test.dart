@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -19,7 +18,6 @@ void main() {
       final res = splitter.parseText(input);
 
       expect(res, ["AAA.", "BBb!"]);
-
     });
 
     test('TextSplitter should work correctly2', () {
@@ -29,7 +27,6 @@ void main() {
       final res = splitter.parseText(input);
 
       expect(res, [
-
         "Trata-ta.",
         "God my god.",
         "It's may be working...",
@@ -43,8 +40,7 @@ void main() {
 
       final res = splitter.parseText(input);
 
-      expect(res,
-          ["Cool sentence.", "Yeah?", "That's right.", "Ha-haha."]);
+      expect(res, ["Cool sentence.", "Yeah?", "That's right.", "Ha-haha."]);
     });
   });
   //widget test----
@@ -131,7 +127,7 @@ void main() {
   group('Integration TextField tapping test', () {
     testWidgets(
       'TextField_test_1 : tap on the textField, enter letters',
-          (tester) async {
+      (tester) async {
         await tester.pumpWidget(MAIN.APP());
 
         expect(
@@ -147,7 +143,7 @@ void main() {
     );
     testWidgets(
       'TextField_test_2 : tap on the textField, enter letters',
-          (tester) async {
+      (tester) async {
         await tester.pumpWidget(MAIN.APP());
 
         expect(
@@ -164,7 +160,7 @@ void main() {
     );
     testWidgets(
       'TextField_test_3 : tap on the textField, enter letters',
-          (tester) async {
+      (tester) async {
         await tester.pumpWidget(MAIN.APP());
 
         expect(

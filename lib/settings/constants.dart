@@ -33,9 +33,13 @@ const kTextStyleMain = TextStyle(
   fontSize: 24,
 );
 
+// var kTextStyleSelected = TextStyle(
+//   color: Colors.yellow.shade700, //Colors.yellow.shade700, //Color(0xFFFFFFFF),
+//   fontSize: 24,
+// );
 var kTextStyleSelected = GoogleFonts.roboto(
-  textStyle: const TextStyle(
-    color: Color(0xFFFFFFFF),
+  textStyle: TextStyle(
+    color: Colors.yellow.shade700, //Color(0xFFFFFFFF),
     fontSize: 24,
   ),
 );
