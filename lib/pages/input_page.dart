@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:memorizer/services/pdf_service.dart';
+import 'package:memorizer/services/text_splitter_service.dart';
 import 'package:memorizer/settings/constants.dart' as clr;
+import 'package:memorizer/widgets/buttons.dart';
+import 'package:memorizer/widgets/my_app_bar.dart';
 
-import '../modules/PDF_service.dart';
-import '../modules/myButtons.dart';
-import '../modules/my_appBar.dart';
-import '../modules/text_splitter_service.dart';
 import 'audio_page.dart';
 
 class InputPage extends StatefulWidget {
@@ -35,7 +35,7 @@ class _InputPageState extends State<InputPage> {
     setState(() {});
   }
 
-  void _memorizeOnPressed() {
+  void _memorizeOnPressed(BuildContext context) {
     if (justInput != "" || pdfService.text != null) {
       List<String> listOfSentences = <String>[];
 
@@ -52,6 +52,28 @@ class _InputPageState extends State<InputPage> {
           context,
           MaterialPageRoute(
               builder: (context) => AudioPage(sentences: listOfSentences)));
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Error"),
+            content: const Text(
+                "Please type text or upload a pdf file before pressing Memorize button."),
+            actions: [
+              TextButton(
+                style: ButtonStyle(
+                    foregroundColor:
+                        MaterialStateProperty.all(clr.kOrangeAccent)),
+                child: const Text("OK"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -59,7 +81,8 @@ class _InputPageState extends State<InputPage> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      onVerticalDragEnd: (DragEndDetails details) => FocusManager.instance.primaryFocus?.unfocus(),
+      onVerticalDragEnd: (DragEndDetails details) =>
+          FocusManager.instance.primaryFocus?.unfocus(),
       child: SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -67,8 +90,8 @@ class _InputPageState extends State<InputPage> {
           body: Container(
             color: Colors.black,
             child: Padding(
-              padding:
-                  const EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 24),
+              padding: const EdgeInsets.only(
+                  left: 12, right: 12, top: 12, bottom: 24),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -114,7 +137,7 @@ class _InputPageState extends State<InputPage> {
                             fontSize: 28,
                           ),
                           filled: true,
-                          fillColor: clr.backThemeClr,
+                          fillColor: clr.blackThemeClr,
                         ),
                         onChanged: (input) {
                           setState(() {
@@ -164,11 +187,11 @@ class _InputPageState extends State<InputPage> {
                                   horizontal: 14, vertical: 6),
                               child: Text(
                                 pdfService.fileName != null
-                                    ? "Picked File Name: ${pdfService.fileName}"
-                                    : "No Picked File",
+                                    ? 'Picked File: ${pdfService.fileName!.length < 19 ? pdfService.fileName : '${pdfService.fileName!.substring(0, 19)}...'}'
+                                    : 'No Picked File',
                                 style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 20,
+                                  fontSize: 14,
                                 ),
                               ),
                             ),
@@ -180,10 +203,17 @@ class _InputPageState extends State<InputPage> {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            MyButton(
-                              text: "Memorize",
-                              iconData: null,
-                              onPressed: _memorizeOnPressed,
+                            SizedBox(
+                              height: 200,
+                              width: 200,
+                              child: MyButton(
+                                text: "Memorize",
+                                iconData: null,
+                                onPressed: () {
+                                  _memorizeOnPressed(context);
+                                },
+                                fontSize: 30,
+                              ),
                             ),
                           ]),
                     ),

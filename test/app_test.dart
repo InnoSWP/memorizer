@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:memorizer/main.dart' as MAIN;
-import 'package:memorizer/modules/myButtons.dart';
-
-//import 'package:memorizer/modules/my_button.dart';
-import 'package:memorizer/modules/text_splitter_service.dart';
+import 'package:memorizer/widgets/buttons.dart';
+import 'package:memorizer/services/text_splitter_service.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -47,23 +45,23 @@ void main() {
   //widget test----
   group("Widget test", () {
     testWidgets("Find TextField", (WidgetTester tester) async {
-      await tester.pumpWidget(MAIN.ApplicationMainClass());
+      await tester.pumpWidget(MAIN.App());
       expect(find.byType(MaterialApp), findsOneWidget);
     });
     testWidgets("Find Buttons", (WidgetTester tester) async {
-      await tester.pumpWidget(MAIN.ApplicationMainClass());
+      await tester.pumpWidget(MAIN.App());
       expect(find.byType(MyButton), findsNWidgets(3));
     });
     testWidgets("Find AppBar", (WidgetTester tester) async {
-      await tester.pumpWidget(MAIN.ApplicationMainClass());
+      await tester.pumpWidget(MAIN.App());
       expect(find.byType(AppBar), findsOneWidget);
     });
     testWidgets("Find Text", (WidgetTester tester) async {
-      await tester.pumpWidget(MAIN.ApplicationMainClass());
+      await tester.pumpWidget(MAIN.App());
       expect(find.byType(Text), findsWidgets);
     });
     testWidgets("Find Text", (WidgetTester tester) async {
-      await tester.pumpWidget(MAIN.ApplicationMainClass());
+      await tester.pumpWidget(MAIN.App());
       expect(find.byType(Text), findsWidgets);
     });
   });
@@ -74,7 +72,7 @@ void main() {
     testWidgets(
       'TextField_test_1 : tap on the textField, enter letters',
       (tester) async {
-        await tester.pumpWidget(MAIN.ApplicationMainClass());
+        await tester.pumpWidget(MAIN.App());
 
         expect(
             find.text('Type the text or upload PDF file...'), findsOneWidget);
@@ -90,7 +88,7 @@ void main() {
     testWidgets(
       'TextField_test_2 : tap on the textField, enter letters',
       (tester) async {
-        await tester.pumpWidget(MAIN.ApplicationMainClass());
+        await tester.pumpWidget(MAIN.App());
 
         expect(
             find.text('Type the text or upload PDF file...'), findsOneWidget);
@@ -107,7 +105,7 @@ void main() {
     testWidgets(
       'TextField_test_3 : tap on the textField, enter letters',
       (tester) async {
-        await tester.pumpWidget(MAIN.ApplicationMainClass());
+        await tester.pumpWidget(MAIN.App());
 
         expect(
             find.text('Type the text or upload PDF file...'), findsOneWidget);
@@ -129,7 +127,7 @@ void main() {
     testWidgets(
       'TextField_test_1 : tap on the textField, enter letters',
       (tester) async {
-        await tester.pumpWidget(MAIN.ApplicationMainClass());
+        await tester.pumpWidget(MAIN.App());
 
         expect(
             find.text('Type the text or upload PDF file...'), findsOneWidget);
@@ -145,7 +143,7 @@ void main() {
     testWidgets(
       'TextField_test_2 : tap on the textField, enter letters',
       (tester) async {
-        await tester.pumpWidget(MAIN.ApplicationMainClass());
+        await tester.pumpWidget(MAIN.App());
 
         expect(
             find.text('Type the text or upload PDF file...'), findsOneWidget);
@@ -162,7 +160,7 @@ void main() {
     testWidgets(
       'TextField_test_3 : tap on the textField, enter letters',
       (tester) async {
-        await tester.pumpWidget(MAIN.ApplicationMainClass());
+        await tester.pumpWidget(MAIN.App());
 
         expect(
             find.text('Type the text or upload PDF file...'), findsOneWidget);

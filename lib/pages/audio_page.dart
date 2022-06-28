@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:memorizer/modules/tts_service.dart';
+import 'package:memorizer/services/stt_service.dart';
+import 'package:memorizer/services/tts_service.dart';
 import 'package:memorizer/settings/constants.dart' as clr;
+import 'package:memorizer/widgets/buttons.dart';
+import 'package:memorizer/widgets/my_app_bar.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-
-import '../modules/myButtons.dart';
-import '../modules/my_appBar.dart';
-import '../modules/stt_service.dart';
 
 class AudioPage extends StatefulWidget {
   final List<String> sentences;
@@ -23,7 +22,7 @@ class _AudioPageState extends State<AudioPage> {
   int _currentSentenceIndex = 0;
 
   // Audio player vars
-  bool isLoop = false;
+  bool _isLooping = false;
   IconData playBtnIcon = Icons.play_arrow;
   late SttService sst;
   late TtsService tts;
@@ -94,7 +93,7 @@ class _AudioPageState extends State<AudioPage> {
     scrollToCurrentSentence();
     await tts.play(widget.sentences[_currentSentenceIndex]);
     setState(() {});
-    continueToNextSentence();
+    _isLooping ? playCurrentSentence() : continueToNextSentence();
   }
 
   Future stopPlaying() async {
@@ -141,6 +140,13 @@ class _AudioPageState extends State<AudioPage> {
 
   void _speedUpOnPressed() {}
 
+  void _triggerLoop() {
+    setState(() {
+      _isLooping = !_isLooping;
+    });
+    ;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -150,7 +156,7 @@ class _AudioPageState extends State<AudioPage> {
           FloatingActionButton.small(
             backgroundColor: clr.kAppBarBackClr,
             foregroundColor: Colors.white,
-            splashColor: Colors.yellow.shade700,
+            splashColor: clr.kOrangeAccent,
             onPressed: () {},
             child: const Icon(
               Icons.info_outline,
@@ -170,7 +176,7 @@ class _AudioPageState extends State<AudioPage> {
                   child: Container(
                     //color: kGrey,
                     decoration: BoxDecoration(
-                      color: clr.backThemeClr,
+                      color: clr.blackThemeClr,
                       borderRadius: BorderRadius.circular(8),
                       border: Border.fromBorderSide(BorderSide(
                         color: Colors.grey.shade700,
@@ -196,21 +202,38 @@ class _AudioPageState extends State<AudioPage> {
                 ),
                 Expanded(
                   flex: 2,
-                  child: FloatingActionButton(
-                    mini: false,
-                    splashColor: Colors.yellow.shade700,
-                    shape: CircleBorder(
-                      side: BorderSide(
-                        color: Colors.yellow.shade700,
-                        width: 2,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: MyButton(
+                          onPressed: _triggerLoop,
+                          iconData: Icons.repeat,
+                          iconColor: _isLooping ? Colors.white : Colors.grey,
+                        ),
                       ),
-                    ),
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.yellow.shade700,
-                    onPressed: () => setState(() {
-                      sst.listen();
-                    }),
-                    child: Icon(sst.isListening ? Icons.mic : Icons.mic_none),
+                      Align(
+                        alignment: Alignment.center,
+                        child: FloatingActionButton(
+                          mini: false,
+                          splashColor: clr.kOrangeAccent,
+                          shape: const CircleBorder(
+                            side: BorderSide(
+                              color: clr.kOrangeAccent,
+                              width: 2,
+                            ),
+                          ),
+                          backgroundColor: Colors.black,
+                          foregroundColor: clr.kOrangeAccent,
+                          onPressed: () => setState(() {
+                            sst.listen();
+                          }),
+                          child: Icon(
+                              sst.isListening ? Icons.mic : Icons.mic_none),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(

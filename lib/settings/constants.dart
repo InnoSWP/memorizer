@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const Color backThemeClr = Color.fromARGB(255, 68, 68, 68);
-
+const Color blackThemeClr = Color.fromARGB(255, 68, 68, 68);
+const Color kOrangeAccent = Color.fromARGB(255, 251, 192, 45);
 
 // Bottom Navigation Bar
 Color kBnbBackClr = const Color.fromRGBO(24, 24, 24, 1);
-Color kBnbSelectedItemClr = Colors.yellow.shade700;
+Color kBnbSelectedItemClr = kOrangeAccent;
 Color kBnbUnselectedItemClr = Colors.white70;
 // BNB Items
 Color kBackClrBnbItem_1 = const Color.fromRGBO(24, 24, 24, 1);
@@ -34,8 +34,8 @@ const kTextStyleMain = TextStyle(
   fontSize: 24,
 );
 var kTextStyleSelected = GoogleFonts.roboto(
-  textStyle: TextStyle(
-    color: Colors.yellow.shade700, //Color(0xFFFFFFFF),
+  textStyle: const TextStyle(
+    color: kOrangeAccent, //Color(0xFFFFFFFF),
     fontSize: 24,
   ),
 );
