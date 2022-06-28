@@ -6,25 +6,19 @@
 [![Downloads][downloads-badge]][releases]
 [![License][license-badge]][license]
 
-## **Project Description**
-
 The project is based on the idea of making an application that is about making the process of 
 memorization of any text a lot easier by listening to it. To start memorizing the user need to 
 upload or type text in the application and then use the player. The user can use the screen or 
 voice commands to manage the amount of repetitions per sentence, stop/start the audio, go to the 
 next sentence, etc.
 
-[Getting started](#how-to-use) •
+[How to use](#how-to-use) •
 [Installation](#installation) •
 [License](#license)
 
 </div>
 
-![example workflow](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/<WORKFLOW_FILE>/badge.svg)
-
-## **Demo**
-
-*Video*
+`here will be demo`
 
 ## **How to use**
 
@@ -38,6 +32,8 @@ button and say a desirable command. You can find all the information about the v
 by tapping “information” button.
 
 ## **Features**
+
+`List of features`
 
 ## **Installation**
 
