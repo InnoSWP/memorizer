@@ -2,8 +2,10 @@
 
 # Memorizer
 
-[![crates.io][crates.io-badge]][crates.io]
-[![Downloads][downloads-badge]][releases]
+[Badge](https://badgen.net/badge/hello/world/red?icon=twitter)
+
+![crates.io][crates.io-badge]
+![Downloads][downloads-badge]
 [![License][license-badge]][license]
 
 The project is based on the idea of making an application that is about making the process of 
@@ -90,3 +92,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+[crates.io-badge]: https://img.shields.io/crates/v/zoxide?style=flat-square
+[downloads-badge]: https://img.shields.io/endpoint?color=bright-green&label=downloads&style=flat-square&cacheSeconds=3600&url=https%3A%2F%2Fzoxide-dl-rlvir7rbe5ac.runkit.sh%2F
+[crates.io]: https://crates.io/crates/zoxide
+
+[license-badge]: https://img.shields.io/github/license/ajeetdsouza/zoxide?color=lightgray&style=flat-square
+[license]: https://github.com/ajeetdsouza/zoxide/blob/main/LICENSE
