@@ -1,18 +1,18 @@
 <div align="center">
 
+   `Place the icon here`
+   
 # Memorizer
-
-[Badge](https://badgen.net/badge/hello/world/red?icon=twitter)
 
 ![crates.io][crates.io-badge]
 ![Downloads][downloads-badge]
 [![License][license-badge]][license]
 
 The project is based on the idea of making an application that is about making the process of 
-memorization of any text a lot easier by listening to it. To start memorizing the user need to 
-upload or type text in the application and then use the player. The user can use the screen or 
-voice commands to manage the amount of repetitions per sentence, stop/start the audio, go to the 
-next sentence, etc.
+memorisation of any text a lot easier by listening to it. To startrt memorising the user needs to 
+upload or type the text in the application and then use the player. The user can use the screen or 
+voice commands to manage the number of repetitions per sentence, stop/start the audio, go to the 
+next sentence, and etc.
 
 [How to use](#how-to-use) •
 [Installation](#installation) •
