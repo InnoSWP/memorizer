@@ -19,12 +19,14 @@ class _InputPageState extends State<InputPage> {
   String justInput = "";
   final PdfService pdfService = PdfService();
   final TextSplitter textSplitter = TextSplitter();
+  int numberOfWords = 0;
 
   void _clearOnPressed() {
     _inputTextFieldController.text = "";
     setState(() {
       pdfService.clear();
       justInput = "";
+      numberOfWords = 0;
     });
   }
 
@@ -83,7 +85,7 @@ class _InputPageState extends State<InputPage> {
                       minLines: 19,
                       maxLines: 19,
                       decoration: InputDecoration(
-                        counterText: "Number of words : 169",
+                        counterText: "Number of words : $numberOfWords",
                         counterStyle: TextStyle(
                           fontSize: 14,
                           color: Colors.grey.shade500,
@@ -114,6 +116,7 @@ class _InputPageState extends State<InputPage> {
                       onChanged: (input) {
                         setState(() {
                           justInput = input;
+                          numberOfWords = input.split(" ").length-1;
                         });
                       },
                       style: const TextStyle(
