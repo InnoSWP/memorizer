@@ -34,7 +34,9 @@ by tapping “information” button.
 
 ## **Features**
 
-`List of features`
+* Voice controlled audio player
+* Text widget with the text highlighting
+* PDF and manual text typing inputs
 
 ## **Installation**
 
@@ -65,7 +67,10 @@ Flutter source code files.
 
 ## **Frameworks and technologies**
 
-The Flutter
+- Dart programming language.
+- Flutter framework for Dart.
+- PDF converter package.
+- Speech-to-text package.
 
 ## **License**
 ```
