@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 
@@ -20,7 +21,9 @@ class TtsService {
   Future play(String sentence) async {
     state = TtsState.playing;
     await _flutterTts.speak(sentence);
-    print('finished speaking');
+    if (kDebugMode) {
+      print('finished speaking');
+    }
   }
 
   Future stop() async {
