@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const Color blackThemeClr = Color.fromARGB(255, 68, 68, 68);
+const Color blackThemeClr = Color.fromARGB(255, 27, 27, 27);
 const Color kOrangeAccent = Color.fromARGB(255, 251, 192, 45);
+const Color kInputTextColor = Color.fromARGB(255, 190, 190, 190);
+const Color kButtonColor = Color.fromARGB(255, 31, 31, 31);
 
 // Bottom Navigation Bar
 Color kBnbBackClr = const Color.fromRGBO(24, 24, 24, 1);
@@ -43,4 +45,4 @@ var kTextStyleSelected = GoogleFonts.roboto(
 // Info Page Colors
 const kInfoBackgroundColor = Color(0xff929292);
 
-const kContainerColor = Color(0xFF363636);
+const kContainerColor = Color.fromARGB(255, 54, 54, 54);

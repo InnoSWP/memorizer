@@ -149,21 +149,24 @@ class _AudioPageState extends State<AudioPage> {
 
   @override
   Widget build(BuildContext context) {
+    double kScreenHeight = MediaQuery.of(context).size.height;
+    double kScreenWidth = MediaQuery.of(context).size.width;
+
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: MyAppBar(input: "AUDIO PLAYER PAGE", actions: [
-          FloatingActionButton.small(
-            backgroundColor: clr.kAppBarBackClr,
-            foregroundColor: Colors.white,
-            splashColor: clr.kOrangeAccent,
-            onPressed: () {},
-            child: const Icon(
-              Icons.info_outline,
-              size: 20,
-            ),
-          )
-        ]).get(),
+        // appBar: MyAppBar(input: "AUDIO PLAYER PAGE", actions: [
+        //   FloatingActionButton.small(
+        //     backgroundColor: clr.kAppBarBackClr,
+        //     foregroundColor: Colors.white,
+        //     splashColor: clr.kOrangeAccent,
+        //     onPressed: () {},
+        //     child: const Icon(
+        //       Icons.info_outline,
+        //       size: 20,
+        //     ),
+        //   )
+        // ]).get(),
         body: Container(
           color: Colors.black,
           child: Padding(
@@ -180,7 +183,7 @@ class _AudioPageState extends State<AudioPage> {
                       borderRadius: BorderRadius.circular(8),
                       border: Border.fromBorderSide(BorderSide(
                         color: Colors.grey.shade700,
-                        width: 5,
+                        width: 2,
                       )),
                       // gradient: kDarkGradientBackground,
                     ),
@@ -208,6 +211,8 @@ class _AudioPageState extends State<AudioPage> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: MyButton(
+                          height: kScreenHeight / 20,
+                          width: kScreenWidth / 6,
                           onPressed: _triggerLoop,
                           iconData: Icons.repeat,
                           iconColor: _isLooping ? Colors.white : Colors.grey,
@@ -215,22 +220,26 @@ class _AudioPageState extends State<AudioPage> {
                       ),
                       Align(
                         alignment: Alignment.center,
-                        child: FloatingActionButton(
-                          mini: false,
-                          splashColor: clr.kOrangeAccent,
-                          shape: const CircleBorder(
-                            side: BorderSide(
-                              color: clr.kOrangeAccent,
-                              width: 2,
+                        child: SizedBox(
+                          height: kScreenHeight / 15,
+                          width: kScreenWidth / 4,
+                          child: FloatingActionButton(
+                            mini: false,
+                            splashColor: clr.kOrangeAccent,
+                            shape: const CircleBorder(
+                              side: BorderSide(
+                                color: clr.kOrangeAccent,
+                                width: 2,
+                              ),
                             ),
+                            backgroundColor: Colors.black,
+                            foregroundColor: clr.kOrangeAccent,
+                            onPressed: () => setState(() {
+                              sst.listen();
+                            }),
+                            child: Icon(
+                                sst.isListening ? Icons.mic : Icons.mic_none),
                           ),
-                          backgroundColor: Colors.black,
-                          foregroundColor: clr.kOrangeAccent,
-                          onPressed: () => setState(() {
-                            sst.listen();
-                          }),
-                          child: Icon(
-                              sst.isListening ? Icons.mic : Icons.mic_none),
                         ),
                       ),
                     ],
@@ -250,19 +259,29 @@ class _AudioPageState extends State<AudioPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         MyButton(
+                            height: kScreenHeight / 20,
+                            width: kScreenWidth / 6,
                             iconData: Icons.arrow_downward,
                             onPressed: _speedDownOnPressed),
                         MyButton(
+                            height: kScreenHeight / 20,
+                            width: kScreenWidth / 6,
                             iconData: Icons.skip_previous,
                             onPressed: _skipPreviousOnPressed),
                         MyButton(
+                            height: kScreenHeight / 20,
+                            width: kScreenWidth / 6,
                             iconData:
                                 tts.isStopped ? Icons.play_arrow : Icons.pause,
                             onPressed: _playOnPressed),
                         MyButton(
+                            height: kScreenHeight / 20,
+                            width: kScreenWidth / 6,
                             iconData: Icons.skip_next,
                             onPressed: _skipNextOnPressed),
                         MyButton(
+                            height: kScreenHeight / 20,
+                            width: kScreenWidth / 6,
                             iconData: Icons.arrow_upward,
                             onPressed: _speedUpOnPressed),
                       ],

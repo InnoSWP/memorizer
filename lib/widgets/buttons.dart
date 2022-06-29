@@ -56,6 +56,8 @@ class MyButton extends StatelessWidget {
     this.text,
     this.fontSize = 20,
     this.iconColor = Colors.white,
+    this.height,
+    this.width,
   }) : super(key: key);
 
   final VoidCallback onPressed;
@@ -63,24 +65,35 @@ class MyButton extends StatelessWidget {
   Color? iconColor;
   String? text;
   double? fontSize;
+  double? height;
+  double? width;
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: onPressed,
-      child: iconData != null
-          ? Icon(
-              iconData,
-              color: iconColor,
-              size: 45,
-            )
-          : Text(
-              text!,
-              style: TextStyle(
-                fontSize: fontSize,
-                color: clr.kBnbSelectedItemClr,
+    return Container(
+      height: height,
+      width: width,
+      child: OutlinedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(clr.kButtonColor),
+          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(11.0))),
+        ),
+        onPressed: onPressed,
+        child: iconData != null
+            ? Icon(
+                iconData,
+                color: iconColor,
+                size: 45,
+              )
+            : Text(
+                text!,
+                style: TextStyle(
+                  fontSize: fontSize,
+                  color: clr.kBnbSelectedItemClr,
+                ),
               ),
-            ),
+      ),
     );
   }
 }
