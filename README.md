@@ -4,9 +4,8 @@
    
 # Memorizer
 
-![crates.io][crates.io-badge]
-![Downloads][downloads-badge]
-[![License][license-badge]][license]
+![CodeLines][code-lines-badge]
+![License][license-badge]
 
 The project is based on the idea of making an application that is about making the process of 
 memorisation of any text a lot easier by listening to it. To startrt memorising the user needs to 
@@ -14,8 +13,8 @@ upload or type the text in the application and then use the player. The user can
 voice commands to manage the number of repetitions per sentence, stop/start the audio, go to the 
 next sentence, and etc.
 
-[How to use](#how-to-use) •
-[Installation](#installation) •
+[How to use](#how-to-use) °
+[Installation](#installation) °
 [License](#license)
 
 </div>
@@ -83,7 +82,6 @@ furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
-
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -93,9 +91,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-[crates.io-badge]: https://img.shields.io/crates/v/zoxide?style=flat-square
-[downloads-badge]: https://img.shields.io/endpoint?color=bright-green&label=downloads&style=flat-square&cacheSeconds=3600&url=https%3A%2F%2Fzoxide-dl-rlvir7rbe5ac.runkit.sh%2F
-[crates.io]: https://crates.io/crates/zoxide
+[license-badge]: https://img.shields.io/github/license/InnoSWP/memorizer
 
-[license-badge]: https://img.shields.io/github/license/ajeetdsouza/zoxide?color=lightgray&style=flat-square
-[license]: https://github.com/ajeetdsouza/zoxide/blob/main/LICENSE
+[code-lines-badge]: https://img.shields.io/tokei/lines/github/InnoSWP/memorizer
