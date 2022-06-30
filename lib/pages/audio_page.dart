@@ -3,8 +3,9 @@ import 'package:memorizer/services/stt_service.dart';
 import 'package:memorizer/services/tts_service.dart';
 import 'package:memorizer/settings/constants.dart' as clr;
 import 'package:memorizer/widgets/buttons.dart';
-import 'package:memorizer/widgets/my_app_bar.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
+import '../widgets/my_app_bar.dart';
 
 class AudioPage extends StatefulWidget {
   final List<String> sentences;
@@ -157,18 +158,18 @@ class _AudioPageState extends State<AudioPage> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        // appBar: MyAppBar(input: "AUDIO PLAYER PAGE", actions: [
-        //   FloatingActionButton.small(
-        //     backgroundColor: clr.kAppBarBackClr,
-        //     foregroundColor: Colors.white,
-        //     splashColor: clr.kOrangeAccent,
-        //     onPressed: () {},
-        //     child: const Icon(
-        //       Icons.info_outline,
-        //       size: 20,
-        //     ),
-        //   )
-        // ]).get(),
+        appBar: MyAppBar(input: "AUDIO PLAYER PAGE", actions: [
+          FloatingActionButton.small(
+            backgroundColor: clr.kAppBarBackClr,
+            foregroundColor: Colors.white,
+            splashColor: clr.kOrangeAccent,
+            onPressed: () {},
+            child: const Icon(
+              Icons.info_outline,
+              size: 20,
+            ),
+          )
+        ]).get(),
         body: Container(
           color: Colors.black,
           child: Padding(
@@ -216,13 +217,13 @@ class _AudioPageState extends State<AudioPage> {
                           height: kScreenHeight / 20,
                           width: kScreenWidth / 6,
                           onPressed: _triggerLoop,
-                          iconData: Icons.repeat,
+                          iconData: 'lib/icons/loopIcon.png',
+                          // Icons.repeat,
                           iconColor: _isLooping ? Colors.white : Colors.grey,
                         ),
                       ),
                       Align(
                         alignment: Alignment.center,
-
                         child: SizedBox(
                           height: kScreenHeight / 15,
                           width: kScreenWidth / 4,
@@ -265,28 +266,34 @@ class _AudioPageState extends State<AudioPage> {
                         MyButton(
                             height: kScreenHeight / 20,
                             width: kScreenWidth / 6,
-                            iconData: Icons.arrow_downward,
+                            iconData: 'lib/icons/leftSpeedIcon.png',
+                            // Icons.arrow_downward,
                             onPressed: _speedDownOnPressed),
                         MyButton(
                             height: kScreenHeight / 20,
                             width: kScreenWidth / 6,
-                            iconData: Icons.skip_previous,
+                            iconData: 'lib/icons/previousIcon_2.png',
+                            //Icons.skip_previous,
                             onPressed: _skipPreviousOnPressed),
                         MyButton(
                             height: kScreenHeight / 20,
                             width: kScreenWidth / 6,
-                            iconData:
-                                tts.isStopped ? Icons.play_arrow : Icons.pause,
+                            iconData: tts.isStopped
+                                ? 'lib/icons/playIcon.png'
+                                : 'lib/icons/pauseIcon.png',
+                            //Icons.play_arrow : Icons.pause,
                             onPressed: _playOnPressed),
                         MyButton(
                             height: kScreenHeight / 20,
                             width: kScreenWidth / 6,
-                            iconData: Icons.skip_next,
+                            iconData: 'lib/icons/nextIcon_2.png',
+                            // Icons.skip_next,
                             onPressed: _skipNextOnPressed),
                         MyButton(
                             height: kScreenHeight / 20,
                             width: kScreenWidth / 6,
-                            iconData: Icons.arrow_upward,
+                            iconData: 'lib/icons/rightSpeedIcon.png',
+                            // Icons.arrow_upward,
                             onPressed: _speedUpOnPressed),
                       ],
                     ),

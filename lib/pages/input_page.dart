@@ -89,7 +89,7 @@ class _InputPageState extends State<InputPage> {
       child: SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          // appBar: MyAppBar(input: "INPUT PAGE", actions: []).get(),
+           appBar: MyAppBar(input: "INPUT PAGE", actions: []).get(),
           body: Container(
             color: Colors.black,
             child: Padding(
@@ -164,6 +164,7 @@ class _InputPageState extends State<InputPage> {
                             text: "Clear",
                             iconData: null,
                             onPressed: _clearOnPressed,
+                            bordersOn: true,
                           ),
                         ],
                       ),
@@ -178,6 +179,7 @@ class _InputPageState extends State<InputPage> {
                             text: "Upload a File",
                             iconData: null,
                             onPressed: _uploadFileOnPressed,
+                            bordersOn: true,
                           ),
                           Container(
                             decoration: BoxDecoration(
@@ -220,6 +222,7 @@ class _InputPageState extends State<InputPage> {
                                   _memorizeOnPressed(context);
                                 },
                                 fontSize: 30,
+                                bordersOn: true,
                               ),
                             ),
                           ]),
