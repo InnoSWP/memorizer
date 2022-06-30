@@ -79,6 +79,9 @@ class _InputPageState extends State<InputPage> {
 
   @override
   Widget build(BuildContext context) {
+    double kScreenHeight = MediaQuery.of(context).size.height;
+    double kScreenWidth = MediaQuery.of(context).size.width;
+
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       onVerticalDragEnd: (DragEndDetails details) =>
@@ -86,7 +89,7 @@ class _InputPageState extends State<InputPage> {
       child: SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: MyAppBar(input: "INPUT PAGE", actions: []).get(),
+          // appBar: MyAppBar(input: "INPUT PAGE", actions: []).get(),
           body: Container(
             color: Colors.black,
             child: Padding(
@@ -108,22 +111,22 @@ class _InputPageState extends State<InputPage> {
                         textInputAction: TextInputAction.done,
                         readOnly: false,
                         enabled: true,
-                        minLines: 19,
-                        maxLines: 19,
+                        minLines: 20,
+                        maxLines: 20,
                         decoration: InputDecoration(
                           counterText: "Number of words : $numberOfWords",
-                          counterStyle: TextStyle(
+                          counterStyle: const TextStyle(
                             fontSize: 14,
-                            color: Colors.grey.shade500,
+                            color: Color.fromARGB(255, 175, 175, 175),
                           ),
                           contentPadding: const EdgeInsets.all(20),
-                          helperText: 'Input your text and press Memorize!',
+                          // helperText: 'Input your text and press Memorize!',
                           helperStyle: const TextStyle(fontSize: 14),
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide(
                                 color: Colors.grey.shade700,
-                                width: 5,
+                                width: 2,
                               )),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -156,6 +159,8 @@ class _InputPageState extends State<InputPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           MyButton(
+                            width: kScreenWidth / 5,
+                            height: kScreenHeight / 24,
                             text: "Clear",
                             iconData: null,
                             onPressed: _clearOnPressed,
@@ -164,39 +169,36 @@ class _InputPageState extends State<InputPage> {
                       ),
                     ),
                     Expanded(
-                      child: SafeArea(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            MyButton(
-                              text: "Upload a File",
-                              iconData: null,
-                              onPressed: _uploadFileOnPressed,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          MyButton(
+                            width: kScreenWidth / 2.5,
+                            height: kScreenHeight / 18,
+                            text: "Upload a File",
+                            iconData: null,
+                            onPressed: _uploadFileOnPressed,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.fromBorderSide(BorderSide(
+                                color: Colors.grey.shade700,
+                                width: 1,
+                              )),
+                              // gradient: kDarkGradientBackground,
                             ),
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 5),
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.fromBorderSide(BorderSide(
-                                    color: Colors.grey.shade700,
-                                    width: 1,
-                                  )),
-                                  // gradient: kDarkGradientBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 14, vertical: 6),
-                                  child: Text(
-                                    pdfService.fileName != null
-                                        ? 'Picked File: ${pdfService.fileName!.length < 19 ? pdfService.fileName : '${pdfService.fileName!.substring(0, 19)}...'}'
-                                        : 'No Picked File',
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                    ),
-                                  ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 6),
+                              child: Text(
+                                pdfService.fileName != null
+                                    ? 'Picked File: ${pdfService.fileName!.length < 17 ? pdfService.fileName : '${pdfService.fileName!.substring(0, 17)}...'}'
+                                    : 'No Picked File',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
                                 ),
                               ),
                             ),
@@ -209,8 +211,8 @@ class _InputPageState extends State<InputPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(
-                              height: 200,
-                              width: 200,
+                              height: kScreenHeight / 10,
+                              width: kScreenWidth / 2,
                               child: MyButton(
                                 text: "Memorize",
                                 iconData: null,
