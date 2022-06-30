@@ -164,44 +164,39 @@ class _InputPageState extends State<InputPage> {
                       ),
                     ),
                     Expanded(
-                      child: SafeArea(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            MyButton(
-                              text: "Upload a File",
-                              iconData: null,
-                              onPressed: _uploadFileOnPressed,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          MyButton(
+                            text: "Upload a File",
+                            iconData: null,
+                            onPressed: _uploadFileOnPressed,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.fromBorderSide(BorderSide(
+                                color: Colors.grey.shade700,
+                                width: 1,
+                              )),
+                              // gradient: kDarkGradientBackground,
                             ),
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 5),
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.fromBorderSide(BorderSide(
-                                    color: Colors.grey.shade700,
-                                    width: 1,
-                                  )),
-                                  // gradient: kDarkGradientBackground,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 14, vertical: 6),
-                                  child: Text(
-                                    pdfService.fileName != null
-                                        ? 'Picked File: ${pdfService.fileName!.length < 19 ? pdfService.fileName : '${pdfService.fileName!.substring(0, 19)}...'}'
-                                        : 'No Picked File',
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                    ),
-                                  ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 6),
+                              child: Text(
+                                pdfService.fileName != null
+                                    ? 'Picked File: ${pdfService.fileName!.length < 19 ? pdfService.fileName : '${pdfService.fileName!.substring(0, 19)}...'}'
+                                    : 'No Picked File',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                     Expanded(
