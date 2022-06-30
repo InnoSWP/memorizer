@@ -9,11 +9,14 @@ class SttService {
 
   late VoidCallback next, previous, play, stop, repeat;
 
-
   bool get isListening => _isListening;
 
-
-  SttService({required this.next, required this.previous, required this.play, required this.stop}) {
+  SttService(
+      {required this.next,
+      required this.previous,
+      required this.play,
+      required this.stop,
+      required this.repeat}) {
     init();
   }
 
@@ -24,8 +27,11 @@ class SttService {
           _stopListening();
         }
       },
-      onError: (val) => print('onError: $val'),
+      onError: (val) => kDebugMode ? print('onError: $val') : init(),
     );
+    if (kDebugMode) {
+      print('available: $_available');
+    }
   }
 
   void listen() async {
@@ -33,9 +39,10 @@ class SttService {
       if (_available) {
         _isListening = true;
         _sst.listen(
-            onResult:
-                (val) => _commands = val.recognizedWords.toLowerCase().split(' ')
-        );
+            //pauseFor: Duration(seconds: 1),
+            listenMode: ListenMode.confirmation,
+            onResult: (val) =>
+                _commands = val.recognizedWords.toLowerCase().split(' '));
       }
     } else {
       _stopListening();
@@ -43,31 +50,53 @@ class SttService {
   }
 
   void _stopListening() {
-      _isListening = false;
-      if (_commands.isNotEmpty) {
-        if (_commands.contains('next')) {
-          next();
+    _isListening = false;
+    if (_commands.isNotEmpty) {
+      if (_commands.contains('next')) {
+        next();
+        if (kDebugMode) {
           print('next');
-        } else if (_commands.contains('previous')) {
-          previous();
-        } else if (_commands.contains('play')) {
-          play();
-        } else if (_commands.contains('pause')) {
-          // TODO - stop spelling sentences.
-          // If user calls 'play' command again,
-          // it should continue from the current sentence
-          stop();
-        } else if (_commands.contains('stop')) {
-          // TODO - stop spelling sentences and set currentSentence to 0.
-          stop();
-        } else if (_commands.contains('repeat')) {
-          // TODO - add repeat functionality
-          repeat();
-        } else {
-          // TODO - correctly handle a wrong voice command
+        }
+      } else if (_commands.contains('previous')) {
+        previous();
+        if (kDebugMode) {
+          print('previous');
+        }
+      } else if (_commands.contains('play')) {
+        play();
+        if (kDebugMode) {
+          print('play');
+        }
+      } else if (_commands.contains('pause')) {
+        // TODO - stop spelling sentences.
+        // If user calls 'play' command again,
+        // it should continue from the current sentence
+        stop();
+        if (kDebugMode) {
+          print('pause');
+        }
+      } else if (_commands.contains('stop')) {
+        // TODO - stop spelling sentences and set currentSentence to 0.
+        stop();
+        if (kDebugMode) {
+          print('stop');
+        }
+      } else if (_commands.contains('repeat')) {
+        // TODO - add repeat functionality
+        repeat();
+        if (kDebugMode) {
+          print('repeat');
+        }
+      } else {
+        // TODO - correctly handle a wrong voice command
+        if (kDebugMode) {
           print('$_commands is not supported, please, try again...');
         }
       }
+      if (kDebugMode) {
+        print('commands: $_commands');
+      }
+    }
     _commands = [];
     _sst.stop();
   }

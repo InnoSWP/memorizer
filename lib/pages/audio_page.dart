@@ -33,10 +33,12 @@ class _AudioPageState extends State<AudioPage> {
     tts = TtsService();
     tts.init();
     sst = SttService(
-        next: jumpToNextSentence,
-        previous: jumpToPreviousSentence,
-        play: playCurrentSentence,
-        stop: stopPlaying);
+      next: jumpToNextSentence,
+      previous: jumpToPreviousSentence,
+      play: playCurrentSentence,
+      stop: stopPlaying,
+      repeat: _triggerLoop,
+    );
   }
 
   @override
@@ -154,6 +156,7 @@ class _AudioPageState extends State<AudioPage> {
         resizeToAvoidBottomInset: false,
         appBar: MyAppBar(input: "AUDIO PLAYER PAGE", actions: [
           FloatingActionButton.small(
+            heroTag: 'info',
             backgroundColor: clr.kAppBarBackClr,
             foregroundColor: Colors.white,
             splashColor: clr.kOrangeAccent,
@@ -216,6 +219,7 @@ class _AudioPageState extends State<AudioPage> {
                       Align(
                         alignment: Alignment.center,
                         child: FloatingActionButton(
+                          heroTag: 'micro',
                           mini: false,
                           splashColor: clr.kOrangeAccent,
                           shape: const CircleBorder(
@@ -261,8 +265,9 @@ class _AudioPageState extends State<AudioPage> {
                         ),
                         Expanded(
                           child: MyButton(
-                              iconData:
-                                  tts.isStopped ? Icons.play_arrow : Icons.pause,
+                              iconData: tts.isStopped
+                                  ? Icons.play_arrow
+                                  : Icons.pause,
                               onPressed: _playOnPressed),
                         ),
                         Expanded(
