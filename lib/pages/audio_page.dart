@@ -33,10 +33,12 @@ class _AudioPageState extends State<AudioPage> {
     tts = TtsService();
     tts.init();
     sst = SttService(
-        next: jumpToNextSentence,
-        previous: jumpToPreviousSentence,
-        play: playCurrentSentence,
-        stop: stopPlaying);
+      next: jumpToNextSentence,
+      previous: jumpToPreviousSentence,
+      play: playCurrentSentence,
+      stop: stopPlaying,
+      repeat: _triggerLoop,
+    );
   }
 
   @override
@@ -220,10 +222,12 @@ class _AudioPageState extends State<AudioPage> {
                       ),
                       Align(
                         alignment: Alignment.center,
+
                         child: SizedBox(
                           height: kScreenHeight / 15,
                           width: kScreenWidth / 4,
                           child: FloatingActionButton(
+                            heroTag: 'micro',
                             mini: false,
                             splashColor: clr.kOrangeAccent,
                             shape: const CircleBorder(
