@@ -249,22 +249,32 @@ class _AudioPageState extends State<AudioPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        MyButton(
-                            iconData: Icons.arrow_downward,
-                            onPressed: _speedDownOnPressed),
-                        MyButton(
-                            iconData: Icons.skip_previous,
-                            onPressed: _skipPreviousOnPressed),
-                        MyButton(
-                            iconData:
-                                tts.isStopped ? Icons.play_arrow : Icons.pause,
-                            onPressed: _playOnPressed),
-                        MyButton(
-                            iconData: Icons.skip_next,
-                            onPressed: _skipNextOnPressed),
-                        MyButton(
-                            iconData: Icons.arrow_upward,
-                            onPressed: _speedUpOnPressed),
+                        Expanded(
+                          child: MyButton(
+                              iconData: Icons.arrow_downward,
+                              onPressed: _speedDownOnPressed),
+                        ),
+                        Expanded(
+                          child: MyButton(
+                              iconData: Icons.skip_previous,
+                              onPressed: _skipPreviousOnPressed),
+                        ),
+                        Expanded(
+                          child: MyButton(
+                              iconData:
+                                  tts.isStopped ? Icons.play_arrow : Icons.pause,
+                              onPressed: _playOnPressed),
+                        ),
+                        Expanded(
+                          child: MyButton(
+                              iconData: Icons.skip_next,
+                              onPressed: _skipNextOnPressed),
+                        ),
+                        Expanded(
+                          child: MyButton(
+                              iconData: Icons.arrow_upward,
+                              onPressed: _speedUpOnPressed),
+                        ),
                       ],
                     ),
                   ),
