@@ -40,7 +40,7 @@ class _InputPageState extends State<InputPage> {
       List<String> listOfSentences = <String>[];
 
       if (pdfService.text != null) {
-        listOfSentences = textSplitter.parseText(pdfService.text!);
+        listOfSentences = textSplitter.parseText(pdfService.text!.trim());
       } else if (justInput != '') {
         listOfSentences = textSplitter.parseText(justInput);
       }
@@ -89,7 +89,7 @@ class _InputPageState extends State<InputPage> {
       child: SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-           appBar: MyAppBar(input: "INPUT PAGE", actions: []).get(),
+          appBar: MyAppBar(input: "INPUT PAGE", actions: []).get(),
           body: Container(
             color: Colors.black,
             child: Padding(
@@ -99,7 +99,7 @@ class _InputPageState extends State<InputPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      flex: 5,
+                      flex: 12,
                       child: TextField(
                         controller: _inputTextFieldController,
                         autocorrect: true,
@@ -144,8 +144,11 @@ class _InputPageState extends State<InputPage> {
                         ),
                         onChanged: (input) {
                           setState(() {
-                            justInput = input;
-                            numberOfWords = input.split(" ").length - 1;
+                            justInput = input.trim();
+
+                            print(input.trim().split(" "));
+
+                            numberOfWords = input.trim().split(" ").length;
                           });
                         },
                         style: const TextStyle(
@@ -155,6 +158,7 @@ class _InputPageState extends State<InputPage> {
                       ),
                     ),
                     Expanded(
+                      flex: 1,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -170,6 +174,7 @@ class _InputPageState extends State<InputPage> {
                       ),
                     ),
                     Expanded(
+                      flex: 2,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -209,6 +214,7 @@ class _InputPageState extends State<InputPage> {
                       ),
                     ),
                     Expanded(
+                      flex:3,
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
