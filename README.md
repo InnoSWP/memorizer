@@ -109,5 +109,3 @@ SOFTWARE.
 [license-badge]: https://img.shields.io/github/license/InnoSWP/memorizer
 
 [issues-badge]: https://img.shields.io/github/issues/InnoSWP/memorizer
-
-[[https://user-images.githubusercontent.com/60191045/176885775-022175f7-ea58-462c-b7a4-044b27d16f59 | width=25]]
