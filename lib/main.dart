@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:memorizer/pages/input_page.dart';
+import 'package:sizer/sizer.dart';
 
 void main() {
   debugPaintSizeEnabled = false;
@@ -15,10 +16,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return Sizer(builder: (context, orientation, deviceType) {
+      return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
       home: const InputPage(),
     );
+    });
   }
 }

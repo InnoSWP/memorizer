@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memorizer/settings/constants.dart' as clr;
+import 'package:sizer/sizer.dart';
 
 ButtonStyle getAudioPageButtonStyle() {
   return ButtonStyle(
@@ -54,7 +55,7 @@ class MyButton extends StatelessWidget {
     required this.onPressed,
     this.iconData,
     this.text,
-    this.fontSize = 20,
+    this.fontSize,
     this.iconColor = Colors.white,
     this.height,
     this.width,
@@ -84,7 +85,7 @@ class MyButton extends StatelessWidget {
             ? Icon(
                 iconData,
                 color: iconColor,
-                size: 45,
+                size: 26.sp,
               )
             : Text(
                 text!,

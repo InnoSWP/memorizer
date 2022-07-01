@@ -5,6 +5,7 @@ import 'package:memorizer/settings/constants.dart' as clr;
 import 'package:memorizer/widgets/buttons.dart';
 import 'package:memorizer/widgets/my_app_bar.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:sizer/sizer.dart';
 
 class AudioPage extends StatefulWidget {
   final List<String> sentences;
@@ -146,13 +147,14 @@ class _AudioPageState extends State<AudioPage> {
     setState(() {
       _isLooping = !_isLooping;
     });
-    ;
   }
 
   @override
   Widget build(BuildContext context) {
-    double kScreenHeight = MediaQuery.of(context).size.height;
-    double kScreenWidth = MediaQuery.of(context).size.width;
+    // double kScreenHeight = MediaQuery.of(context).size.height;
+    // double kScreenWidth = MediaQuery.of(context).size.width;
+    double kAduioPlayerButtonHeight = 6.h;
+    double kAduioPlayerButtonWidth = 16.w;
 
     return SafeArea(
       child: Scaffold(
@@ -213,8 +215,8 @@ class _AudioPageState extends State<AudioPage> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: MyButton(
-                          height: kScreenHeight / 20,
-                          width: kScreenWidth / 6,
+                          height: kAduioPlayerButtonHeight,
+                          width: kAduioPlayerButtonWidth,
                           onPressed: _triggerLoop,
                           iconData: Icons.repeat,
                           iconColor: _isLooping ? Colors.white : Colors.grey,
@@ -222,10 +224,9 @@ class _AudioPageState extends State<AudioPage> {
                       ),
                       Align(
                         alignment: Alignment.center,
-
                         child: SizedBox(
-                          height: kScreenHeight / 15,
-                          width: kScreenWidth / 4,
+                          height: 7.h,
+                          width: 25.w,
                           child: FloatingActionButton(
                             heroTag: 'micro',
                             mini: false,
@@ -262,32 +263,32 @@ class _AudioPageState extends State<AudioPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+                        // MyButton(
+                        //     height: kAduioPlayerButtonHeight,
+                        //     width: kAduioPlayerButtonWidth,
+                        //     iconData: Icons.arrow_downward,
+                        //     onPressed: _speedDownOnPressed),
                         MyButton(
-                            height: kScreenHeight / 20,
-                            width: kScreenWidth / 6,
-                            iconData: Icons.arrow_downward,
-                            onPressed: _speedDownOnPressed),
-                        MyButton(
-                            height: kScreenHeight / 20,
-                            width: kScreenWidth / 6,
+                            height: kAduioPlayerButtonHeight,
+                            width: kAduioPlayerButtonWidth,
                             iconData: Icons.skip_previous,
                             onPressed: _skipPreviousOnPressed),
                         MyButton(
-                            height: kScreenHeight / 20,
-                            width: kScreenWidth / 6,
+                            height: kAduioPlayerButtonHeight,
+                            width: kAduioPlayerButtonWidth,
                             iconData:
                                 tts.isStopped ? Icons.play_arrow : Icons.pause,
                             onPressed: _playOnPressed),
                         MyButton(
-                            height: kScreenHeight / 20,
-                            width: kScreenWidth / 6,
+                            height: kAduioPlayerButtonHeight,
+                            width: kAduioPlayerButtonWidth,
                             iconData: Icons.skip_next,
                             onPressed: _skipNextOnPressed),
-                        MyButton(
-                            height: kScreenHeight / 20,
-                            width: kScreenWidth / 6,
-                            iconData: Icons.arrow_upward,
-                            onPressed: _speedUpOnPressed),
+                        // MyButton(
+                        //     height: kAduioPlayerButtonHeight,
+                        //     width: kAduioPlayerButtonWidth,
+                        //     iconData: Icons.arrow_upward,
+                        //     onPressed: _speedUpOnPressed),
                       ],
                     ),
                   ),
