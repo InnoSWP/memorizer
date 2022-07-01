@@ -1,69 +1,79 @@
 <div align="center">
 
-   `Place the icon here`
-   
-# Memorizer
+  <img src="https://user-images.githubusercontent.com/60191045/176858680-02233a9c-68fd-43a6-9bb3-f37662a82c80.png" width=250 height=250>
 
-![CodeLines][code-lines-badge]
+# Memorizer <img src="https://user-images.githubusercontent.com/60191045/176889587-266a6700-8750-45de-9c13-f8dd7cc2d2d5.png" width=25 height=25>
+
+
+![Issues][issues-badge]
 ![License][license-badge]
 
-The project is based on the idea of making an application that is about making the process of 
-memorisation of any text a lot easier by listening to it. To startrt memorising the user needs to 
-upload or type the text in the application and then use the player. The user can use the screen or 
-voice commands to manage the number of repetitions per sentence, stop/start the audio, go to the 
-next sentence, and etc.
+Memorizer - is an **mobile app** which will help you to learn information more easily and faster. 
 
-[How to use](#how-to-use) °
-[Installation](#installation) °
+It simplifies the memorization process by providing a user **the voice controlled audio player**, which will "play" the text. 
+
+[How to use](#how-to-use) <img src="https://user-images.githubusercontent.com/60191045/176885775-022175f7-ea58-462c-b7a4-044b27d16f59.png" width=15 height=15>
+[Installation](#installation) <img src="https://user-images.githubusercontent.com/60191045/176885775-022175f7-ea58-462c-b7a4-044b27d16f59.png" width=15 height=15>
 [License](#license)
 
 </div>
 
-`here will be demo`
+`here will be demo GIF`
 
 ## **How to use**
 
-When you start the app you will be on the home screen. Here you can upload your text for memorizing 
-either by typing it or by uploading a PDF file.
+Upon launching the app, you will appear at **"home screen"**.
 
-After inserting your text tap “Memorize” to start memorizing the text. You will go to the 
-memorizing screen. Here you can listen to the text and manage the audio using audio player buttons. 
-Furthermore, you can interact with audio player by voice commands. For that, tap “microphone” 
-button and say a desirable command. You can find all the information about the voice commands 
-by tapping “information” button.
+   1. Here you can upload your text either by typing or by uploading a PDF file.
+   
+   2. Tap “Memorize” to switch to the **"audio player screen"** and start memorizing the text.
+   
+   3. Here you can listen to the text and manage the audio using buttons. 
+   
+      3.1 Furthermore, you can interact with audio player by voice commands: 
+      3.2 Tap **“microphone”** button and say a desirable command. 
+      
+   4. Lastly, you can find all the information about the audio player by tapping **“information”** button.
 
 ## **Features**
 
 * Voice controlled audio player
 * Text widget with the text highlighting
 * PDF and manual text typing inputs
+* Loop, previous/next, play/pause buttons
+* Number of repetitions
+* Sentence separator
 
 ## **Installation**
 
-1. Install and setup Dart SDK.
-2. Install and retrieve Flutter SDK :
+   1. Install and setup Dart SDK.
 
-   2.1 Download from this link : [Flutter_WINDOWS](https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.0.3-stable.zip)
+   2. Install and retrieve Flutter SDK :
 
-   2.2 1. Extract the zip file and place the contained `flutter` in the desired installation 
-location for the Flutter SDK (for example, `C:\src\flutter`).
+      2.1 Download from this link : [Flutter_WINDOWS](https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.0.3-stable.zip)
 
-3. Install Android Studio/ VSCode and then install Flutter package.
-4. Set up the Android emulator.
-5. Git Clone the project or download the source code.
-6. To create a new Flutter project containing existing Flutter source code files:
+      2.2 1. Extract the zip file and place the contained `flutter` in the desired installation 
+   location for the Flutter SDK (for example, `C:\src\flutter`).
 
-   6.1 In the IDE, `Create New Project` from the `Welcome` window or `File > New > Project` 
-from the main IDE window.
+   3. Install Android Studio/ VSCode and then install Flutter package.
 
-   **Important**: *Do not* use the `New > Project from existing sources` option for Flutter projects.
+   4. Set up the Android emulator.
 
-   6.2. Select `Flutter` in the menu, and click `Next`.
+   5. Git Clone the project or download the source code.
 
-   6.3. Under `Project location` enter, or browse to, the directory holding your existing 
-Flutter source code files.
+   6. To create a new Flutter project containing existing Flutter source code files:
 
-   6.4. Click `Finish`.
+      6.1 In the IDE, `Create New Project` from the `Welcome` window or `File > New > Project` 
+   from the main IDE window.
+
+      **Important**: *Do not* use the `New > Project from existing sources` option for Flutter projects.
+
+      6.2. Select `Flutter` in the menu, and click `Next`.
+
+      6.3. Under `Project location` enter, or browse to, the directory holding your existing 
+   Flutter source code files.
+
+      6.4. Click `Finish`.
 
 ## **Frameworks and technologies**
 
@@ -98,4 +108,6 @@ SOFTWARE.
 
 [license-badge]: https://img.shields.io/github/license/InnoSWP/memorizer
 
-[code-lines-badge]: https://img.shields.io/tokei/lines/github/InnoSWP/memorizer
+[issues-badge]: https://img.shields.io/github/issues/InnoSWP/memorizer
+
+[[https://user-images.githubusercontent.com/60191045/176885775-022175f7-ea58-462c-b7a4-044b27d16f59 | width=25]]
