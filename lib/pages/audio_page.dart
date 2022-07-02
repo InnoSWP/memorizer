@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memorizer/pages/info_page.dart';
 import 'package:memorizer/services/stt_service.dart';
 import 'package:memorizer/services/tts_service.dart';
 import 'package:memorizer/settings/constants.dart' as clr;
@@ -247,6 +248,27 @@ class _AudioPageState extends State<AudioPage> {
                           ),
                         ),
                       ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: FloatingActionButton.small(
+                          backgroundColor: Colors.black,
+                          foregroundColor: clr.kOrangeAccent,
+                          splashColor: clr.kOrangeAccent,
+                          onPressed: () {
+                            // Navigator.of(context).push(_createInfoRoute());
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const InfoPage();
+                              },
+                            );
+                          },
+                          child: const Icon(
+                            Icons.info_outline,
+                            size: 20,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -301,3 +323,21 @@ class _AudioPageState extends State<AudioPage> {
     );
   }
 }
+
+// Route _createInfoRoute() {
+//   return PageRouteBuilder(
+//     pageBuilder: (context, animation, secondaryAnimation) => const InfoPage(),
+//     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+//       const begin = Offset(0.0, 1.0);
+//       const end = Offset.zero;
+//       const curve = Curves.ease;
+
+//       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+//       return SlideTransition(
+//         position: animation.drive(tween),
+//         child: child,
+//       );
+//     },
+//   );
+// }

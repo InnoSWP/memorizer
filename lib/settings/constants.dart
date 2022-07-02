@@ -42,6 +42,11 @@ var kTextStyleSelected = GoogleFonts.roboto(
   ),
 );
 
+var kTextStyleDefault = TextStyle(
+  color: Color(0xFFFFFFFF),
+  fontSize: 24,
+);
+
 // Info Page Colors
 const kInfoBackgroundColor = Color(0xff929292);
 
