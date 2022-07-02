@@ -100,7 +100,14 @@ class _AudioPageState extends State<AudioPage> {
     scrollToCurrentSentence();
     await tts.play(widget.sentences[_currentSentenceIndex]);
     setState(() {});
-    _isLooping ? playCurrentSentence() : continueToNextSentence();
+    if (repeatNumber != 0) {
+      repeatNumber--;
+      playCurrentSentence();
+    } else {
+      continueToNextSentence();
+    }
+
+    // _isLooping ? playCurrentSentence() : continueToNextSentence();
   }
 
   Future stopPlaying() async {
