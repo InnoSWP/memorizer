@@ -199,6 +199,11 @@ class _AudioPageState extends State<AudioPage> {
                       MaterialStateProperty.all(clr.kOrangeAccent)),
               onPressed: () {
                 if (enteredNumber != null) {
+                  if (enteredNumber! < 0) {
+                    enteredNumber = 0;
+                  } else if (enteredNumber! > 99) {
+                    enteredNumber = 99;
+                  }
                   setState(() {
                     repeatNumber = enteredNumber!;
                   });
