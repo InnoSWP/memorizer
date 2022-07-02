@@ -27,6 +27,7 @@ class _AudioPageState extends State<AudioPage> {
   IconData playBtnIcon = Icons.play_arrow;
   late SttService sst;
   late TtsService tts;
+  int _numberOfReps = 1;
 
   @override
   void initState() {
@@ -36,9 +37,9 @@ class _AudioPageState extends State<AudioPage> {
     sst = SttService(
       next: jumpToNextSentence,
       previous: jumpToPreviousSentence,
-      play: playCurrentSentence,
+      play: playAllSentencesFromCurrent,
       stop: stopPlaying,
-      repeat: _triggerLoop,
+      repeat: repeat,
     );
   }
 
@@ -47,61 +48,88 @@ class _AudioPageState extends State<AudioPage> {
     super.dispose();
     tts.destroy();
   }
+  bool flag = false;
+  Future playAllSentencesFromCurrent() async {
+    while (_currentSentenceIndex < widget.sentences.length) {
+      await playCurrentSentence();
+      //if (flag) {
+      //  flag = false;
+      //  return;
+      //}
+      next();
+    }
+  }
 
-  Future continueToNextSentence() async {
+  Future repeat(int times) async {
+    _numberOfReps = times;
+    await stopPlaying();
+    await playAllSentencesFromCurrent();
+    setState(() {});
+  }
+
+  void next() {
     if (_currentSentenceIndex < widget.sentences.length - 1) {
       _currentSentenceIndex++;
-      scrollToCurrentSentence();
-      if (tts.isPlaying) {
-        await playCurrentSentence();
-      }
-    } else {
-      stopPlaying();
-      _currentSentenceIndex = 0;
+      //scrollToCurrentSentence();
+    }
+  }
+
+  void prev() {
+    if (_currentSentenceIndex > 0) {
+      _currentSentenceIndex--;
+      //scrollToCurrentSentence();
     }
   }
 
   Future jumpToNextSentence() async {
     bool wasPlaying = tts.isPlaying;
     if (wasPlaying) {
-      sst.stop();
+      await stopPlaying();
     }
     if (_currentSentenceIndex < widget.sentences.length - 1) {
       _currentSentenceIndex++;
-      scrollToCurrentSentence();
+      //scrollToCurrentSentence();
     } else {
-      stopPlaying();
-      _currentSentenceIndex = 0;
+      await stopPlaying();
+      //_currentSentenceIndex = 0;
     }
     if (wasPlaying) {
-      await playCurrentSentence();
+      //await playCurrentSentence();
+      await playAllSentencesFromCurrent();
     }
+    setState(() {});
+    print(_currentSentenceIndex);
   }
 
   Future jumpToPreviousSentence() async {
     bool wasPlaying = tts.isPlaying;
     if (wasPlaying) {
-      stopPlaying();
+      await stopPlaying();
     }
     if (_currentSentenceIndex > 0) {
       _currentSentenceIndex--;
-      scrollToCurrentSentence();
+      //scrollToCurrentSentence();
+
     }
     if (wasPlaying) {
-      await playCurrentSentence();
+      //await playCurrentSentence();
+      await playAllSentencesFromCurrent();
     }
+    setState(() {});
+    print(_currentSentenceIndex);
   }
 
   Future playCurrentSentence() async {
     scrollToCurrentSentence();
     await tts.play(widget.sentences[_currentSentenceIndex]);
-    setState(() {});
-    _isLooping ? playCurrentSentence() : continueToNextSentence();
+    //setState(() {});
+    //_isLooping ? playCurrentSentence() : continueToNextSentence();
   }
 
   Future stopPlaying() async {
-    await tts.stop();
-    setState(() {});
+    if (tts.isPlaying) {
+      await tts.stop();
+    }
   }
 
   void scrollToCurrentSentence() {
@@ -119,25 +147,28 @@ class _AudioPageState extends State<AudioPage> {
 
   void _speedDownOnPressed() {}
 
-  void _skipPreviousOnPressed() {
+  void _skipPreviousOnPressed() async {
+    await jumpToPreviousSentence();
+
     setState(() {
-      jumpToPreviousSentence();
     });
   }
 
-  void _playOnPressed() {
+  void _playOnPressed() async {
+    if (tts.isStopped) {
+      await playAllSentencesFromCurrent();
+    } else {
+      await stopPlaying();
+    }
     setState(() {
-      if (tts.isStopped) {
-        playCurrentSentence();
-      } else {
-        stopPlaying();
-      }
+
     });
   }
 
-  void _skipNextOnPressed() {
+  void _skipNextOnPressed() async {
+    await jumpToNextSentence();
     setState(() {
-      jumpToNextSentence();
+
     });
   }
 
@@ -217,7 +248,7 @@ class _AudioPageState extends State<AudioPage> {
                         child: MyButton(
                           height: kAduioPlayerButtonHeight,
                           width: kAduioPlayerButtonWidth,
-                          onPressed: _triggerLoop,
+                          onPressed: () => repeat(3),
                           iconData: Icons.repeat,
                           iconColor: _isLooping ? Colors.white : Colors.grey,
                         ),
@@ -272,18 +303,47 @@ class _AudioPageState extends State<AudioPage> {
                             height: kAduioPlayerButtonHeight,
                             width: kAduioPlayerButtonWidth,
                             iconData: Icons.skip_previous,
-                            onPressed: _skipPreviousOnPressed),
+                            onPressed: () async {
+                              prev();
+                              //flag = true;
+                              //await stopPlaying();
+                              //if (tts.isStopped) {
+                                playAllSentencesFromCurrent();
+                              //}
+                              print(_currentSentenceIndex);
+                              setState((){});
+                            }
+                        ),
                         MyButton(
                             height: kAduioPlayerButtonHeight,
                             width: kAduioPlayerButtonWidth,
                             iconData:
                                 tts.isStopped ? Icons.play_arrow : Icons.pause,
-                            onPressed: _playOnPressed),
+                            onPressed: () async {
+                              if (tts.isStopped) {
+                                playAllSentencesFromCurrent();
+                              } else {
+                                stopPlaying();
+                                print('stopped');
+                              }
+                              setState((){});
+                            }
+                        ),
                         MyButton(
                             height: kAduioPlayerButtonHeight,
                             width: kAduioPlayerButtonWidth,
                             iconData: Icons.skip_next,
-                            onPressed: _skipNextOnPressed),
+                            onPressed: () async {
+                              next();
+                              //flag = true;
+                              //await stopPlaying();
+                              //if (tts.isStopped) {
+                                playAllSentencesFromCurrent();
+                              //}
+                              print(_currentSentenceIndex);
+                              setState((){});
+                            }
+                            ),
                         // MyButton(
                         //     height: kAduioPlayerButtonHeight,
                         //     width: kAduioPlayerButtonWidth,

@@ -7,7 +7,8 @@ class SttService {
   List<String> _commands = [];
   bool _available = false;
 
-  late VoidCallback next, previous, play, stop, repeat;
+  late VoidCallback next, previous, play, stop;
+  late Function(int) repeat;
 
   bool get isListening => _isListening;
 
@@ -83,9 +84,10 @@ class SttService {
         }
       } else if (_commands.contains('repeat')) {
         // TODO - add repeat functionality
-        repeat();
+        int reps = int.parse(_commands[_commands.indexOf('repeat') + 1]);
+        repeat(reps);
         if (kDebugMode) {
-          print('repeat');
+          print('repeat $reps times');
         }
       } else {
         // TODO - correctly handle a wrong voice command
