@@ -152,7 +152,7 @@ class RepeatButton extends StatelessWidget {
                     style: TextStyle(
                       fontFeatures: const [FontFeature.subscripts()],
                       fontSize: 8.sp,
-                      color: Colors.white,
+                      color: clr.kBnbSelectedItemClr,
                     ),
                   ),
                 ],
