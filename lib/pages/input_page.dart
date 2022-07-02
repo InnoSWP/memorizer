@@ -63,9 +63,9 @@ class _InputPageState extends State<InputPage> {
       List<String> listOfSentences = <String>[];
 
       if (pdfService.text != null) {
-        listOfSentences = textSplitter.parseText(pdfService.text!);
+        listOfSentences = textSplitter.parseText(pdfService.text!.trim());
       } else if (justInput != '') {
-        listOfSentences = textSplitter.parseText(justInput);
+        listOfSentences = textSplitter.parseText(justInput.trim());
       }
       if (listOfSentences.isEmpty) {
         listOfSentences.add("Empty");
@@ -166,8 +166,8 @@ class _InputPageState extends State<InputPage> {
                         ),
                         onChanged: (input) {
                           setState(() {
-                            justInput = input;
-                            numberOfWords = input.split(" ").length - 1;
+                            justInput = input.trim();
+                            numberOfWords = input.trim().split(" ").length;
                           });
                         },
                         style: TextStyle(
