@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:memorizer/services/stt_service.dart';
 import 'package:memorizer/services/tts_service.dart';
@@ -27,6 +29,7 @@ class _AudioPageState extends State<AudioPage> {
   IconData playBtnIcon = Icons.play_arrow;
   late SttService sst;
   late TtsService tts;
+  int repeatNumber = 0;
 
   @override
   void initState() {
@@ -38,7 +41,7 @@ class _AudioPageState extends State<AudioPage> {
       previous: jumpToPreviousSentence,
       play: playCurrentSentence,
       stop: stopPlaying,
-      repeat: _triggerLoop,
+      repeat: _repeatOnPressed,
     );
   }
 
@@ -143,10 +146,70 @@ class _AudioPageState extends State<AudioPage> {
 
   void _speedUpOnPressed() {}
 
-  void _triggerLoop() {
-    setState(() {
-      _isLooping = !_isLooping;
-    });
+  void _repeatOnPressed() {
+    if (repeatNumber != 0) {
+      setState(() {
+        repeatNumber = 0;
+      });
+    } else {
+      setState(() {
+        repeatNumber = -1;
+      });
+    }
+  }
+
+  void _repeatOnLongPressed() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        int? enteredNumber;
+        return AlertDialog(
+          title:
+              const Text("Please specify the number of repetitions you want"),
+          content: SizedBox(
+            width: 15.w,
+            child: TextField(
+              onChanged: (value) {
+                enteredNumber = int.parse(value);
+              },
+              keyboardType: TextInputType.number,
+              cursorColor: clr.kBnbSelectedItemClr,
+              decoration: InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: clr.kBnbSelectedItemClr,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all(Colors.grey)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              style: ButtonStyle(
+                  foregroundColor:
+                      MaterialStateProperty.all(clr.kOrangeAccent)),
+              onPressed: () {
+                if (enteredNumber != null) {
+                  setState(() {
+                    repeatNumber = enteredNumber!;
+                  });
+                }
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -214,12 +277,14 @@ class _AudioPageState extends State<AudioPage> {
                     children: [
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: MyButton(
-                          height: kAduioPlayerButtonHeight,
-                          width: kAduioPlayerButtonWidth,
-                          onPressed: _triggerLoop,
-                          iconData: Icons.repeat,
-                          iconColor: _isLooping ? Colors.white : Colors.grey,
+                        child: RepeatButton(
+                          repeatNumber: repeatNumber,
+                          // height: kAduioPlayerButtonHeight,
+                          // width: kAduioPlayerButtonWidth,
+                          onPressed: _repeatOnPressed,
+                          onLongPress: _repeatOnLongPressed,
+                          // iconData: Icons.repeat,
+                          // iconColor: _isLooping ? Colors.white : Colors.grey,
                         ),
                       ),
                       Align(
