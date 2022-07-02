@@ -41,6 +41,7 @@ class SttService {
         _sst.listen(
             //pauseFor: Duration(seconds: 1),
             listenMode: ListenMode.confirmation,
+
             onResult: (val) =>
                 _commands = val.recognizedWords.toLowerCase().split(' '));
       }
