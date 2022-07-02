@@ -81,19 +81,21 @@ class MyButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(11.0))),
         ),
         onPressed: onPressed,
-        child: iconData != null
-            ? Icon(
-                iconData,
-                color: iconColor,
-                size: 26.sp,
-              )
-            : Text(
-                text!,
-                style: TextStyle(
-                  fontSize: fontSize,
-                  color: clr.kBnbSelectedItemClr,
+        child: Center(
+          child: iconData != null
+              ? Icon(
+                  iconData,
+                  color: iconColor,
+                  size: 26.sp,
+                )
+              : Text(
+                  text!,
+                  style: TextStyle(
+                    fontSize: fontSize,
+                    color: clr.kBnbSelectedItemClr,
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }
