@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:memorizer/settings/constants.dart';
+
+import 'constants.dart';
 
 class ThemeProvider extends ChangeNotifier {
   ThemeMode themeMode = ThemeMode.light;
@@ -13,7 +14,6 @@ class ThemeProvider extends ChangeNotifier {
 }
 
 class MyTheme {
-
   static final light = ThemeData(
     // switchTheme: SwitchThemeData(
     //   thumbColor: MaterialStateProperty.all(mainColor_dark),

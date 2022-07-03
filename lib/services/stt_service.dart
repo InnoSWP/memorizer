@@ -6,8 +6,21 @@ class SttService {
   final SpeechToText _sst = SpeechToText();
   List<String> _commands = [];
   bool _available = false;
+  Map<String, int> convertToNumber = {
+    'one': 1,
+    'two': 2,
+    'three': 3,
+    'four': 4,
+    'five': 5,
+    'six': 6,
+    'seven': 7,
+    'eight': 8,
+    'nine': 9,
+    'ten': 10,
+  };
 
-  late VoidCallback next, previous, play, stop, repeat;
+  late VoidCallback next, previous, play, stop;
+  late Function(int) repeat;
 
   bool get isListening => _isListening;
 
@@ -83,7 +96,23 @@ class SttService {
         }
       } else if (_commands.contains('repeat')) {
         // TODO - add repeat functionality
-        repeat();
+        String numberStr = _commands[_commands.indexOf('repeat') + 1];
+        print(numberStr);
+        int? times = int.tryParse(numberStr);
+        print(times);
+        if (times == null) {
+          print(convertToNumber.containsKey(numberStr));
+          if (convertToNumber.containsKey(numberStr)) {
+            times = convertToNumber[numberStr];
+          } else {
+            if (kDebugMode) {
+              print(
+                  'Not correct repeat number: ${_commands[_commands.indexOf('repeat') + 1]}');
+            }
+            _sst.stop();
+          }
+        }
+        repeat(times!);
         if (kDebugMode) {
           print('repeat');
         }
@@ -92,6 +121,7 @@ class SttService {
         if (kDebugMode) {
           print('$_commands is not supported, please, try again...');
         }
+        _sst.stop();
       }
       if (kDebugMode) {
         print('commands: $_commands');

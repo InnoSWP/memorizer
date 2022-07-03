@@ -37,6 +37,4 @@ class PdfService {
       _fileName = _file?.path.split('/').last;
     }
   }
-  
-  
 }

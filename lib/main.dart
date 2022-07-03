@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:memorizer/pages/input_page.dart';
 import 'package:memorizer/settings/Themes.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 void main() {
   debugPaintSizeEnabled = false;
@@ -22,7 +23,8 @@ class App extends StatelessWidget {
       builder: (context, _) {
         final themeProvider = Provider.of<ThemeProvider>(context);
 
-        return MaterialApp(
+    return Sizer(builder: (context, orientation, deviceType) {
+      return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: MyTheme.light,
           darkTheme: MyTheme.dark,
@@ -31,5 +33,6 @@ class App extends StatelessWidget {
         );
       },
     );
-  }
+  });
+}
 }

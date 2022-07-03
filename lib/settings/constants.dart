@@ -10,12 +10,11 @@ const Color appBarTitle_light = Colors.white;
 const Color appBarHintBorder_light = Colors.white;
 const Color appBarShadow_light = Colors.black;
 const Color textContainerBorder_light = Colors.black;
-Color textUnselectedRow_light = Colors.black54; //grey.shade200;
+Color textUnselectedRow_light = Colors.black54; //grey.shade200
 Color textSelection_light = Colors.indigo.shade100;
 const Color backPopUpButton_light = Colors.white;
 const Color textPopUp_light = Colors.white;
 Color backPopUp_light = Colors.indigo.shade600;
-
 const Color scaffoldBack_light = Colors.white;
 Color floatButtonBack_light = Colors.indigo.shade700;
 const Color floatButtonSplash_light = Colors.white;
