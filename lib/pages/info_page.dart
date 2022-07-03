@@ -30,7 +30,7 @@ class InfoPage extends StatelessWidget {
                     child: const Icon(Icons.mic),
                   ),
                 ),
-                const Expanded(
+                Expanded(
                   child: Text(
                     'Tap microphone to start a voice command',
                   ),
@@ -39,7 +39,7 @@ class InfoPage extends StatelessWidget {
             ),
             Container(
               margin: horizontalMargin,
-              child: const Align(
+              child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   'Current voice commands:\n\u2022 Play!\n\u2022 Stop!\n\u2022 Repeat n times!\n\u2022 Next!\n\u2022 Previous!',

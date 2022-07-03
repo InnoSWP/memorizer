@@ -42,12 +42,23 @@ class MyButton extends StatelessWidget {
                   iconData,
                   size: 26.sp,
                 )
-              : Text(text!),
+              : Text(text!, style: TextStyle(fontSize: fontSize),),
         ),
       ),
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 class RepeatButton extends StatelessWidget {
   RepeatButton({
@@ -82,7 +93,7 @@ class RepeatButton extends StatelessWidget {
             ? Icon(
                 Icons.repeat,
                 // if the number of repetitiosn is negative, thne loop mode is infinite
-                color: repeatNumber < 0 ? Colors.white : Colors.grey,
+                color: repeatNumber < 0 ? Theme.of(context).primaryColor : Colors.grey,
                 size: 32.sp,
               )
             : Row(
@@ -90,7 +101,7 @@ class RepeatButton extends StatelessWidget {
                   Icon(
                     Icons.repeat,
                     size: 25.sp,
-                    color: Colors.white,
+                    color:Theme.of(context).primaryColor,
                   ),
                   Text(
                     repeatNumber.toString(),

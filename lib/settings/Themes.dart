@@ -15,10 +15,11 @@ class ThemeProvider extends ChangeNotifier {
 
 class MyTheme {
   static final light = ThemeData(
-    // switchTheme: SwitchThemeData(
-    //   thumbColor: MaterialStateProperty.all(mainColor_dark),
-    //   trackColor: MaterialStateProperty.all(backWidColor_dark),
-    // ),
+    checkboxTheme: CheckboxThemeData(
+      fillColor: MaterialStateProperty.all(scaffoldBack_light),
+      checkColor: MaterialStateProperty.all(mainColor_light),
+    ),
+    primaryColor: mainColor_light,
 
     selectedRowColor: textContainerBorder_light,
 
@@ -127,6 +128,11 @@ class MyTheme {
         cursorColor: mainColor_light),
   );
   static final dark = ThemeData(
+    checkboxTheme: CheckboxThemeData(
+      fillColor: MaterialStateProperty.all(scaffoldBack_dark),
+      checkColor: MaterialStateProperty.all(mainColor_dark),
+    ),
+
     switchTheme: SwitchThemeData(
       thumbColor: MaterialStateProperty.all(mainColor_dark),
       trackColor: MaterialStateProperty.all(backWidColor_dark),
@@ -136,7 +142,7 @@ class MyTheme {
         fontSize: 14,
       ),
       contentPadding:
-          const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
+      const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
       helperStyle: const TextStyle(fontSize: 14),
       hintStyle: const TextStyle(
         color: mainColor_dark,
@@ -208,7 +214,7 @@ class MyTheme {
             letterSpacing: 2)),
 
     hintColor: appBarHintBorder_dark,
-
+    primaryColor: mainColor_dark,
     colorScheme: const ColorScheme.highContrastDark(
       secondary: backWidColor_dark, //back container color
     ),

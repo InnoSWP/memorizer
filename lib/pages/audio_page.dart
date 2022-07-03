@@ -6,6 +6,8 @@ import 'package:memorizer/widgets/buttons.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sizer/sizer.dart';
 
+import '../widgets/my_app_bar.dart';
+
 class AudioPage extends StatefulWidget {
   final List<String> sentences;
 
@@ -22,8 +24,6 @@ class _AudioPageState extends State<AudioPage> {
   int _currentSentenceIndex = 0;
 
   // Audio player vars
-  bool _isLooping = false;
-  IconData playBtnIcon = Icons.play_arrow;
   late SttService sst;
   late TtsService tts;
   int chosenRepeatNumber = 0;
@@ -153,8 +153,6 @@ class _AudioPageState extends State<AudioPage> {
     });
   }
 
-  void _speedDownOnPressed() {}
-
   void _skipPreviousOnPressed() {
     setState(() {
       jumpToPreviousSentence();
@@ -176,8 +174,6 @@ class _AudioPageState extends State<AudioPage> {
 
     setState(() {});
   }
-
-  void _speedUpOnPressed() {}
 
   void _repeatOnPressed() {
     if (chosenRepeatNumber != 0) {
@@ -203,14 +199,12 @@ class _AudioPageState extends State<AudioPage> {
           repeatForAll = false;
           return StatefulBuilder(
             builder: (context, StateSetter setter) {
-              // setter(() {
-              //   repeatForAll = false;
-              // });
               return AlertDialog(
                 title: const Text(
                     "Please specify the number of repetitions you want"),
                 content: SizedBox(
-                  // width: 15.w,
+                  // not sure
+                  width: 15.w,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -219,20 +213,11 @@ class _AudioPageState extends State<AudioPage> {
                         child: TextFormField(
                           onChanged: (value) {
                             enteredNumber = int.tryParse(value);
-                            // print('entered number = $enteredNumber');
                           },
                           keyboardType: TextInputType.number,
-                          cursorColor: clr.kBnbSelectedItemClr,
-                          decoration: InputDecoration(
-                            labelText: 'repetitions',
-                            labelStyle:
-                                const TextStyle(color: clr.kOrangeAccent),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: clr.kBnbSelectedItemClr,
-                              ),
-                            ),
-                          ),
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Theme.of(context).primaryColor),
                         ),
                       ),
                       Row(
@@ -242,14 +227,11 @@ class _AudioPageState extends State<AudioPage> {
                             style: TextStyle(fontSize: 10.sp),
                           ),
                           Checkbox(
-                            activeColor: clr.kOrangeAccent,
                             value: repeatForAll,
                             onChanged: (value) {
                               setter(() {
                                 repeatForAll = value!;
                               });
-                              // print(
-                              //     'entered number on cb changed = $enteredNumber');
                             },
                           ),
                         ],
@@ -259,26 +241,17 @@ class _AudioPageState extends State<AudioPage> {
                 ),
                 actions: [
                   TextButton(
-                    style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.grey)),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                     child: const Text('Cancel'),
                   ),
                   TextButton(
-                    style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all(clr.kOrangeAccent)),
                     onPressed: () {
-                      // print('entered number onpressed = $enteredNumber');
                       if (enteredNumber != null) {
                         setRepeatNumber(enteredNumber!);
                       }
                       Navigator.of(context).pop();
-                      // print(
-                      //     'for all = $repeatForAll, chosen = $chosenRepeatNumber, current = $currentRepeatNumber.');
                     },
                     child: const Text('OK'),
                   ),
@@ -291,8 +264,6 @@ class _AudioPageState extends State<AudioPage> {
 
   @override
   Widget build(BuildContext context) {
-    // double kScreenHeight = MediaQuery.of(context).size.height;
-    // double kScreenWidth = MediaQuery.of(context).size.width;
     double kAduioPlayerButtonHeight = 6.h;
     double kAduioPlayerButtonWidth = 16.w;
 
@@ -300,15 +271,8 @@ class _AudioPageState extends State<AudioPage> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar:
-            MyAppBar(context: context, input: "AUDIO PLAYER PAGE", actions: [
-          FloatingActionButton.small(
-            onPressed: () {},
-            child: const Icon(
-              Icons.info_outline,
-              size: 18,
-            ),
-          )
-        ]).get(),
+            MyAppBar(context: context, input: "AUDIO PLAYER PAGE", actions: [])
+                .get(),
         body: Column(
           children: [
             Expanded(
@@ -341,70 +305,57 @@ class _AudioPageState extends State<AudioPage> {
                     ),
                   ),
                 )),
-                Expanded(
-                  flex: 2,
-                  child: Stack(
+            Expanded(
+              flex: 2,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: RepeatButton(
+                      repeatNumber: currentRepeatNumber,
+                      height: kAduioPlayerButtonHeight,
+                      width: kAduioPlayerButtonWidth,
+                      onPressed: _repeatOnPressed,
+                      onLongPress: _repeatOnLongPressed,
+                    ),
+                  ),
+                  Align(
                     alignment: Alignment.center,
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: RepeatButton(
-                          repeatNumber: currentRepeatNumber,
-                          // height: kAduioPlayerButtonHeight,
-                          // width: kAduioPlayerButtonWidth,
-                          onPressed: _repeatOnPressed,
-                          onLongPress: _repeatOnLongPressed,
-                          // iconData: Icons.repeat,
-                          // iconColor: _isLooping ? Colors.white : Colors.grey,
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: SizedBox(
-                          height: 7.h,
-                          width: 25.w,
-                          child: FloatingActionButton(
-                            heroTag: 'micro',
-                            mini: false,
-                            splashColor: clr.kOrangeAccent,
-                            shape: const CircleBorder(
-                              side: BorderSide(
-                                color: clr.kOrangeAccent,
-                                width: 2,
-                              ),
-                            ),
-                            backgroundColor: Colors.black,
-                            foregroundColor: clr.kOrangeAccent,
-                            onPressed: () => setState(() {
-                              sst.listen();
-                            }),
-                            child: Icon(
-                                sst.isListening ? Icons.mic : Icons.mic_none),
-                          ),
-                        ),
-                      )
-
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: FloatingActionButton.small(
-                        onPressed: () {
-                          // Navigator.of(context).push(_createInfoRoute());
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const InfoPage();
-                            },
-                          );
-                        },
-                        child: const Icon(
-                          Icons.info_outline,
-                          size: 20,
-                        ),
+                    child: SizedBox(
+                      height: 7.h,
+                      width: 25.w,
+                      child: FloatingActionButton(
+                        heroTag: 'micro',
+                        mini: false,
+                        onPressed: () => setState(() {
+                          sst.listen();
+                        }),
+                        child:
+                            Icon(sst.isListening ? Icons.mic : Icons.mic_none),
                       ),
                     ),
-                  ],
-                ),
-      )
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: FloatingActionButton.small(
+                      onPressed: () {
+                        // Navigator.of(context).push(_createInfoRoute());
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const InfoPage();
+                          },
+                        );
+                      },
+                      child: const Icon(
+                        Icons.info_outline,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             Expanded(
               flex: 2,
@@ -449,39 +400,3 @@ class _AudioPageState extends State<AudioPage> {
     );
   }
 }
-
-// Route _createInfoRoute() {
-//   return PageRouteBuilder(
-//     pageBuilder: (context, animation, secondaryAnimation) => const InfoPage(),
-//     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-//       const begin = Offset(0.0, 1.0);
-//       const end = Offset.zero;
-//       const curve = Curves.ease;
-
-//       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-//       return SlideTransition(
-//         position: animation.drive(tween),
-//         child: child,
-//       );
-//     },
-//   );
-// }
-
-// Route _createInfoRoute() {
-//   return PageRouteBuilder(
-//     pageBuilder: (context, animation, secondaryAnimation) => const InfoPage(),
-//     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-//       const begin = Offset(0.0, 1.0);
-//       const end = Offset.zero;
-//       const curve = Curves.ease;
-
-//       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-//       return SlideTransition(
-//         position: animation.drive(tween),
-//         child: child,
-//       );
-//     },
-//   );
-// }
