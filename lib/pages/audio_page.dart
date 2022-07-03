@@ -40,8 +40,8 @@ class _AudioPageState extends State<AudioPage> {
     tts = TtsService();
     tts.init();
     sst = SttService(
-      next: jumpToNextSentence,
-      previous: jumpToPreviousSentence,
+      next: _skipNextOnPressed,
+      previous: _skipPreviousOnPressed,
       play: _playOnPressed,
       stop: stopPlaying,
       repeat: setRepeatNumber,
@@ -66,7 +66,7 @@ class _AudioPageState extends State<AudioPage> {
     setState(() {});
   }
 
-  Future continueToNextSentence() async {
+  void checkRepetitionsOption() {
     setState(() {
       if (repeatForAll) {
         currentRepeatNumber = chosenRepeatNumber;
@@ -75,6 +75,10 @@ class _AudioPageState extends State<AudioPage> {
         chosenRepeatNumber = 0;
       }
     });
+  }
+
+  Future continueToNextSentence() async {
+    checkRepetitionsOption();
 
     if (_currentSentenceIndex < widget.sentences.length - 1) {
       _currentSentenceIndex++;
@@ -159,10 +163,12 @@ class _AudioPageState extends State<AudioPage> {
 
   void _speedDownOnPressed() {}
 
-  void _skipPreviousOnPressed() {
-    setState(() {
-      jumpToPreviousSentence();
-    });
+  void _skipPreviousOnPressed() async {
+    checkRepetitionsOption();
+
+    await jumpToPreviousSentence();
+
+    setState(() {});
   }
 
   void _playOnPressed() {
@@ -176,6 +182,8 @@ class _AudioPageState extends State<AudioPage> {
   }
 
   void _skipNextOnPressed() async {
+    checkRepetitionsOption();
+
     await jumpToNextSentence();
 
     setState(() {});
