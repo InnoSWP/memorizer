@@ -6,8 +6,6 @@ import 'package:memorizer/widgets/buttons.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sizer/sizer.dart';
 
-import '../widgets/my_app_bar.dart';
-
 class AudioPage extends StatefulWidget {
   final List<String> sentences;
 
@@ -24,11 +22,13 @@ class _AudioPageState extends State<AudioPage> {
   int _currentSentenceIndex = 0;
 
   // Audio player vars
- // bool _isLooping = false;
+  bool _isLooping = false;
   IconData playBtnIcon = Icons.play_arrow;
   late SttService sst;
   late TtsService tts;
-  int repeatNumber = 0;
+  int chosenRepeatNumber = 0;
+  int currentRepeatNumber = 0;
+  bool repeatForAll = false;
 
   @override
   void initState() {
@@ -52,21 +52,31 @@ class _AudioPageState extends State<AudioPage> {
 
   void setRepeatNumber(int enteredNumber) {
     if (enteredNumber < 0) {
-      repeatNumber = 0;
+      chosenRepeatNumber = 0;
     } else if (enteredNumber > 99) {
-      repeatNumber = 99;
+      chosenRepeatNumber = 99;
     } else {
-      repeatNumber = enteredNumber;
+      chosenRepeatNumber = enteredNumber;
     }
+    currentRepeatNumber = chosenRepeatNumber;
     setState(() {});
   }
 
   Future continueToNextSentence() async {
+    setState(() {
+      if (repeatForAll) {
+        currentRepeatNumber = chosenRepeatNumber;
+      } else {
+        currentRepeatNumber = 0;
+        chosenRepeatNumber = 0;
+      }
+    });
+
     if (_currentSentenceIndex < widget.sentences.length - 1) {
       _currentSentenceIndex++;
       scrollToCurrentSentence();
       if (tts.isPlaying) {
-        await playCurrentSentence(repeatNumber);
+        await playCurrentSentence();
       }
     } else {
       stopPlaying();
@@ -88,7 +98,7 @@ class _AudioPageState extends State<AudioPage> {
       _currentSentenceIndex = 0;
     }
     if (wasPlaying) {
-      await playCurrentSentence(repeatNumber);
+      await playCurrentSentence();
     }
   }
 
@@ -102,11 +112,11 @@ class _AudioPageState extends State<AudioPage> {
       scrollToCurrentSentence();
     }
     if (wasPlaying) {
-      await playCurrentSentence(repeatNumber);
+      await playCurrentSentence();
     }
   }
 
-  Future playCurrentSentence(int times) async {
+  Future playCurrentSentence() async {
     print(
         'playing: ${widget.sentences[_currentSentenceIndex].substring(0, 10)}');
 
@@ -115,12 +125,11 @@ class _AudioPageState extends State<AudioPage> {
 
     print(
         'play result for "${widget.sentences[_currentSentenceIndex].substring(0, 10)}" is ${playResult.toString()}');
-
-    times--;
+    print('current repeat number is $currentRepeatNumber');
     setState(() {});
-    //_isLooping ? playCurrentSentence() : continueToNextSentence();
-    if (times > 0) {
-      playCurrentSentence(times);
+    if (currentRepeatNumber != 0) {
+      currentRepeatNumber--;
+      playCurrentSentence();
     } else {
       if (playResult == 1) await continueToNextSentence();
     }
@@ -144,7 +153,7 @@ class _AudioPageState extends State<AudioPage> {
     });
   }
 
- // void _speedDownOnPressed() {}
+  void _speedDownOnPressed() {}
 
   void _skipPreviousOnPressed() {
     setState(() {
@@ -155,7 +164,7 @@ class _AudioPageState extends State<AudioPage> {
   void _playOnPressed() {
     setState(() {
       if (tts.isStopped) {
-        playCurrentSentence(repeatNumber);
+        playCurrentSentence();
       } else {
         stopPlaying();
       }
@@ -168,72 +177,116 @@ class _AudioPageState extends State<AudioPage> {
     setState(() {});
   }
 
+  void _speedUpOnPressed() {}
+
   void _repeatOnPressed() {
-    if (repeatNumber != 0) {
+    if (chosenRepeatNumber != 0) {
       setState(() {
-        repeatNumber = 0;
+        chosenRepeatNumber = 0;
       });
     } else {
       setState(() {
-        repeatNumber = -1;
+        chosenRepeatNumber = -1;
       });
     }
+    setState(() {
+      currentRepeatNumber = chosenRepeatNumber;
+    });
   }
 
-  void _repeatOnLongPressed() {
+  void _repeatOnLongPressed() async {
+    await stopPlaying();
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        int? enteredNumber;
-        return AlertDialog(
-          title:
-              const Text("Please specify the number of repetitions you want"),
-          content: SizedBox(
-            width: 15.w,
-            child: TextField(
-              onChanged: (value) {
-                enteredNumber = int.parse(value);
-              },
-              keyboardType: TextInputType.number,
-              //cursorColor: clr.kBnbSelectedItemClr,
-              // decoration: InputDecoration(
-              //   focusedBorder: UnderlineInputBorder(
-              //     borderSide: BorderSide(
-              //       color: clr.kBnbSelectedItemClr,
-              //     ),
-              //   ),
-              // ),
-            ),
-          ),
-          actions: [
-            TextButton(
-              style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(Colors.grey)),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                if (enteredNumber != null) {
-                  if (enteredNumber! < 0) {
-                    enteredNumber = 0;
-                  } else if (enteredNumber! > 99) {
-                    enteredNumber = 99;
-                  }
-                  setState(() {
-                    repeatNumber = enteredNumber!;
-                  });
-                }
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
+        context: context,
+        builder: (BuildContext context) {
+          int? enteredNumber;
+          repeatForAll = false;
+          return StatefulBuilder(
+            builder: (context, StateSetter setter) {
+              // setter(() {
+              //   repeatForAll = false;
+              // });
+              return AlertDialog(
+                title: const Text(
+                    "Please specify the number of repetitions you want"),
+                content: SizedBox(
+                  // width: 15.w,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 22.w,
+                        child: TextFormField(
+                          onChanged: (value) {
+                            enteredNumber = int.tryParse(value);
+                            // print('entered number = $enteredNumber');
+                          },
+                          keyboardType: TextInputType.number,
+                          cursorColor: clr.kBnbSelectedItemClr,
+                          decoration: InputDecoration(
+                            labelText: 'repetitions',
+                            labelStyle:
+                                const TextStyle(color: clr.kOrangeAccent),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: clr.kBnbSelectedItemClr,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'All sentences:',
+                            style: TextStyle(fontSize: 10.sp),
+                          ),
+                          Checkbox(
+                            activeColor: clr.kOrangeAccent,
+                            value: repeatForAll,
+                            onChanged: (value) {
+                              setter(() {
+                                repeatForAll = value!;
+                              });
+                              // print(
+                              //     'entered number on cb changed = $enteredNumber');
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all(Colors.grey)),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                  TextButton(
+                    style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all(clr.kOrangeAccent)),
+                    onPressed: () {
+                      // print('entered number onpressed = $enteredNumber');
+                      if (enteredNumber != null) {
+                        setRepeatNumber(enteredNumber!);
+                      }
+                      Navigator.of(context).pop();
+                      // print(
+                      //     'for all = $repeatForAll, chosen = $chosenRepeatNumber, current = $currentRepeatNumber.');
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        });
   }
 
   @override
@@ -288,58 +341,49 @@ class _AudioPageState extends State<AudioPage> {
                     ),
                   ),
                 )),
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: RepeatButton(
-                        repeatNumber: repeatNumber,
-                        //height: kScreenHeight / 20,
-                        // width: kScreenWidth / 6,
-                        onPressed: _repeatOnPressed,
-                        onLongPress: _repeatOnLongPressed,
-                        //iconData: Icons.repeat,
-                        //iconColor: _isLooping ? Colors.white : Colors.grey,
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        height: 7.h,
-                        width: 25.w,
-                        child: FloatingActionButton(
-                          heroTag: 'micro',
-                          onPressed: () => setState(() {
-                            sst.listen();
-                          }),
-                          child: Icon(
-                              sst.isListening ? Icons.mic : Icons.mic_none),
+                Expanded(
+                  flex: 2,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: RepeatButton(
+                          repeatNumber: currentRepeatNumber,
+                          // height: kAduioPlayerButtonHeight,
+                          // width: kAduioPlayerButtonWidth,
+                          onPressed: _repeatOnPressed,
+                          onLongPress: _repeatOnLongPressed,
+                          // iconData: Icons.repeat,
+                          // iconColor: _isLooping ? Colors.white : Colors.grey,
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: FloatingActionButton.small(
-                        onPressed: () {
-                          // Navigator.of(context).push(_createInfoRoute());
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const InfoPage();
-                            },
-                          );
-                        },
-                        child: const Icon(
-                          Icons.info_outline,
-                          size: 20,
+                      Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          height: 7.h,
+                          width: 25.w,
+                          child: FloatingActionButton(
+                            heroTag: 'micro',
+                            mini: false,
+                            splashColor: clr.kOrangeAccent,
+                            shape: const CircleBorder(
+                              side: BorderSide(
+                                color: clr.kOrangeAccent,
+                                width: 2,
+                              ),
+                            ),
+                            backgroundColor: Colors.black,
+                            foregroundColor: clr.kOrangeAccent,
+                            onPressed: () => setState(() {
+                              sst.listen();
+                            }),
+                            child: Icon(
+                                sst.isListening ? Icons.mic : Icons.mic_none),
+                          ),
                         ),
-                      ),
-                    ),
+                      )
+
                     Align(
                       alignment: Alignment.centerRight,
                       child: FloatingActionButton.small(
@@ -360,7 +404,7 @@ class _AudioPageState extends State<AudioPage> {
                     ),
                   ],
                 ),
-              ),
+      )
             ),
             Expanded(
               flex: 2,
