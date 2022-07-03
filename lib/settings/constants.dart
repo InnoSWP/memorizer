@@ -1,48 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-const Color blackThemeClr = Color.fromARGB(255, 27, 27, 27);
-const Color kOrangeAccent = Color.fromARGB(255, 251, 192, 45);
-const Color kInputTextColor = Color.fromARGB(255, 190, 190, 190);
-const Color kButtonColor = Color.fromARGB(255, 31, 31, 31);
+// Light Colors
+const Color mainColor_light = Colors.indigo;
+Color backContainer_light = Colors.grey.shade200;
+Color mainDarkerColor_light = Colors.indigo.shade600;
+Color backWidColor_light = Colors.grey.shade200; // Colors.grey.shade800
+const Color appBarHint_light = Colors.black;
+const Color appBarTitle_light = Colors.white;
+const Color appBarHintBorder_light = Colors.white;
+const Color appBarShadow_light = Colors.black;
+const Color textContainerBorder_light = Colors.black;
+Color textUnselectedRow_light = Colors.black54; //grey.shade200;
+Color textSelection_light = Colors.indigo.shade100;
+const Color backPopUpButton_light = Colors.white;
+const Color textPopUp_light = Colors.white;
+Color backPopUp_light = Colors.indigo.shade600;
 
-// Bottom Navigation Bar
-Color kBnbBackClr = const Color.fromRGBO(24, 24, 24, 1);
-Color kBnbSelectedItemClr = kOrangeAccent;
-Color kBnbUnselectedItemClr = Colors.white70;
-// BNB Items
-Color kBackClrBnbItem_1 = const Color.fromRGBO(24, 24, 24, 1);
-Color kBackClrBnbItem_2 = const Color.fromRGBO(24, 24, 24, 1);
-// AppBar
-Color kAppBarBackClr = const Color.fromRGBO(24, 24, 24, 1);
-Color kAppBarTextClr = Colors.white;
+const Color scaffoldBack_light = Colors.white;
+Color floatButtonBack_light = Colors.indigo.shade700;
+const Color floatButtonSplash_light = Colors.white;
+const Color floatButtonIcon_light = Colors.white;
+const Color floatButtonBorder_light = Colors.white30;
 
-// Left Menu Colors
-Color kLeftMenuClr = const Color.fromRGBO(24, 24, 24, 0.95);
-Color kLeftMenuItemsClr = Colors.white;
-
-// Audio Player Page colors
-const kBackgroundColor = Color(0xFF242424);
-const kDarkGradientBackground = LinearGradient(
-  begin: Alignment.topLeft,
-  end: Alignment.bottomRight,
-  colors: [
-    Color(0xFF9400D3),
-    Color(0xFF4B0082),
-  ],
-);
-const kTextStyleMain = TextStyle(
-  color: Color(0x96FFFFFF),
-  fontSize: 24,
-);
-var kTextStyleSelected = GoogleFonts.roboto(
-  textStyle: const TextStyle(
-    color: kOrangeAccent, //Color(0xFFFFFFFF),
-    fontSize: 24,
-  ),
-);
-
-// Info Page Colors
-const kInfoBackgroundColor = Color(0xff929292);
-
-const kContainerColor = Color.fromARGB(255, 54, 54, 54);
+//Dark Colors
+const Color mainColor_dark = Color.fromARGB(255, 251, 192, 45);
+const Color backWidColor_dark = Color(0xFF242424); // Colors.grey.shade800
+const Color appBarTitle_dark = Colors.white;
+const Color appBarHintBorder_dark = Colors.white70;
+const Color appBarShadow_dark = Colors.white;
+const Color textContainerBorder_dark = Colors.grey;
+Color textUnselectedRow_dark = Colors.grey.shade400; //grey.shade200;
+const Color textSelection_dark = Color.fromARGB(122, 251, 192, 45);
+const Color backPopUpButton_dark = Color.fromARGB(255, 231, 183, 72);
+const Color scaffoldBack_dark = Colors.black;
+const Color floatButtonBack_dark = Colors.black;
+const Color floatButtonSplash_dark = Colors.black;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memorizer/services/stt_service.dart';
 import 'package:memorizer/services/tts_service.dart';
-import 'package:memorizer/settings/constants.dart' as clr;
 import 'package:memorizer/widgets/buttons.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -158,150 +157,121 @@ class _AudioPageState extends State<AudioPage> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: MyAppBar(input: "AUDIO PLAYER PAGE", actions: [
+        appBar:
+            MyAppBar(context: context, input: "AUDIO PLAYER PAGE", actions: [
           FloatingActionButton.small(
-            backgroundColor: clr.kAppBarBackClr,
-            foregroundColor: Colors.white,
-            splashColor: clr.kOrangeAccent,
             onPressed: () {},
             child: const Icon(
               Icons.info_outline,
-              size: 20,
+              size: 18,
             ),
           )
         ]).get(),
-        body: Container(
-          color: Colors.black,
-          child: Padding(
-            padding:
-                const EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 24),
-            child: Column(
-              children: [
-                Expanded(
-                  flex: 10,
-                  child: Container(
-                    //color: kGrey,
-                    decoration: BoxDecoration(
-                      color: clr.blackThemeClr,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.fromBorderSide(BorderSide(
-                        color: Colors.grey.shade700,
-                        width: 2,
-                      )),
-                      // gradient: kDarkGradientBackground,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: ScrollablePositionedList.builder(
-                        itemCount: widget.sentences.length,
-                        itemBuilder: (context, index) => Text(
-                          widget.sentences[index],
-                          style: index == _currentSentenceIndex
-                              ? clr.kTextStyleSelected
-                              : clr.kTextStyleMain,
-                        ),
-                        itemScrollController: _itemScrollController,
-                        itemPositionsListener: _itemPositionsListener,
-                      ),
+        body: Column(
+          children: [
+            Expanded(
+              flex: 10,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14,vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.secondary,
+                    borderRadius: BorderRadius.circular(8),
+                    shape: BoxShape.rectangle,
+                    border: Border.all(
+                      color: Theme.of(context).selectedRowColor
                     ),
                   ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: MyButton(
-                          height: kScreenHeight / 20,
-                          width: kScreenWidth / 6,
-                          onPressed: _triggerLoop,
-                          iconData: 'lib/icons/loopIcon.png',
-                          // Icons.repeat,
-                          iconColor: _isLooping ? Colors.white : Colors.grey,
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: SizedBox(
-                          height: kScreenHeight / 15,
-                          width: kScreenWidth / 4,
-                          child: FloatingActionButton(
-                            heroTag: 'micro',
-                            mini: false,
-                            splashColor: clr.kOrangeAccent,
-                            shape: const CircleBorder(
-                              side: BorderSide(
-                                color: clr.kOrangeAccent,
-                                width: 2,
-                              ),
-                            ),
-                            backgroundColor: Colors.black,
-                            foregroundColor: clr.kOrangeAccent,
-                            onPressed: () => setState(() {
-                              sst.listen();
-                            }),
-                            child: Icon(
-                                sst.isListening ? Icons.mic : Icons.mic_none),
-                          ),
-                        ),
-                      ),
-                    ],
+                  child: ScrollablePositionedList.builder(
+                    itemCount: widget.sentences.length,
+                    itemBuilder: (context, index) => Text(
+                      widget.sentences[index],
+                      style: index == _currentSentenceIndex
+                          ?  Theme.of(context).textTheme.bodyText1
+                          : Theme.of(context).textTheme.bodyText2,
+                    ),
+                    itemScrollController: _itemScrollController,
+                    itemPositionsListener: _itemPositionsListener,
                   ),
                 ),
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    alignment: Alignment.topCenter,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(8),
-
-                      // gradient: kDarkGradientBackground,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        MyButton(
-                            height: kScreenHeight / 20,
-                            width: kScreenWidth / 6,
-                            iconData: 'lib/icons/leftSpeedIcon.png',
-                            // Icons.arrow_downward,
-                            onPressed: _speedDownOnPressed),
-                        MyButton(
-                            height: kScreenHeight / 20,
-                            width: kScreenWidth / 6,
-                            iconData: 'lib/icons/previousIcon_2.png',
-                            //Icons.skip_previous,
-                            onPressed: _skipPreviousOnPressed),
-                        MyButton(
-                            height: kScreenHeight / 20,
-                            width: kScreenWidth / 6,
-                            iconData: tts.isStopped
-                                ? 'lib/icons/playIcon.png'
-                                : 'lib/icons/pauseIcon.png',
-                            //Icons.play_arrow : Icons.pause,
-                            onPressed: _playOnPressed),
-                        MyButton(
-                            height: kScreenHeight / 20,
-                            width: kScreenWidth / 6,
-                            iconData: 'lib/icons/nextIcon_2.png',
-                            // Icons.skip_next,
-                            onPressed: _skipNextOnPressed),
-                        MyButton(
-                            height: kScreenHeight / 20,
-                            width: kScreenWidth / 6,
-                            iconData: 'lib/icons/rightSpeedIcon.png',
-                            // Icons.arrow_upward,
-                            onPressed: _speedUpOnPressed),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+            Expanded(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: MyButton(
+                        height: kScreenHeight / 20,
+                        width: kScreenWidth / 6,
+                        onPressed: _triggerLoop,
+                        iconData: Icons.loop,
+                        // iconColor: _isLooping ? Colors.white : Colors.grey,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        height: kScreenHeight / 15,
+                        width: kScreenWidth / 4,
+                        child: FloatingActionButton(
+                          heroTag: 'micro',
+                          onPressed: () => setState(() {
+                            sst.listen();
+                          }),
+                          child: Icon(
+                              sst.isListening ? Icons.mic : Icons.mic_none),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                alignment: Alignment.topCenter,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    MyButton(
+                        height: kScreenHeight / 20,
+                        width: kScreenWidth / 6,
+                        iconData: Icons.arrow_back_sharp,
+                        onPressed: _speedDownOnPressed),
+                    MyButton(
+                        height: kScreenHeight / 20,
+                        width: kScreenWidth / 6,
+                        iconData: Icons.skip_next,
+                        onPressed: _skipPreviousOnPressed),
+                    MyButton(
+                        height: kScreenHeight / 20,
+                        width: kScreenWidth / 6,
+                        iconData: tts.isStopped
+                            ? Icons.play_arrow_outlined
+                            : Icons.pause,
+                        onPressed: _playOnPressed),
+                    MyButton(
+                        height: kScreenHeight / 20,
+                        width: kScreenWidth / 6,
+                        iconData: Icons.skip_previous,
+                        onPressed: _skipNextOnPressed),
+                    MyButton(
+                        height: kScreenHeight / 20,
+                        width: kScreenWidth / 6,
+                        iconData: Icons.arrow_forward_sharp,
+                        onPressed: _speedUpOnPressed),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
