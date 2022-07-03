@@ -106,12 +106,7 @@ class _AudioPageState extends State<AudioPage> {
     print(
         'play result for "${widget.sentences[_currentSentenceIndex].substring(0, 10)}" is ${playResult.toString()}');
     setState(() {});
-    if (repeatNumber != 0) {
-      repeatNumber--;
-      await playCurrentSentence();
-    } else {
-      if (playResult == 1) await continueToNextSentence();
-    }
+    if (playResult == 1) await continueToNextSentence();
 
     // _isLooping ? playCurrentSentence() : continueToNextSentence();
   }
