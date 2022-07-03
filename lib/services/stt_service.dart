@@ -7,6 +7,7 @@ class SttService {
   List<String> _commands = [];
   bool _available = false;
   Map<String, int> convertToNumber = {
+    'zero': 0,
     'one': 1,
     'two': 2,
     'three': 3,
@@ -104,6 +105,8 @@ class SttService {
           print(convertToNumber.containsKey(numberStr));
           if (convertToNumber.containsKey(numberStr)) {
             times = convertToNumber[numberStr];
+          } else if (numberStr == 'off') {
+            times = 0;
           } else {
             if (kDebugMode) {
               print(
