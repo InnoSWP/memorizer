@@ -40,9 +40,9 @@ class _AudioPageState extends State<AudioPage> {
     sst = SttService(
       next: jumpToNextSentence,
       previous: jumpToPreviousSentence,
-      play: playCurrentSentence,
+      play: _playOnPressed,
       stop: stopPlaying,
-      repeat: _repeatOnPressed,
+      repeat: setRepeatNumber,
     );
   }
 
@@ -52,12 +52,17 @@ class _AudioPageState extends State<AudioPage> {
     tts.destroy();
   }
 
+  void setRepeatNumber(int enteredNumber) {
+    repeatNumber = enteredNumber;
+    setState((){});
+  }
+
   Future continueToNextSentence() async {
     if (_currentSentenceIndex < widget.sentences.length - 1) {
       _currentSentenceIndex++;
       scrollToCurrentSentence();
       if (tts.isPlaying) {
-        await playCurrentSentence();
+        await playCurrentSentence(repeatNumber);
       }
     } else {
       stopPlaying();
@@ -78,7 +83,7 @@ class _AudioPageState extends State<AudioPage> {
       _currentSentenceIndex = 0;
     }
     if (wasPlaying) {
-      await playCurrentSentence();
+      await playCurrentSentence(repeatNumber);
     }
   }
 
@@ -92,15 +97,20 @@ class _AudioPageState extends State<AudioPage> {
       scrollToCurrentSentence();
     }
     if (wasPlaying) {
-      await playCurrentSentence();
+      await playCurrentSentence(repeatNumber);
     }
   }
-
-  Future playCurrentSentence() async {
+  Future playCurrentSentence(int times) async {
     scrollToCurrentSentence();
     await tts.play(widget.sentences[_currentSentenceIndex]);
+    times--;
     setState(() {});
-    _isLooping ? playCurrentSentence() : continueToNextSentence();
+    //_isLooping ? playCurrentSentence() : continueToNextSentence();
+    if (times > 0) {
+        playCurrentSentence(times);
+    } else {
+      continueToNextSentence();
+    }
   }
 
   Future stopPlaying() async {
@@ -132,7 +142,7 @@ class _AudioPageState extends State<AudioPage> {
   void _playOnPressed() {
     setState(() {
       if (tts.isStopped) {
-        playCurrentSentence();
+        playCurrentSentence(repeatNumber);
       } else {
         stopPlaying();
       }
