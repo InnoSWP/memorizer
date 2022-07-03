@@ -40,9 +40,9 @@ class _AudioPageState extends State<AudioPage> {
     sst = SttService(
       next: jumpToNextSentence,
       previous: jumpToPreviousSentence,
-      play: playCurrentSentence,
+      play: _playOnPressed,
       stop: stopPlaying,
-      repeat: _repeatOnPressed,
+      repeat: setRepeatNumber,
     );
   }
 
@@ -52,12 +52,23 @@ class _AudioPageState extends State<AudioPage> {
     tts.destroy();
   }
 
+  void setRepeatNumber(int enteredNumber) {
+    if (enteredNumber < 0) {
+      repeatNumber = 0;
+    } else if (enteredNumber > 99) {
+      repeatNumber = 99;
+    } else {
+      repeatNumber = enteredNumber;
+    }
+    setState(() {});
+  }
+
   Future continueToNextSentence() async {
     if (_currentSentenceIndex < widget.sentences.length - 1) {
       _currentSentenceIndex++;
       scrollToCurrentSentence();
       if (tts.isPlaying) {
-        await playCurrentSentence();
+        await playCurrentSentence(repeatNumber);
       }
     } else {
       stopPlaying();
@@ -79,8 +90,8 @@ class _AudioPageState extends State<AudioPage> {
       _currentSentenceIndex = 0;
     }
     if (wasPlaying) {
-      print('will start playing the next');
-      await playCurrentSentence();
+
+      await playCurrentSentence(repeatNumber);
     }
   }
 
@@ -94,21 +105,28 @@ class _AudioPageState extends State<AudioPage> {
       scrollToCurrentSentence();
     }
     if (wasPlaying) {
-      await playCurrentSentence();
+      await playCurrentSentence(repeatNumber);
     }
   }
 
-  Future playCurrentSentence() async {
+  Future playCurrentSentence(int times) async {
     print(
         'playing: ${widget.sentences[_currentSentenceIndex].substring(0, 10)}');
+
     scrollToCurrentSentence();
     var playResult = await tts.play(widget.sentences[_currentSentenceIndex]);
+    
     print(
         'play result for "${widget.sentences[_currentSentenceIndex].substring(0, 10)}" is ${playResult.toString()}');
+    
+    times--;
     setState(() {});
-    if (playResult == 1) await continueToNextSentence();
-
-    // _isLooping ? playCurrentSentence() : continueToNextSentence();
+    //_isLooping ? playCurrentSentence() : continueToNextSentence();
+    if (times > 0) {
+      playCurrentSentence(times);
+    } else {
+      if (playResult == 1) await continueToNextSentence();
+    }
   }
 
   Future stopPlaying() async {
@@ -140,7 +158,7 @@ class _AudioPageState extends State<AudioPage> {
   void _playOnPressed() {
     setState(() {
       if (tts.isStopped) {
-        playCurrentSentence();
+        playCurrentSentence(repeatNumber);
       } else {
         stopPlaying();
       }
