@@ -239,12 +239,12 @@ class _AudioPageState extends State<AudioPage> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 4.w,
-                      ),
                       Row(
                         children: [
-                          const Text('All sentences:'),
+                          Text(
+                            'All sentences:',
+                            style: TextStyle(fontSize: 10.sp),
+                          ),
                           Checkbox(
                             activeColor: clr.kOrangeAccent,
                             value: repeatForAll,
