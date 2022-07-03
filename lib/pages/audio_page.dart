@@ -216,9 +216,10 @@ class _AudioPageState extends State<AudioPage> {
                 content: SizedBox(
                   // width: 15.w,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        flex: 4,
+                      SizedBox(
+                        width: 22.w,
                         child: TextFormField(
                           onChanged: (value) {
                             enteredNumber = int.tryParse(value);
@@ -239,26 +240,23 @@ class _AudioPageState extends State<AudioPage> {
                         ),
                       ),
                       SizedBox(
-                        width: 7.w,
+                        width: 4.w,
                       ),
-                      Expanded(
-                        flex: 9,
-                        child: Row(
-                          children: [
-                            const Text('For all sentences: '),
-                            Checkbox(
-                              activeColor: clr.kOrangeAccent,
-                              value: repeatForAll,
-                              onChanged: (value) {
-                                setter(() {
-                                  repeatForAll = value!;
-                                });
-                                // print(
-                                //     'entered number on cb changed = $enteredNumber');
-                              },
-                            ),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          const Text('All sentences:'),
+                          Checkbox(
+                            activeColor: clr.kOrangeAccent,
+                            value: repeatForAll,
+                            onChanged: (value) {
+                              setter(() {
+                                repeatForAll = value!;
+                              });
+                              // print(
+                              //     'entered number on cb changed = $enteredNumber');
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),
