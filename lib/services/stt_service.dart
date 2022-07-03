@@ -21,7 +21,7 @@ class SttService {
   };
 
   late VoidCallback next, previous, play, stop;
-  late Function(int) repeat;
+  late Function(int, bool) repeat;
 
   bool get isListening => _isListening;
 
@@ -97,6 +97,13 @@ class SttService {
         }
       } else if (_commands.contains('repeat')) {
         // TODO - add repeat functionality
+        bool repeatForAll = false;
+        if (_commands.contains('every') || _commands.contains('each')) {
+          repeatForAll = true;
+        } else {
+          repeatForAll = false;
+        }
+        print('repeatForAll: $repeatForAll');
         String numberStr = _commands[_commands.indexOf('repeat') + 1];
         print(numberStr);
         int? times = int.tryParse(numberStr);
@@ -115,7 +122,7 @@ class SttService {
             _sst.stop();
           }
         }
-        repeat(times!);
+        repeat(times!, repeatForAll);
         if (kDebugMode) {
           print('repeat');
         }

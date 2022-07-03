@@ -1,12 +1,14 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:memorizer/pages/info_page.dart';
 import 'package:memorizer/services/stt_service.dart';
 import 'package:memorizer/services/tts_service.dart';
+import 'package:memorizer/settings/constants.dart' as clr;
 import 'package:memorizer/widgets/buttons.dart';
+import 'package:memorizer/widgets/my_app_bar.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sizer/sizer.dart';
-
-import '../widgets/my_app_bar.dart';
 
 class AudioPage extends StatefulWidget {
   final List<String> sentences;
@@ -24,6 +26,8 @@ class _AudioPageState extends State<AudioPage> {
   int _currentSentenceIndex = 0;
 
   // Audio player vars
+  bool _isLooping = false;
+  IconData playBtnIcon = Icons.play_arrow;
   late SttService sst;
   late TtsService tts;
   int chosenRepeatNumber = 0;
@@ -36,8 +40,8 @@ class _AudioPageState extends State<AudioPage> {
     tts = TtsService();
     tts.init();
     sst = SttService(
-      next: jumpToNextSentence,
-      previous: jumpToPreviousSentence,
+      next: _skipNextOnPressed,
+      previous: _skipPreviousOnPressed,
       play: _playOnPressed,
       stop: stopPlaying,
       repeat: setRepeatNumber,
@@ -50,7 +54,8 @@ class _AudioPageState extends State<AudioPage> {
     tts.destroy();
   }
 
-  void setRepeatNumber(int enteredNumber) {
+  void setRepeatNumber(int enteredNumber, bool forAll) {
+    repeatForAll = forAll;
     if (enteredNumber < 0) {
       chosenRepeatNumber = 0;
     } else if (enteredNumber > 99) {
@@ -62,7 +67,7 @@ class _AudioPageState extends State<AudioPage> {
     setState(() {});
   }
 
-  Future continueToNextSentence() async {
+  void checkRepetitionsOption() {
     setState(() {
       if (repeatForAll) {
         currentRepeatNumber = chosenRepeatNumber;
@@ -71,6 +76,10 @@ class _AudioPageState extends State<AudioPage> {
         chosenRepeatNumber = 0;
       }
     });
+  }
+
+  Future continueToNextSentence() async {
+    checkRepetitionsOption();
 
     if (_currentSentenceIndex < widget.sentences.length - 1) {
       _currentSentenceIndex++;
@@ -153,10 +162,14 @@ class _AudioPageState extends State<AudioPage> {
     });
   }
 
-  void _skipPreviousOnPressed() {
-    setState(() {
-      jumpToPreviousSentence();
-    });
+  void _speedDownOnPressed() {}
+
+  void _skipPreviousOnPressed() async {
+    checkRepetitionsOption();
+
+    await jumpToPreviousSentence();
+
+    setState(() {});
   }
 
   void _playOnPressed() {
@@ -170,10 +183,14 @@ class _AudioPageState extends State<AudioPage> {
   }
 
   void _skipNextOnPressed() async {
+    checkRepetitionsOption();
+
     await jumpToNextSentence();
 
     setState(() {});
   }
+
+  void _speedUpOnPressed() {}
 
   void _repeatOnPressed() {
     if (chosenRepeatNumber != 0) {
@@ -199,6 +216,9 @@ class _AudioPageState extends State<AudioPage> {
           repeatForAll = false;
           return StatefulBuilder(
             builder: (context, StateSetter setter) {
+              // setter(() {
+              //   repeatForAll = false;
+              // });
               return AlertDialog(
                 title: const Text(
                     "Please specify the number of repetitions you want"),
@@ -232,6 +252,8 @@ class _AudioPageState extends State<AudioPage> {
                               setter(() {
                                 repeatForAll = value!;
                               });
+                              // print(
+                              //     'entered number on cb changed = $enteredNumber');
                             },
                           ),
                         ],
@@ -249,7 +271,7 @@ class _AudioPageState extends State<AudioPage> {
                   TextButton(
                     onPressed: () {
                       if (enteredNumber != null) {
-                        setRepeatNumber(enteredNumber!);
+                        setRepeatNumber(enteredNumber!, repeatForAll);
                       }
                       Navigator.of(context).pop();
                     },
