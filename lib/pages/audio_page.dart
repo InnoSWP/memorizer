@@ -53,8 +53,14 @@ class _AudioPageState extends State<AudioPage> {
   }
 
   void setRepeatNumber(int enteredNumber) {
-    repeatNumber = enteredNumber > 99 ? 99 : enteredNumber;
-    setState((){});
+    if (enteredNumber < 0) {
+      repeatNumber = 0;
+    } else if (enteredNumber > 99) {
+      repeatNumber = 99;
+    } else {
+      repeatNumber = enteredNumber;
+    }
+    setState(() {});
   }
 
   Future continueToNextSentence() async {
@@ -100,6 +106,7 @@ class _AudioPageState extends State<AudioPage> {
       await playCurrentSentence(repeatNumber);
     }
   }
+
   Future playCurrentSentence(int times) async {
     scrollToCurrentSentence();
     await tts.play(widget.sentences[_currentSentenceIndex]);
@@ -107,7 +114,7 @@ class _AudioPageState extends State<AudioPage> {
     setState(() {});
     //_isLooping ? playCurrentSentence() : continueToNextSentence();
     if (times > 0) {
-        playCurrentSentence(times);
+      playCurrentSentence(times);
     } else {
       continueToNextSentence();
     }
