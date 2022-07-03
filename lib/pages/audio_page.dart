@@ -53,7 +53,7 @@ class _AudioPageState extends State<AudioPage> {
   }
 
   void setRepeatNumber(int enteredNumber) {
-    repeatNumber = enteredNumber;
+    repeatNumber = enteredNumber > 99 ? 99 : enteredNumber;
     setState((){});
   }
 
