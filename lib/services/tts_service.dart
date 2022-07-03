@@ -28,7 +28,7 @@ class TtsService {
 
   Future play(String sentence) async {
     state = TtsState.playing;
-    await _flutterTts.speak(sentence);
+    return await _flutterTts.speak(sentence);
     if (kDebugMode) {
       print('finished speaking');
     }
@@ -36,7 +36,7 @@ class TtsService {
 
   Future stop() async {
     state = TtsState.stopped;
-    await _flutterTts.stop();
+    return await _flutterTts.stop();
   }
 
   void destroy() {

@@ -68,16 +68,18 @@ class _AudioPageState extends State<AudioPage> {
   Future jumpToNextSentence() async {
     bool wasPlaying = tts.isPlaying;
     if (wasPlaying) {
-      sst.stop();
+      await stopPlaying();
+      print('stopped for jumping next');
     }
     if (_currentSentenceIndex < widget.sentences.length - 1) {
       _currentSentenceIndex++;
       scrollToCurrentSentence();
     } else {
-      stopPlaying();
+      await stopPlaying();
       _currentSentenceIndex = 0;
     }
     if (wasPlaying) {
+      print('will start playing the next');
       await playCurrentSentence();
     }
   }
@@ -85,7 +87,7 @@ class _AudioPageState extends State<AudioPage> {
   Future jumpToPreviousSentence() async {
     bool wasPlaying = tts.isPlaying;
     if (wasPlaying) {
-      stopPlaying();
+      await stopPlaying();
     }
     if (_currentSentenceIndex > 0) {
       _currentSentenceIndex--;
@@ -97,14 +99,18 @@ class _AudioPageState extends State<AudioPage> {
   }
 
   Future playCurrentSentence() async {
+    print(
+        'playing: ${widget.sentences[_currentSentenceIndex].substring(0, 10)}');
     scrollToCurrentSentence();
-    await tts.play(widget.sentences[_currentSentenceIndex]);
+    var playResult = await tts.play(widget.sentences[_currentSentenceIndex]);
+    print(
+        'play result for "${widget.sentences[_currentSentenceIndex].substring(0, 10)}" is ${playResult.toString()}');
     setState(() {});
     if (repeatNumber != 0) {
       repeatNumber--;
-      playCurrentSentence();
+      await playCurrentSentence();
     } else {
-      continueToNextSentence();
+      if (playResult == 1) await continueToNextSentence();
     }
 
     // _isLooping ? playCurrentSentence() : continueToNextSentence();
@@ -146,10 +152,10 @@ class _AudioPageState extends State<AudioPage> {
     });
   }
 
-  void _skipNextOnPressed() {
-    setState(() {
-      jumpToNextSentence();
-    });
+  void _skipNextOnPressed() async {
+    await jumpToNextSentence();
+
+    setState(() {});
   }
 
   void _speedUpOnPressed() {}
