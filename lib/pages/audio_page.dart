@@ -54,7 +54,8 @@ class _AudioPageState extends State<AudioPage> {
     tts.destroy();
   }
 
-  void setRepeatNumber(int enteredNumber) {
+  void setRepeatNumber(int enteredNumber, bool forAll) {
+    repeatForAll = forAll;
     if (enteredNumber < 0) {
       chosenRepeatNumber = 0;
     } else if (enteredNumber > 99) {
@@ -286,7 +287,7 @@ class _AudioPageState extends State<AudioPage> {
                     onPressed: () {
                       // print('entered number onpressed = $enteredNumber');
                       if (enteredNumber != null) {
-                        setRepeatNumber(enteredNumber!);
+                        setRepeatNumber(enteredNumber!, repeatForAll);
                       }
                       Navigator.of(context).pop();
                       // print(
