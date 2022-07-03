@@ -30,7 +30,9 @@ class _AudioPageState extends State<AudioPage> {
   IconData playBtnIcon = Icons.play_arrow;
   late SttService sst;
   late TtsService tts;
-  int repeatNumber = 0;
+  int chosenRepeatNumber = 0;
+  int currentRepeatNumber = 0;
+  bool repeatForAll = false;
 
   @override
   void initState() {
@@ -54,21 +56,31 @@ class _AudioPageState extends State<AudioPage> {
 
   void setRepeatNumber(int enteredNumber) {
     if (enteredNumber < 0) {
-      repeatNumber = 0;
+      chosenRepeatNumber = 0;
     } else if (enteredNumber > 99) {
-      repeatNumber = 99;
+      chosenRepeatNumber = 99;
     } else {
-      repeatNumber = enteredNumber;
+      chosenRepeatNumber = enteredNumber;
     }
+    currentRepeatNumber = chosenRepeatNumber;
     setState(() {});
   }
 
   Future continueToNextSentence() async {
+    setState(() {
+      if (repeatForAll) {
+        currentRepeatNumber = chosenRepeatNumber;
+      } else {
+        currentRepeatNumber = 0;
+        chosenRepeatNumber = 0;
+      }
+    });
+
     if (_currentSentenceIndex < widget.sentences.length - 1) {
       _currentSentenceIndex++;
       scrollToCurrentSentence();
       if (tts.isPlaying) {
-        await playCurrentSentence(repeatNumber);
+        await playCurrentSentence();
       }
     } else {
       stopPlaying();
@@ -90,8 +102,7 @@ class _AudioPageState extends State<AudioPage> {
       _currentSentenceIndex = 0;
     }
     if (wasPlaying) {
-
-      await playCurrentSentence(repeatNumber);
+      await playCurrentSentence();
     }
   }
 
@@ -105,25 +116,24 @@ class _AudioPageState extends State<AudioPage> {
       scrollToCurrentSentence();
     }
     if (wasPlaying) {
-      await playCurrentSentence(repeatNumber);
+      await playCurrentSentence();
     }
   }
 
-  Future playCurrentSentence(int times) async {
+  Future playCurrentSentence() async {
     print(
         'playing: ${widget.sentences[_currentSentenceIndex].substring(0, 10)}');
 
     scrollToCurrentSentence();
     var playResult = await tts.play(widget.sentences[_currentSentenceIndex]);
-    
+
     print(
         'play result for "${widget.sentences[_currentSentenceIndex].substring(0, 10)}" is ${playResult.toString()}');
-    
-    times--;
+    print('current repeat number is $currentRepeatNumber');
     setState(() {});
-    //_isLooping ? playCurrentSentence() : continueToNextSentence();
-    if (times > 0) {
-      playCurrentSentence(times);
+    if (currentRepeatNumber != 0) {
+      currentRepeatNumber--;
+      playCurrentSentence();
     } else {
       if (playResult == 1) await continueToNextSentence();
     }
@@ -158,7 +168,7 @@ class _AudioPageState extends State<AudioPage> {
   void _playOnPressed() {
     setState(() {
       if (tts.isStopped) {
-        playCurrentSentence(repeatNumber);
+        playCurrentSentence();
       } else {
         stopPlaying();
       }
@@ -174,74 +184,113 @@ class _AudioPageState extends State<AudioPage> {
   void _speedUpOnPressed() {}
 
   void _repeatOnPressed() {
-    if (repeatNumber != 0) {
+    if (chosenRepeatNumber != 0) {
       setState(() {
-        repeatNumber = 0;
+        chosenRepeatNumber = 0;
       });
     } else {
       setState(() {
-        repeatNumber = -1;
+        chosenRepeatNumber = -1;
       });
     }
+    setState(() {
+      currentRepeatNumber = chosenRepeatNumber;
+    });
   }
 
-  void _repeatOnLongPressed() {
+  void _repeatOnLongPressed() async {
+    await stopPlaying();
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        int? enteredNumber;
-        return AlertDialog(
-          title:
-              const Text("Please specify the number of repetitions you want"),
-          content: SizedBox(
-            width: 15.w,
-            child: TextField(
-              onChanged: (value) {
-                enteredNumber = int.parse(value);
-              },
-              keyboardType: TextInputType.number,
-              cursorColor: clr.kBnbSelectedItemClr,
-              decoration: InputDecoration(
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: clr.kBnbSelectedItemClr,
+        context: context,
+        builder: (BuildContext context) {
+          int? enteredNumber;
+          repeatForAll = false;
+          return StatefulBuilder(
+            builder: (context, StateSetter setter) {
+              // setter(() {
+              //   repeatForAll = false;
+              // });
+              return AlertDialog(
+                title: const Text(
+                    "Please specify the number of repetitions you want"),
+                content: SizedBox(
+                  // width: 15.w,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 22.w,
+                        child: TextFormField(
+                          onChanged: (value) {
+                            enteredNumber = int.tryParse(value);
+                            // print('entered number = $enteredNumber');
+                          },
+                          keyboardType: TextInputType.number,
+                          cursorColor: clr.kBnbSelectedItemClr,
+                          decoration: InputDecoration(
+                            labelText: 'repetitions',
+                            labelStyle:
+                                const TextStyle(color: clr.kOrangeAccent),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: clr.kBnbSelectedItemClr,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'All sentences:',
+                            style: TextStyle(fontSize: 10.sp),
+                          ),
+                          Checkbox(
+                            activeColor: clr.kOrangeAccent,
+                            value: repeatForAll,
+                            onChanged: (value) {
+                              setter(() {
+                                repeatForAll = value!;
+                              });
+                              // print(
+                              //     'entered number on cb changed = $enteredNumber');
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ),
-          ),
-          actions: [
-            TextButton(
-              style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(Colors.grey)),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all(clr.kOrangeAccent)),
-              onPressed: () {
-                if (enteredNumber != null) {
-                  if (enteredNumber! < 0) {
-                    enteredNumber = 0;
-                  } else if (enteredNumber! > 99) {
-                    enteredNumber = 99;
-                  }
-                  setState(() {
-                    repeatNumber = enteredNumber!;
-                  });
-                }
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
+                actions: [
+                  TextButton(
+                    style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all(Colors.grey)),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                  TextButton(
+                    style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all(clr.kOrangeAccent)),
+                    onPressed: () {
+                      // print('entered number onpressed = $enteredNumber');
+                      if (enteredNumber != null) {
+                        setRepeatNumber(enteredNumber!);
+                      }
+                      Navigator.of(context).pop();
+                      // print(
+                      //     'for all = $repeatForAll, chosen = $chosenRepeatNumber, current = $currentRepeatNumber.');
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        });
   }
 
   @override
@@ -310,7 +359,7 @@ class _AudioPageState extends State<AudioPage> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: RepeatButton(
-                          repeatNumber: repeatNumber,
+                          repeatNumber: currentRepeatNumber,
                           // height: kAduioPlayerButtonHeight,
                           // width: kAduioPlayerButtonWidth,
                           onPressed: _repeatOnPressed,
