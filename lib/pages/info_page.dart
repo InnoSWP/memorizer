@@ -13,7 +13,7 @@ class InfoPage extends StatelessWidget {
         fontSize: 15.sp,);
     var horizontalMargin = EdgeInsets.symmetric(horizontal: 3.w);
     var paddingVar = EdgeInsets.symmetric(vertical: 0.8.h);
-    return Expanded(
+    return SafeArea(
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
