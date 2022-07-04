@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memorizer/services/pdf_service.dart';
 import 'package:memorizer/services/text_splitter_service.dart';
-import 'package:memorizer/settings/constants.dart' as clr;
 import 'package:memorizer/widgets/buttons.dart';
 import 'package:memorizer/widgets/my_app_bar.dart';
 import 'package:sizer/sizer.dart';
@@ -47,9 +46,6 @@ class _InputPageState extends State<InputPage> {
                 "Please either enter a text or upload a pdf to start memorizing."),
             actions: [
               TextButton(
-                style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all(clr.kOrangeAccent)),
                 child: const Text("OK"),
                 onPressed: () {
                   Navigator.pop(context);
@@ -85,9 +81,6 @@ class _InputPageState extends State<InputPage> {
                 "Please type text or upload a pdf file before pressing Memorize button."),
             actions: [
               TextButton(
-                style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all(clr.kOrangeAccent)),
                 child: const Text("OK"),
                 onPressed: () {
                   Navigator.pop(context);
@@ -111,148 +104,116 @@ class _InputPageState extends State<InputPage> {
       child: SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          // appBar: MyAppBar(input: "INPUT PAGE", actions: []).get(),
-          body: Container(
-            color: Colors.black,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 12, right: 12, top: 12, bottom: 24),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: TextField(
-                        controller: _inputTextFieldController,
-                        autocorrect: true,
-                        enableInteractiveSelection: true,
-                        textCapitalization: TextCapitalization.sentences,
-                        enableSuggestions: true,
-                        cursorColor: clr.kBnbSelectedItemClr,
-                        keyboardAppearance: Brightness.dark,
-                        textInputAction: TextInputAction.done,
-                        readOnly: false,
-                        enabled: true,
-                        minLines: 20,
-                        maxLines: 20,
-                        decoration: InputDecoration(
-                          counterText: "Number of words : $numberOfWords",
-                          counterStyle: TextStyle(
-                            fontSize: 12.sp,
-                            color: Color.fromARGB(255, 175, 175, 175),
-                          ),
-                          contentPadding: const EdgeInsets.all(20),
-                          // helperText: 'Input your text and press Memorize!',
-                          helperStyle: TextStyle(fontSize: 12.sp),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(
-                                color: Colors.grey.shade700,
-                                width: 2,
-                              )),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                color: clr.kBnbSelectedItemClr,
-                                width: 1,
-                              )),
-                          hintText: "Type the text or upload PDF file...",
-                          hintStyle: TextStyle(
-                            color: clr.kBnbSelectedItemClr,
-                            fontSize: 24.sp,
-                          ),
-                          filled: true,
-                          fillColor: clr.blackThemeClr,
+          appBar: MyAppBar(input: "INPUT TEXT", actions: [], context: context)
+              .get(),
+          body: Padding(
+            padding:
+                const EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 24),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    flex: 6,
+                    child: TextField(
+                      controller: _inputTextFieldController,
+                      autocorrect: true,
+                      enableInteractiveSelection: true,
+                      textCapitalization: TextCapitalization.sentences,
+                      enableSuggestions: true,
+                      keyboardAppearance: Theme.of(context).brightness,
+                      textInputAction: TextInputAction.done,
+                      readOnly: false,
+                      enabled: true,
+                      minLines: 22,
+                      maxLines: 22,
+                      decoration: InputDecoration(
+                        counterText: "Number of words : $numberOfWords",
+                        //helperText: 'Input your text and press Memorize!',
+                        hintText: "Type the text or upload PDF file...",
+                      ),
+                      onChanged: (input) {
+                        setState(() {
+                          justInput = input.trim();
+
+                          numberOfWords = input.trim().split(" ").length;
+                        });
+                      },
+                      style: const TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        MyButton(
+                          width: 20.w,
+                          height: 4.2.h,
+                          text: "Clear",
+                          iconData: null,
+                          fontSize: 15.sp,
+                          onPressed: _clearOnPressed,
                         ),
-                        onChanged: (input) {
-                          setState(() {
-                            justInput = input;
-                            numberOfWords = input.split(" ").length - 1;
-                          });
-                        },
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.sp,
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        MyButton(
+                          width: 40.w,
+                          height: 5.5.h,
+                          text: "Upload a File",
+                          iconData: null,
+                          fontSize: 15.sp,
+                          onPressed: _uploadFileOnPressed,
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          MyButton(
-                            width: 20.w,
-                            height: 4.2.h,
-                            text: "Clear",
-                            iconData: null,
-                            fontSize: 15.sp,
-                            onPressed: _clearOnPressed,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          MyButton(
-                            width: 40.w,
-                            height: 5.5.h,
-                            text: "Upload a File",
-                            iconData: null,
-                            fontSize: 16.sp,
-                            onPressed: _uploadFileOnPressed,
-                          ),
-                          Container(
-                            height: 5.5.h,
-                            // width: 50.w,
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.fromBorderSide(BorderSide(
-                                color: Colors.grey.shade700,
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.fromBorderSide(BorderSide(
                                 width: 1,
-                              )),
-                              // gradient: kDarkGradientBackground,
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(5.sp),
-                              child: Center(
-                                child: Text(
-                                  pdfService.fileName != null
-                                      ? 'Picked File: ${pdfService.fileName!.length < 17 ? pdfService.fileName : '${pdfService.fileName!.substring(0, 17)}...'}'
-                                      : 'No Picked File',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 9.sp,
-                                  ),
-                                ),
-                              ),
+                                color: Theme.of(context).selectedRowColor)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 14, vertical: 6),
+                            child: Text(
+                              pdfService.fileName != null
+                                  ? 'Picked File: ${pdfService.fileName!.length < 17 ? pdfService.fileName : '${pdfService.fileName!.substring(0, 17)}...'}'
+                                  : 'No Picked File',
+                              style: Theme.of(context).textTheme.subtitle1,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    Expanded(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: 10.h,
-                              width: 50.w,
-                              child: MyButton(
-                                text: "Memorize",
-                                iconData: null,
-                                onPressed: () {
-                                  _memorizeOnPressed(context);
-                                },
-                                fontSize: 26.sp,
-                              ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 10.h,
+                            width: 50.w,
+                            child: MyButton(
+                              text: "Memorize",
+                              iconData: null,
+                              fontSize: 26.sp,
+                              onPressed: () {
+                                _memorizeOnPressed(context);
+                              },
+                              //  fontSize: 30,
                             ),
-                          ]),
-                    ),
-                  ]),
-            ),
+                          ),
+                        ]),
+                  ),
+                ]),
           ),
         ),
       ),

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 enum TtsState { playing, stopped }

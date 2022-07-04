@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:memorizer/pages/input_page.dart';
+import 'package:memorizer/settings/Themes.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 void main() {
@@ -16,12 +18,21 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      builder: (context, _) {
+        final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Sizer(builder: (context, orientation, deviceType) {
       return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
-      home: const InputPage(),
+          debugShowCheckedModeBanner: false,
+          theme: MyTheme.light,
+          darkTheme: MyTheme.dark,
+          themeMode: themeProvider.themeMode,
+          home: const InputPage(),
+        );
+      },
     );
-    });
-  }
+  });
+}
 }

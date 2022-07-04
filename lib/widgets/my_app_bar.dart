@@ -1,27 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:memorizer/settings/constants.dart' as clr;
+import 'package:memorizer/settings/Themes.dart';
+import 'package:provider/provider.dart';
 
 class MyAppBar {
   late final String input;
   List<Widget> actions;
+  BuildContext context;
 
-  MyAppBar({required this.input, required this.actions});
+  MyAppBar({required this.input, required this.actions, required this.context});
 
   AppBar get() {
+    const themeButton = ChangeThemeButtonWidget();
+    actions.add(const SizedBox(width: 3));
+    actions.add(themeButton);
+
     return AppBar(
       actions: actions,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-        side: BorderSide(
-          color: Colors.grey.shade700,
-        ),
-      ),
-      backgroundColor: clr.kAppBarBackClr,
-      title: Text(
-        input,
-        style: TextStyle(color: clr.kAppBarTextClr),
-      ),
-      centerTitle: true,
+      title: Text(input),
+    );
+  }
+}
+
+class ChangeThemeButtonWidget extends StatelessWidget {
+  const ChangeThemeButtonWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
+    return Switch.adaptive(
+      value: themeProvider.isDarkMode,
+      onChanged: (value) {
+        final provider = Provider.of<ThemeProvider>(context, listen: false);
+        provider.toggleTheme(value);
+      },
     );
   }
 }
