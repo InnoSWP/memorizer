@@ -1,10 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:memorizer/pages/info_page.dart';
 import 'package:memorizer/services/stt_service.dart';
 import 'package:memorizer/services/tts_service.dart';
-import 'package:memorizer/settings/constants.dart' as clr;
 import 'package:memorizer/widgets/buttons.dart';
 import 'package:memorizer/widgets/my_app_bar.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -26,7 +23,6 @@ class _AudioPageState extends State<AudioPage> {
   int _currentSentenceIndex = 0;
 
   // Audio player vars
-  bool _isLooping = false;
   IconData playBtnIcon = Icons.play_arrow;
   late SttService sst;
   late TtsService tts;
@@ -162,8 +158,6 @@ class _AudioPageState extends State<AudioPage> {
     });
   }
 
-  void _speedDownOnPressed() {}
-
   void _skipPreviousOnPressed() async {
     checkRepetitionsOption();
 
@@ -189,8 +183,6 @@ class _AudioPageState extends State<AudioPage> {
 
     setState(() {});
   }
-
-  void _speedUpOnPressed() {}
 
   void _repeatOnPressed() {
     if (chosenRepeatNumber != 0) {
@@ -292,9 +284,8 @@ class _AudioPageState extends State<AudioPage> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar:
-            MyAppBar(context: context, input: "AUDIO PLAYER PAGE", actions: [])
-                .get(),
+        appBar: MyAppBar(context: context, input: "AUDIO PLAYER", actions: [])
+            .get(),
         body: Column(
           children: [
             Expanded(
@@ -302,8 +293,8 @@ class _AudioPageState extends State<AudioPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 2, vertical: 10),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
                       borderRadius: BorderRadius.circular(8),
@@ -329,54 +320,57 @@ class _AudioPageState extends State<AudioPage> {
                 )),
             Expanded(
               flex: 2,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: RepeatButton(
-                      repeatNumber: currentRepeatNumber,
-                      height: kAduioPlayerButtonHeight,
-                      width: kAduioPlayerButtonWidth,
-                      onPressed: _repeatOnPressed,
-                      onLongPress: _repeatOnLongPressed,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      height: 7.h,
-                      width: 25.w,
-                      child: FloatingActionButton(
-                        heroTag: 'micro',
-                        mini: false,
-                        onPressed: () => setState(() {
-                          sst.listen();
-                        }),
-                        child:
-                            Icon(sst.isListening ? Icons.mic : Icons.mic_none),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: RepeatButton(
+                        repeatNumber: currentRepeatNumber,
+                        height: kAduioPlayerButtonHeight,
+                        width: kAduioPlayerButtonWidth,
+                        onPressed: _repeatOnPressed,
+                        onLongPress: _repeatOnLongPressed,
                       ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: FloatingActionButton.small(
-                      onPressed: () {
-                        // Navigator.of(context).push(_createInfoRoute());
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return const InfoPage();
-                          },
-                        );
-                      },
-                      child: const Icon(
-                        Icons.info_outline,
-                        size: 20,
+                    Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        height: 7.h,
+                        width: 25.w,
+                        child: FloatingActionButton(
+                          heroTag: 'micro',
+                          mini: false,
+                          onPressed: () => setState(() {
+                            sst.listen();
+                          }),
+                          child: Icon(
+                              sst.isListening ? Icons.mic : Icons.mic_none),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: FloatingActionButton.small(
+                        onPressed: () {
+                          // Navigator.of(context).push(_createInfoRoute());
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const InfoPage();
+                            },
+                          );
+                        },
+                        child: const Icon(
+                          Icons.info_outline,
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Expanded(

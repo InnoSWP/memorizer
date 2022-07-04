@@ -104,7 +104,7 @@ class _InputPageState extends State<InputPage> {
       child: SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: MyAppBar(input: "INPUT PAGE", actions: [], context: context)
+          appBar: MyAppBar(input: "INPUT TEXT", actions: [], context: context)
               .get(),
           body: Padding(
             padding:
@@ -113,7 +113,7 @@ class _InputPageState extends State<InputPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    flex: 5,
+                    flex: 6,
                     child: TextField(
                       controller: _inputTextFieldController,
                       autocorrect: true,
@@ -124,11 +124,11 @@ class _InputPageState extends State<InputPage> {
                       textInputAction: TextInputAction.done,
                       readOnly: false,
                       enabled: true,
-                      minLines: 24,
-                      maxLines: 24,
+                      minLines: 22,
+                      maxLines: 22,
                       decoration: InputDecoration(
                         counterText: "Number of words : $numberOfWords",
-                        helperText: 'Input your text and press Memorize!',
+                        //helperText: 'Input your text and press Memorize!',
                         hintText: "Type the text or upload PDF file...",
                       ),
                       onChanged: (input) {
