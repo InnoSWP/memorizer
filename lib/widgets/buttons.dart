@@ -100,7 +100,7 @@ class RepeatButton extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.repeat,
-                    size: 25.sp,
+                    size: 20.sp,
                     color:Theme.of(context).primaryColor,
                   ),
                   Text(

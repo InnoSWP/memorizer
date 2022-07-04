@@ -95,8 +95,8 @@ class _InputPageState extends State<InputPage> {
 
   @override
   Widget build(BuildContext context) {
-    double kScreenHeight = MediaQuery.of(context).size.height;
-    double kScreenWidth = MediaQuery.of(context).size.width;
+    // double kScreenHeight = MediaQuery.of(context).size.height;
+    // double kScreenWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       onVerticalDragEnd: (DragEndDetails details) =>
@@ -149,10 +149,11 @@ class _InputPageState extends State<InputPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         MyButton(
-                          width: kScreenWidth / 5,
-                          height: kScreenHeight / 24,
+                          width: 20.w,
+                          height: 4.2.h,
                           text: "Clear",
                           iconData: null,
+                          fontSize: 15.sp,
                           onPressed: _clearOnPressed,
                         ),
                       ],

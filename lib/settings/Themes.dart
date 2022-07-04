@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import 'constants.dart';
 
@@ -94,7 +95,7 @@ class MyTheme {
         counterStyle: const TextStyle(
           fontSize: 14,
         ),
-        contentPadding: const EdgeInsets.all(20),
+        contentPadding: EdgeInsets.all(20.sp),
         helperStyle: const TextStyle(fontSize: 14),
         hintStyle: const TextStyle(
           color: mainColor_light,
@@ -119,7 +120,7 @@ class MyTheme {
       secondary: backContainer_light,
     ),
     textTheme: TextTheme(
-        bodyText1: TextStyle(color: mainDarkerColor_light, fontSize: 25),
+        bodyText1: TextStyle(color: mainDarkerColor_light, fontSize: 24),
         bodyText2: TextStyle(fontSize: 24, color: textUnselectedRow_light),
         subtitle1: const TextStyle(fontSize: 14)),
     textSelectionTheme: TextSelectionThemeData(
@@ -142,7 +143,7 @@ class MyTheme {
         fontSize: 14,
       ),
       contentPadding:
-      const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
+      EdgeInsets.all(15.sp),
       helperStyle: const TextStyle(fontSize: 14),
       hintStyle: const TextStyle(
         color: mainColor_dark,
@@ -220,7 +221,7 @@ class MyTheme {
     ),
 
     textTheme: TextTheme(
-        bodyText1: const TextStyle(color: mainColor_dark, fontSize: 25),
+        bodyText1: const TextStyle(color: mainColor_dark, fontSize: 24),
         bodyText2: TextStyle(fontSize: 24, color: textUnselectedRow_dark),
         subtitle1: const TextStyle(fontSize: 14)),
 

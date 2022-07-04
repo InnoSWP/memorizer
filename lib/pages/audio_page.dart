@@ -212,8 +212,8 @@ class _AudioPageState extends State<AudioPage> {
               //   repeatForAll = false;
               // });
               return AlertDialog(
-                title: const Text(
-                    "Please specify the number of repetitions you want"),
+                title: Text(
+                    "Please specify the number of repetitions", style: TextStyle(fontSize: 12.sp),),
                 content: SizedBox(
                   // not sure
                   width: 15.w,
@@ -291,10 +291,10 @@ class _AudioPageState extends State<AudioPage> {
             Expanded(
                 flex: 10,
                 child: Padding(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12.sp),
                   child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 2, vertical: 10),
+                    //padding:
+                        //const EdgeInsets.symmetric(horizontal: 2, vertical: 10),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
                       borderRadius: BorderRadius.circular(8),
@@ -303,7 +303,7 @@ class _AudioPageState extends State<AudioPage> {
                           Border.all(color: Theme.of(context).selectedRowColor),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(20),
+                      padding: EdgeInsets.all(20.sp),
                       child: ScrollablePositionedList.builder(
                         itemCount: widget.sentences.length,
                         itemBuilder: (context, index) => Text(
@@ -321,7 +321,7 @@ class _AudioPageState extends State<AudioPage> {
             Expanded(
               flex: 2,
               child: Padding(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(12.sp),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
