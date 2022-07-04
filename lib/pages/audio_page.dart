@@ -42,7 +42,12 @@ class _AudioPageState extends State<AudioPage> {
       play: _playOnPressed,
       stop: stopPlaying,
       repeat: setRepeatNumber,
+      error: incorrectCommand,
     );
+  }
+
+  void incorrectCommand() {
+    setState((){});
   }
 
   @override
@@ -53,9 +58,7 @@ class _AudioPageState extends State<AudioPage> {
 
   void setRepeatNumber(int enteredNumber, bool forAll) {
     repeatForAll = forAll;
-    if (enteredNumber < 0) {
-      chosenRepeatNumber = 0;
-    } else if (enteredNumber > 99) {
+    if (enteredNumber > 99) {
       chosenRepeatNumber = 99;
     } else {
       chosenRepeatNumber = enteredNumber;

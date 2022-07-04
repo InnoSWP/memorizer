@@ -7,9 +7,13 @@ class SttService {
   List<String> _commands = [];
   bool _available = false;
   Map<String, int> convertToNumber = {
+    'infinitely': -1,
+    'off': 0,
     'zero': 0,
     'one': 1,
+    'once': 1,
     'two': 2,
+    'twice': 2,
     'three': 3,
     'four': 4,
     'five': 5,
@@ -20,7 +24,7 @@ class SttService {
     'ten': 10,
   };
 
-  late VoidCallback next, previous, play, stop;
+  late VoidCallback next, previous, play, stop, error;
   late Function(int, bool) repeat;
 
   bool get isListening => _isListening;
@@ -30,7 +34,8 @@ class SttService {
       required this.previous,
       required this.play,
       required this.stop,
-      required this.repeat}) {
+      required this.repeat,
+      required this.error,}) {
     init();
   }
 
@@ -52,6 +57,9 @@ class SttService {
     if (!_isListening) {
       if (_available) {
         _isListening = true;
+        if (kDebugMode) {
+          print('start listening');
+        }
         _sst.listen(
             //pauseFor: Duration(seconds: 1),
             listenMode: ListenMode.confirmation,
@@ -59,12 +67,15 @@ class SttService {
                 _commands = val.recognizedWords.toLowerCase().split(' '));
       }
     } else {
-      _stopListening();
+      await _stopListening();
     }
   }
 
-  void _stopListening() {
+  Future<void> _stopListening() async {
     _isListening = false;
+    if (kDebugMode) {
+      print('stop listening');
+    }
     if (_commands.isNotEmpty) {
       if (_commands.contains('next')) {
         next();
@@ -112,32 +123,37 @@ class SttService {
           print(convertToNumber.containsKey(numberStr));
           if (convertToNumber.containsKey(numberStr)) {
             times = convertToNumber[numberStr];
-          } else if (numberStr == 'off') {
-            times = 0;
           } else {
             if (kDebugMode) {
               print(
                   'Not correct repeat number: ${_commands[_commands.indexOf('repeat') + 1]}');
             }
-            _sst.stop();
+            error();
+            await _sst.stop();
           }
         }
         repeat(times!, repeatForAll);
         if (kDebugMode) {
-          print('repeat');
+          print('repeat: $times times');
         }
       } else {
         // TODO - correctly handle a wrong voice command
+        error();
         if (kDebugMode) {
           print('$_commands is not supported, please, try again...');
         }
-        _sst.stop();
+        //_sst.stop();
       }
       if (kDebugMode) {
         print('commands: $_commands');
       }
     }
     _commands = [];
-    _sst.stop();
+    await _sst.stop();
+    if (kDebugMode) {
+      print('STOPPED');
+      print('isListening: $_isListening');
+    }
+
   }
 }
