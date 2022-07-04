@@ -33,6 +33,7 @@ class _AudioPageState extends State<AudioPage> {
   int chosenRepeatNumber = 0;
   int currentRepeatNumber = 0;
   bool repeatForAll = false;
+  var playResult;
 
   @override
   void initState() {
@@ -79,6 +80,7 @@ class _AudioPageState extends State<AudioPage> {
   }
 
   Future continueToNextSentence() async {
+    print('continuing to next');
     checkRepetitionsOption();
 
     if (_currentSentenceIndex < widget.sentences.length - 1) {
@@ -95,17 +97,24 @@ class _AudioPageState extends State<AudioPage> {
 
   Future jumpToNextSentence() async {
     bool wasPlaying = tts.isPlaying;
+
+    // stop if it was playing before jumping
     if (wasPlaying) {
-      await stopPlaying();
-      print('stopped for jumping next');
+      var stopResult = await stopPlaying();
+      print('stopped for jumping next with $stopResult');
     }
+
+    // change index
     if (_currentSentenceIndex < widget.sentences.length - 1) {
       _currentSentenceIndex++;
-      scrollToCurrentSentence();
     } else {
       await stopPlaying();
       _currentSentenceIndex = 0;
     }
+
+    scrollToCurrentSentence();
+
+    // play if it was playing before jumping
     if (wasPlaying) {
       await playCurrentSentence();
     }
@@ -118,23 +127,28 @@ class _AudioPageState extends State<AudioPage> {
     }
     if (_currentSentenceIndex > 0) {
       _currentSentenceIndex--;
-      scrollToCurrentSentence();
+    } else if (_currentSentenceIndex == 0) {
+      _currentSentenceIndex = widget.sentences.length - 1;
     }
+    scrollToCurrentSentence();
     if (wasPlaying) {
       await playCurrentSentence();
     }
   }
 
   Future playCurrentSentence() async {
-    print(
-        'playing: ${widget.sentences[_currentSentenceIndex].substring(0, 10)}');
+    // print(
+    //     'playing: ${widget.sentences[_currentSentenceIndex].substring(0, 10)}');
 
     scrollToCurrentSentence();
-    var playResult = await tts.play(widget.sentences[_currentSentenceIndex]);
+    playResult = await tts.play(widget.sentences[_currentSentenceIndex]);
+    while (playResult == 0) {
+      playResult = await tts.play(widget.sentences[_currentSentenceIndex]);
+    }
 
-    print(
-        'play result for "${widget.sentences[_currentSentenceIndex].substring(0, 10)}" is ${playResult.toString()}');
-    print('current repeat number is $currentRepeatNumber');
+    // print(
+    //     'play result for "${widget.sentences[_currentSentenceIndex].substring(0, 10)}" is ${playResult.toString()}');
+    // print('current repeat number is $currentRepeatNumber');
     setState(() {});
     if (currentRepeatNumber != 0) {
       currentRepeatNumber--;
@@ -145,8 +159,9 @@ class _AudioPageState extends State<AudioPage> {
   }
 
   Future stopPlaying() async {
-    await tts.stop();
+    var res = await tts.stop();
     setState(() {});
+    return res;
   }
 
   void scrollToCurrentSentence() {
