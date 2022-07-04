@@ -4,7 +4,7 @@ import 'package:sizer/sizer.dart';
 import 'constants.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeMode themeMode = ThemeMode.light;
+  ThemeMode themeMode = ThemeMode.dark;
 
   bool get isDarkMode => themeMode == ThemeMode.dark;
 
@@ -21,9 +21,7 @@ class MyTheme {
       checkColor: MaterialStateProperty.all(mainColor_light),
     ),
     primaryColor: mainColor_light,
-
     selectedRowColor: textContainerBorder_light,
-
     textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
             backgroundColor: backPopUpButton_light,
@@ -31,9 +29,7 @@ class MyTheme {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18),
             ))),
-
     scaffoldBackgroundColor: scaffoldBack_light,
-
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       shape: const CircleBorder(
         side: BorderSide(width: 2, color: floatButtonBorder_light),
@@ -58,7 +54,6 @@ class MyTheme {
       ),
     ),
     hintColor: appBarHint_light,
-
     dialogTheme: DialogTheme(
         backgroundColor: backPopUp_light,
         shape: RoundedRectangleBorder(
@@ -75,10 +70,9 @@ class MyTheme {
             fontWeight: FontWeight.w400,
             fontSize: 18,
             letterSpacing: 2)),
-
     appBarTheme: const AppBarTheme(
-      shadowColor: appBarShadow_light,
-      elevation: 8,
+      // shadowColor: appBarShadow_light,
+      // elevation: 8,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
             bottomRight: Radius.circular(14), bottomLeft: Radius.circular(14)),
@@ -90,7 +84,6 @@ class MyTheme {
       //toolbarHeight: 45,
       titleTextStyle: TextStyle(color: appBarTitle_light, fontSize: 20),
     ),
-
     inputDecorationTheme: InputDecorationTheme(
         counterStyle: const TextStyle(
           fontSize: 14,
@@ -115,7 +108,6 @@ class MyTheme {
               width: 2,
             )),
         fillColor: backWidColor_light),
-
     colorScheme: ColorScheme.highContrastLight(
       secondary: backContainer_light,
     ),
@@ -142,8 +134,7 @@ class MyTheme {
       counterStyle: const TextStyle(
         fontSize: 14,
       ),
-      contentPadding:
-      EdgeInsets.all(15.sp),
+      contentPadding: EdgeInsets.all(15.sp),
       helperStyle: const TextStyle(fontSize: 14),
       hintStyle: const TextStyle(
         color: mainColor_dark,
@@ -232,8 +223,8 @@ class MyTheme {
     ),
 
     appBarTheme: const AppBarTheme(
-      shadowColor: appBarShadow_dark,
-      elevation: 8,
+      // shadowColor: appBarShadow_dark,
+      // elevation: 8,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
             bottomRight: Radius.circular(14), bottomLeft: Radius.circular(14)),

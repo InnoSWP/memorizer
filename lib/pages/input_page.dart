@@ -138,8 +138,8 @@ class _InputPageState extends State<InputPage> {
                           numberOfWords = input.trim().split(" ").length;
                         });
                       },
-                      style: const TextStyle(
-                        fontSize: 20,
+                      style: TextStyle(
+                        fontSize: 15.sp,
                       ),
                     ),
                   ),
@@ -149,11 +149,11 @@ class _InputPageState extends State<InputPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         MyButton(
-                          width: 20.w,
+                          width: 22.w,
                           height: 4.2.h,
                           text: "Clear",
                           iconData: null,
-                          fontSize: 15.sp,
+                          fontSize: 13.sp,
                           onPressed: _clearOnPressed,
                         ),
                       ],
@@ -180,13 +180,15 @@ class _InputPageState extends State<InputPage> {
                                 color: Theme.of(context).selectedRowColor)),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 14, vertical: 6),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 2.w, vertical: 0.7.h),
                             child: Text(
                               pdfService.fileName != null
-                                  ? 'Picked File: ${pdfService.fileName!.length < 17 ? pdfService.fileName : '${pdfService.fileName!.substring(0, 17)}...'}'
+                                  ? 'Picked File: ${pdfService.fileName!.length < 14 ? pdfService.fileName : '${pdfService.fileName!.substring(0, 14)}...'}'
                                   : 'No Picked File',
-                              style: Theme.of(context).textTheme.subtitle1,
+                              style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                                fontSize: 10.sp,
+                              ),
                             ),
                           ),
                         ),
@@ -198,18 +200,16 @@ class _InputPageState extends State<InputPage> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
+                          MyButton(
                             height: 10.h,
                             width: 50.w,
-                            child: MyButton(
-                              text: "Memorize",
-                              iconData: null,
-                              fontSize: 26.sp,
-                              onPressed: () {
-                                _memorizeOnPressed(context);
-                              },
-                              //  fontSize: 30,
-                            ),
+                            text: "Memorize",
+                            iconData: null,
+                            fontSize: 26.sp,
+                            onPressed: () {
+                              _memorizeOnPressed(context);
+                            },
+                            //  fontSize: 30,
                           ),
                         ]),
                   ),

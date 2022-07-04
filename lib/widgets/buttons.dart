@@ -33,7 +33,7 @@ class MyButton extends StatelessWidget {
       child: OutlinedButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all(RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(11.0))),
+              borderRadius: BorderRadius.circular(11.sp))),
         ),
         onPressed: onPressed,
         child: Center(
@@ -42,23 +42,15 @@ class MyButton extends StatelessWidget {
                   iconData,
                   size: 26.sp,
                 )
-              : Text(text!, style: TextStyle(fontSize: fontSize),),
+              : Text(
+                  text!,
+                  style: TextStyle(fontSize: fontSize),
+                ),
         ),
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 class RepeatButton extends StatelessWidget {
   RepeatButton({
@@ -93,7 +85,9 @@ class RepeatButton extends StatelessWidget {
             ? Icon(
                 Icons.repeat,
                 // if the number of repetitiosn is negative, thne loop mode is infinite
-                color: repeatNumber < 0 ? Theme.of(context).primaryColor : Colors.grey,
+                color: repeatNumber < 0
+                    ? Theme.of(context).primaryColor
+                    : Colors.grey,
                 size: 32.sp,
               )
             : Row(
@@ -101,7 +95,7 @@ class RepeatButton extends StatelessWidget {
                   Icon(
                     Icons.repeat,
                     size: 20.sp,
-                    color:Theme.of(context).primaryColor,
+                    color: Theme.of(context).primaryColor,
                   ),
                   Text(
                     repeatNumber > 0 ? repeatNumber.toString() : '∞',
