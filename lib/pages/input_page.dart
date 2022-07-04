@@ -186,7 +186,9 @@ class _InputPageState extends State<InputPage> {
                               pdfService.fileName != null
                                   ? 'Picked File: ${pdfService.fileName!.length < 14 ? pdfService.fileName : '${pdfService.fileName!.substring(0, 14)}...'}'
                                   : 'No Picked File',
-                              style: Theme.of(context).textTheme.subtitle1,
+                              style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                                fontSize: 10.sp,
+                              ),
                             ),
                           ),
                         ),

@@ -376,6 +376,7 @@ class _AudioPageState extends State<AudioPage> {
                           showModalBottomSheet(
                             context: context,
                             backgroundColor: Colors.transparent,
+                            isScrollControlled: true,
                             builder: (BuildContext context) {
                               return InfoPage();
                             },
