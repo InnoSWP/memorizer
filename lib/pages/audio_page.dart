@@ -228,7 +228,9 @@ class _AudioPageState extends State<AudioPage> {
               // });
               return AlertDialog(
                 title: Text(
-                    "Please specify the number of repetitions", style: TextStyle(fontSize: 12.sp),),
+                  "Please specify the number of repetitions",
+                  style: TextStyle(fontSize: 12.sp),
+                ),
                 content: SizedBox(
                   // not sure
                   width: 15.w,
@@ -309,7 +311,7 @@ class _AudioPageState extends State<AudioPage> {
                   padding: EdgeInsets.all(12.sp),
                   child: Container(
                     //padding:
-                        //const EdgeInsets.symmetric(horizontal: 2, vertical: 10),
+                    //const EdgeInsets.symmetric(horizontal: 2, vertical: 10),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
                       borderRadius: BorderRadius.circular(8),
@@ -373,8 +375,9 @@ class _AudioPageState extends State<AudioPage> {
                           // Navigator.of(context).push(_createInfoRoute());
                           showModalBottomSheet(
                             context: context,
+                            backgroundColor: Colors.transparent,
                             builder: (BuildContext context) {
-                              return const InfoPage();
+                              return InfoPage();
                             },
                           );
                         },
