@@ -149,11 +149,11 @@ class _InputPageState extends State<InputPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         MyButton(
-                          width: 20.w,
+                          width: 22.w,
                           height: 4.2.h,
                           text: "Clear",
                           iconData: null,
-                          fontSize: 15.sp,
+                          fontSize: 13.sp,
                           onPressed: _clearOnPressed,
                         ),
                       ],
