@@ -8,8 +8,9 @@ class SttService {
   bool _available = false;
   Map<String, int> convertToNumber = {
     'infinitely': -1,
-    'off': 0,
-    'zero': 0,
+    'inifnity': -1,
+    'off': 1,
+    'zero': 1,
     'one': 1,
     'once': 1,
     'two': 2,
@@ -29,13 +30,14 @@ class SttService {
 
   bool get isListening => _isListening;
 
-  SttService(
-      {required this.next,
-      required this.previous,
-      required this.play,
-      required this.stop,
-      required this.repeat,
-      required this.error,}) {
+  SttService({
+    required this.next,
+    required this.previous,
+    required this.play,
+    required this.stop,
+    required this.repeat,
+    required this.error,
+  }) {
     init();
   }
 
@@ -154,6 +156,5 @@ class SttService {
       print('STOPPED');
       print('isListening: $_isListening');
     }
-
   }
 }

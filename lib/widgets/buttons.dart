@@ -81,11 +81,11 @@ class RepeatButton extends StatelessWidget {
         ),
         onPressed: onPressed,
         onLongPress: onLongPress,
-        child: repeatNumber == 0
+        child: repeatNumber == 1
             ? Icon(
                 Icons.repeat,
                 // if the number of repetitiosn is negative, thne loop mode is infinite
-                color: repeatNumber < 0
+                color: repeatNumber < 1
                     ? Theme.of(context).primaryColor
                     : Colors.grey,
                 size: 32.sp,
@@ -98,7 +98,7 @@ class RepeatButton extends StatelessWidget {
                     color: Theme.of(context).primaryColor,
                   ),
                   Text(
-                    repeatNumber > 0 ? repeatNumber.toString() : '∞',
+                    repeatNumber > 1 ? repeatNumber.toString() : '∞',
                     style: TextStyle(
                       fontFeatures: const [FontFeature.subscripts()],
                       fontSize: 8.sp,

@@ -26,8 +26,8 @@ class _AudioPageState extends State<AudioPage> {
   IconData playBtnIcon = Icons.play_arrow;
   late SttService sst;
   late TtsService tts;
-  int chosenRepeatNumber = 0;
-  int currentRepeatNumber = 0;
+  int chosenRepeatNumber = 1;
+  int currentRepeatNumber = 1;
   bool repeatForAll = false;
   var playResult;
 
@@ -47,7 +47,7 @@ class _AudioPageState extends State<AudioPage> {
   }
 
   void incorrectCommand() {
-    setState((){});
+    setState(() {});
   }
 
   @override
@@ -72,8 +72,8 @@ class _AudioPageState extends State<AudioPage> {
       if (repeatForAll) {
         currentRepeatNumber = chosenRepeatNumber;
       } else {
-        currentRepeatNumber = 0;
-        chosenRepeatNumber = 0;
+        currentRepeatNumber = 1;
+        chosenRepeatNumber = 1;
       }
     });
   }
@@ -149,7 +149,7 @@ class _AudioPageState extends State<AudioPage> {
     //     'play result for "${widget.sentences[_currentSentenceIndex].substring(0, 10)}" is ${playResult.toString()}');
     // print('current repeat number is $currentRepeatNumber');
     setState(() {});
-    if (currentRepeatNumber != 0) {
+    if (currentRepeatNumber != 1) {
       currentRepeatNumber--;
       playCurrentSentence();
     } else {
@@ -203,13 +203,15 @@ class _AudioPageState extends State<AudioPage> {
   }
 
   void _repeatOnPressed() {
-    if (chosenRepeatNumber != 0) {
+    if (chosenRepeatNumber != 1) {
       setState(() {
-        chosenRepeatNumber = 0;
+        chosenRepeatNumber = 1;
+        repeatForAll = false;
       });
     } else {
       setState(() {
         chosenRepeatNumber = -1;
+        repeatForAll = true;
       });
     }
     setState(() {
